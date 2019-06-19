@@ -2,7 +2,10 @@ import React from 'react';
 import connect from '@vkontakte/vkui-connect';
 import { View,Epic,Tabbar,TabbarItem,Panel,PanelHeader} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
-import Home from './panels/Home';
+//import './style.css';
+import Send from './panels/Send';
+import Feed from './panels/Feed';
+import Like from './panels/Like';
 
 import Icon28Favorite from '@vkontakte/icons/dist/28/favorite'
 import Icon28Send from '@vkontakte/icons/dist/28/send'
@@ -13,7 +16,8 @@ class App extends React.Component {
 		super(props);
 	
 		this.state = {
-		  activeStory: 'more'
+			activeStory: 'feed',
+			fetchedUser: null,
 		};
 		this.onStoryChange = this.onStoryChange.bind(this);
 	  }
@@ -27,12 +31,14 @@ class App extends React.Component {
 			switch (e.detail.type) {
 				case 'VKWebAppGetUserInfoResult':
 					this.setState({ fetchedUser: e.detail.data });
+					console.log(e.detail.data.id);
 					break;
 				default:
-					console.log(e.detail.type);
+					console.log(e.detail.data);
 			}
 		});
 		connect.send('VKWebAppGetUserInfo', {});
+
 	}
 
 	go = (e) => {
@@ -40,22 +46,23 @@ class App extends React.Component {
 	};
 
 	render() {
-			return (
+		
+			return (			
 				<Epic activeStory={this.state.activeStory} tabbar={
-				  <Tabbar>
-					<TabbarItem
+				  <Tabbar >
+					<TabbarItem className="tb"
 					  onClick={this.onStoryChange}
 					  selected={this.state.activeStory === 'feed'}
 					  data-story="feed"
 					  text="Лента"
 					><Icon28Newsfeed /></TabbarItem>
-					<TabbarItem
+					<TabbarItem className="tb"
 					  onClick={this.onStoryChange}
 					  selected={this.state.activeStory === 'like'}
 					  data-story="like"
 					  text="Любимые"
 					><Icon28Favorite /></TabbarItem>
-					<TabbarItem
+					<TabbarItem className="tb"
 					  onClick={this.onStoryChange}
 					  selected={this.state.activeStory === 'send'}
 					  data-story="send"
@@ -63,18 +70,14 @@ class App extends React.Component {
 					><Icon28Send /></TabbarItem>
 				  </Tabbar>
 				}>
-				  <View id="feed" activePanel="feed">
-					<Panel id="feed">
-					  <PanelHeader>Feed</PanelHeader>
-					</Panel>
+				  <View id="feed" activePanel="feed">	
+						<Feed id='feed' fetchedUser={this.state.fetchedUser}/>					
 				  </View>
 				  <View id="like" activePanel="like">
-					<Panel id="like">
-					  <PanelHeader>Любимые</PanelHeader>
-					</Panel>
+						<Like id='like'/>
 				  </View>
 				  <View id="send" activePanel="send">
-					<Home id='send'/>
+						<Send id='send'/>
 				  </View>
 				</Epic>
 		);
