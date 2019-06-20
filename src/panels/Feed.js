@@ -32,14 +32,14 @@ class Feed extends React.Component {
     }
     loadJokes(){
         //fetch('http://92.240.135.238:5000/')
-        fetch('https://api.icndb.com/jokes/random/10')
+        fetch('https://66160595b12e.sn.mynetname.net/db')
         .then(response => response.json())
-        .then(data => {this.setState({ jokes: data.value});
+        .then(data => {this.setState({ jokes: data});
         });
         this.state.isFetching = false;
     }
-    /*loadJokes(){
-        fetch('http://92.240.135.238:5000/')
+/* loadJokes(){
+        fetch('https://66160595b12e.sn.mynetname.net/db')
         .then(response => response.json())
         .then(data => {this.setState({ jokes: data});
         });
@@ -73,7 +73,7 @@ class Feed extends React.Component {
                 {jokes.map(joke =>
                     <Group className="post">
                         <List>
-                            <Cell multiline>{joke.joke}</Cell> 
+                            <Cell multiline ><div className='mlCell'>{joke.joke}</div></Cell> 
                             <Cell asideContent={ <Button className="likes" level="tertiary" after={<Icon16Like/>} size="xl" onClick={(e) => this.handleClick(e)}>{ Math.floor(Math.random() * 100) + 1}</Button>}> </Cell>
                         </List>
                         
