@@ -2,7 +2,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
-const {resolvePath, ROOT_DIR} = require('./utils');
+const {resolvePath} = require('./utils');
 
 const appTsConfig = resolvePath('tsconfig.json');
 
@@ -18,7 +18,7 @@ module.exports = {
         rules: [
             {test: /\.tsx?$/, loader: 'ts-loader'},
             {
-                test: /\.scss$/,
+                test: /\.css$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
