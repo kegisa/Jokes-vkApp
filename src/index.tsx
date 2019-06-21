@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import connect from '@vkontakte/vkui-connect';
-import './assets/style.css';
+import './assets/styles/main.scss';
 
 
 const rootElement = document.getElementById('root');

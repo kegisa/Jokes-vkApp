@@ -18,16 +18,12 @@ module.exports = {
         rules: [
             {test: /\.tsx?$/, loader: 'ts-loader'},
             {
-                test: /\.css$/,
+                test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf|svg|png|ico)$/,
                 loader: 'file-loader',
-            },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
             },
             {
                 test: /icons-(192|512)\.png$/,
