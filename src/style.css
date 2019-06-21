@@ -201,7 +201,7 @@
   color: var(--text_primary)
 }
 .post{
- padding: 3% 3% 0% 3%;
+  padding: 3% 3% 0% 3%;
 }
 .Panel__in{
   padding-bottom: 10px;
@@ -221,4 +221,6 @@
   transition: background 9999999s;
   color: #F18407;
 }
-  
+.mlCell{
+  white-space: pre-wrap;
+}
