@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, Cell, Group, List, Panel, PanelHeader, ScreenSpinner} from '@vkontakte/vkui';
-import '../style.css';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 
 interface LikeProps {

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, FormLayout, Panel, PanelHeader, Textarea} from '@vkontakte/vkui';
-import '../style.css';
 
 interface SendProps {
     id: string;

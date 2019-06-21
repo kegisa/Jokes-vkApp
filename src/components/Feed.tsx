@@ -1,7 +1,6 @@
 import React from 'react';
 import connect from '@vkontakte/vkui-connect';
 import {Avatar, Button, Cell, Group, List, ListItem, Panel, PanelHeader, ScreenSpinner} from '@vkontakte/vkui';
-import '../style.css';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 
 interface FeedProps {
