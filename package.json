@@ -6,8 +6,8 @@
   "homepage": "https://kegisa.github.io/vkApps/",
   "scripts": {
     "start": "webpack-dev-server --display-error-details --http --open --progress --config ./config/webpack.dev.js",
-    "build": "react-scripts build",
-    "deploy": "gh-pages -d build",
+    "build": "webpack --config ./config/webpack.prod.js",
+    "deploy": "gh-pages -d dist",
     "predeploy": "npm run build"
   },
   "keywords": [],

@@ -30,7 +30,7 @@ module.exports = merge(common, {
         new HtmlWebpackPlugin({
             inject: true,
             title: 'Aneks',
-            template: './src/index.html',
+            template: './public/index.html',
             minify: {
                 removeComments: true,
                 collapseWhitespace: true,
