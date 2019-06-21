@@ -23,13 +23,13 @@
     "jsx": "react",
     "paths": {
       "@store/*": [
-        "store/*"
+        "src/store/*"
       ],
       "@store": [
-        "store/index"
+        "src/store/index"
       ],
       "@models": [
-        "models/index"
+        "src/models/index"
       ]
     }
   },

@@ -3,7 +3,8 @@ import * as ReactDOM from 'react-dom';
 import connect from '@vkontakte/vkui-connect';
 import './assets/styles/main.scss';
 import '@vkontakte/vkui/dist/vkui.css';
-import {App} from './containers/App';
+
+const rootElement = document.getElementById('root');
 
 connect.subscribe((e) => {
     switch (e.detail.type) {
@@ -19,7 +20,33 @@ connect.subscribe((e) => {
 
 connect.send('VKWebAppInit', {});
 
-ReactDOM.render(
-    <App/>,
-    document.getElementById('root') as HTMLElement
-);
+let render = () => {
+    const AppContainer = require('./containers/App').App;
+    ReactDOM.render(
+        <AppContainer/>,
+        rootElement
+    );
+};
+
+render();
+
+if (module.hot) {
+    const renderApp = render;
+    const renderError = (error: any) => {
+        const RedBox = require('redbox-react');
+        ReactDOM.unmountComponentAtNode(rootElement as Element);
+        ReactDOM.render(<RedBox error={error}/>, rootElement);
+    };
+
+    render = () => {
+        try {
+            renderApp();
+        } catch (error) {
+            renderError(error);
+        }
+    };
+
+    module.hot.accept('./containers/App', () => {
+        setTimeout(render);
+    });
+}
