@@ -6,7 +6,6 @@ export interface FetchedUser {
     last_name?: string;
 }
 
-
 export interface City {
-    title: string,
+    title: string;
 }

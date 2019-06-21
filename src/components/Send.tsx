@@ -24,16 +24,17 @@ class SendComponent extends React.Component<SendProps, SendState> {
                 />
                 <FormLayout>
                     <Textarea
-                        top="Мы просим тебя, пожалуйста, проверь пунктуацию и ошибки, пусть твои анекдоты будет приятнее читать."
-                        placeholder="Нарды, армяне ....."/>
+                        top="Мы просим тебя, пожалуйста,
+                        проверь пунктуацию и ошибки, пусть твои анекдоты будет приятнее читать."
+                        placeholder="Нарды, армяне ....."
+                    />
                     <Button size="xl" level="secondary">Отправить</Button>
                 </FormLayout>
             </Panel>
 
-        )
+        );
 
     }
-};
-
+}
 
 export const Send = (SendComponent);

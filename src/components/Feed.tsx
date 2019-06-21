@@ -22,7 +22,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
             id: '',
             photo_200: {},
             city: {
-                title: ''
+                title: '',
             },
             first_name: '',
             last_name: '',
@@ -35,10 +35,8 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
             switch (e.detail.type) {
                 case 'VKWebAppGetUserInfoResult':
                     this.setState({fetchedUser: e.detail.data});
-                    console.log(e.detail.data.id);
                     break;
                 default:
-                    console.log(e.detail.data);
             }
         });
         connect.send('VKWebAppGetUserInfo', {});
@@ -47,7 +45,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
     }
 
     loadJokes() {
-        //fetch('http://92.240.135.238:5000/')
+        // fetch('http://92.240.135.238:5000/')
         fetch('https://api.icndb.com/jokes/random/10')
             .then(response => response.json())
             .then(data => {
@@ -78,9 +76,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                     fetchedUser &&
                     <Group title="User Data Fetched with VK Connect">
                         <ListItem
-                            before={
-                                fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null
-                            }
+                            before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
                             description={
                                 fetchedUser &&
                                 fetchedUser.city &&
@@ -91,8 +87,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                                 `${fetchedUser.first_name}
                                 ${fetchedUser.last_name}
                                 ${fetchedUser.id}
-                                ${fetchedUser.city.title}`
-                            }
+                                ${fetchedUser.city.title}`}
                         </ListItem>
                     </Group>}
 
@@ -101,18 +96,18 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                     <ScreenSpinner
                         className="spinner"
                         size="large"
-                        style={{marginTop: 20}
-                        }
+                        style={{marginTop: 20}}
                     />
                 }
                 {
-                    jokes.map((joke: any) =>
-                        <Group className="post">
+                    jokes.map((joke: any, index: number) =>
+                        <Group className="post" key={index}>
                             <List>
-                                <Cell multiline>
+                                <Cell multiline={true}>
                                     {joke.joke}
                                 </Cell>
                                 <Cell
+                                    key={index + 1}
                                     asideContent={
                                         <Button
                                             className="likes"
@@ -121,18 +116,16 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                                             size="xl"
                                         >{Math.floor(Math.random() * 100) + 1}
                                         </Button>
-                                    }>
-                                </Cell>
+                                    }
+                                />
                             </List>
                         </Group>
                     )}
             </Panel>
 
-        )
+        );
 
     }
 }
-;
-
 
 export const Feed = (FeedComponent);

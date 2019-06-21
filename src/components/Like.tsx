@@ -15,7 +15,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
 
     state = {
         jokes: [],
-        isFetching: true
+        isFetching: true,
     };
 
     componentDidMount() {
@@ -50,13 +50,14 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
             <Panel id="like">
                 <PanelHeader>Любимые</PanelHeader>
                 {isFetching && <ScreenSpinner className="spinner" size="large" style={{marginTop: 20}}/>}
-                {jokes.map((joke: any) =>
-                    <Group className="post">
+                {jokes.map((joke: any, index: number) =>
+                    <Group className="post" key={index}>
                         <List>
-                            <Cell multiline>
+                            <Cell multiline={true} key={index}>
                                 <text>{joke.joke}</text>
                             </Cell>
                             <Cell
+                                key={index}
                                 asideContent={
                                     <Button
                                         className="likes"
@@ -66,17 +67,16 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                                     >
                                         {joke.likes}
                                     </Button>
-                                }>
-                            </Cell>
+                                }
+                            />
                         </List>
                     </Group>
                 )}
             </Panel>
 
-        )
+        );
 
     }
-};
-
+}
 
 export const Like = (LikeComponent);
