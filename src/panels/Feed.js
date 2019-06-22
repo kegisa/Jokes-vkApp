@@ -37,6 +37,7 @@ class Feed extends React.Component {
         .then(data => {this.setState({ jokes: data});
         });
         this.state.isFetching = false;
+        connect.send("VKWebAppShowWallPostBox", {"message": "я хз как передать текст отдельного анека!","attachments":"photo27826412_365688436"});
     }
 /* loadJokes(){
         fetch('https://66160595b12e.sn.mynetname.net/db')
