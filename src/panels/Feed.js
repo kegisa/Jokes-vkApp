@@ -4,6 +4,7 @@ import connect from '@vkontakte/vkui-connect';
 import {List, Panel, ScreenSpinner, Cell, Group, ListItem, Avatar, PanelHeader,Button } from '@vkontakte/vkui';
 import '../style.css';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
+import Icon16ReplyOutline from '@vkontakte/icons/dist/16/reply_outline';
 
 
 class Feed extends React.Component {
@@ -37,7 +38,6 @@ class Feed extends React.Component {
         .then(data => {this.setState({ jokes: data});
         });
         this.state.isFetching = false;
-        connect.send("VKWebAppShowWallPostBox", {"message": "я хз как передать текст отдельного анека!","attachments":"photo27826412_365688436"});
     }
 /* loadJokes(){
         fetch('https://66160595b12e.sn.mynetname.net/db')
@@ -48,8 +48,11 @@ class Feed extends React.Component {
     }*/
     handleClick = () => {
         console.log('this is:', this.state);
-      }
+    }
     
+    reposteClick = () => {
+        connect.send("VKWebAppShowWallPostBox", {"message": "я хз как передать текст отдельного анека!","attachments":"photo27826412_365688436"});
+    }
 
     render() {
         
@@ -75,7 +78,9 @@ class Feed extends React.Component {
                     <Group className="post">
                         <List>
                             <Cell multiline ><div className='mlCell'>{joke.joke}</div></Cell> 
-                            <Cell asideContent={ <Button className="likes" level="tertiary" after={<Icon16Like/>} size="xl" onClick={(e) => this.handleClick(e)}>{ Math.floor(Math.random() * 100) + 1}</Button>}> </Cell>
+                            <Cell before ={ <Button className="likes" level="tertiary" after={<Icon16ReplyOutline/>} size="xl" onClick={(e) => this.reposteClick(e)}></Button>}
+                            asideContent={ <Button className="likes" level="tertiary" after={<Icon16Like/>} size="xl" onClick={(e) => this.handleClick(e)}>{ Math.floor(Math.random() * 100) + 1}</Button>
+                        }> </Cell>
                         </List>
                         
                     </Group>
