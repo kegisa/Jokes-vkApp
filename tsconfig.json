@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "src",
-    "outDir": "build/dist/",
+    "outDir": "build/",
     "sourceMap": true,
     "noImplicitAny": false,
     "noImplicitReturns": true,
