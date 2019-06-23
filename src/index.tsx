@@ -1,11 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import connect from '@vkontakte/vkui-connect';
-<<<<<<< HEAD
-import './assets/styles/main.scss';
-=======
 import './assets/style.css';
->>>>>>> a5f6a551af953e8550732714c89aac2b092c51fb
 import '@vkontakte/vkui/dist/vkui.css';
 
 const rootElement = document.getElementById('root');

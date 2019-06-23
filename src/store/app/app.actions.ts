@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import {ActionsUnion} from '@store/actions-helpers';
-
-export const Actions = {
-};
-
-export const Thunks = {
-=======
 import {ActionsUnion, createAction} from '@store/actions-helpers';
 import {Dispatch} from 'redux';
 import connect from '@vkontakte/vkui-connect';
@@ -34,7 +26,6 @@ export const Thunks = {
             });
         };
     },
->>>>>>> a5f6a551af953e8550732714c89aac2b092c51fb
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
