@@ -1,4 +1,5 @@
 import * as React from 'react';
+<<<<<<< HEAD
 import {Epic, Tabbar, TabbarItem, View} from '@vkontakte/vkui';
 import connect from '@vkontakte/vkui-connect';
 import Icon28Favorite from '@vkontakte/icons/dist/28/favorite';
@@ -96,4 +97,19 @@ class AppComponent extends React.Component<{}, AppState> {
     }
 }
 
+=======
+import {Provider} from 'react-redux';
+import {store} from '@store';
+import {Main} from './Main';
+
+interface Props {
+}
+
+export const AppComponent: React.FunctionComponent<Props> = props => {
+    return (
+        <Provider store={store}>
+            <Main/>
+        </Provider>);
+};
+>>>>>>> a5f6a551af953e8550732714c89aac2b092c51fb
 export const App = (AppComponent);
