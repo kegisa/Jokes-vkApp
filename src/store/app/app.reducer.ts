@@ -3,12 +3,12 @@ import {FetchedUser} from '@models';
 
 export interface AppState {
     isFetching: boolean;
-    fetchedUser: Partial<FetchedUser>;
+    fetchedUser: FetchedUser | null;
 }
 
 const initialState: AppState = {
     isFetching: false,
-    fetchedUser: {},
+    fetchedUser: null,
 };
 
 export const appReducer = (
