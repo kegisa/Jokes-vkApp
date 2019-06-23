@@ -29,6 +29,7 @@
     "@vkontakte/icons": "^1.4.3",
     "@vkontakte/vkui": "^2.21.4",
     "@vkontakte/vkui-connect": "^1.1.3",
+    "axios": "latest",
     "babel-eslint": "^9.0.0",
     "core-js": "^2.6.9",
     "promise-polyfill": "8.1.3",
@@ -37,7 +38,8 @@
     "react-scripts-ts": "^3.1.0",
     "redux": "latest",
     "redux-thunk": "latest",
-    "axios": "latest"
+    "reselect": "^4.0.0",
+    "react-redux": "latest"
   },
   "browserslist": [
     ">0.2%",
