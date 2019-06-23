@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Epic, Tabbar, TabbarItem, View} from '@vkontakte/vkui';
+import PanelSpinner from '@vkontakte/vkui/dist/components/PanelSpinner/PanelSpinner';
 import connect from '@vkontakte/vkui-connect';
 import {connect as reduxConnect} from 'react-redux';
 import Icon28Favorite from '@vkontakte/icons/dist/28/favorite';
@@ -41,16 +42,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
 
     componentDidMount() {
         this.props.onLoadUserInfo && this.props.onLoadUserInfo();
-        // connect.subscribe((e) => {
-        //     switch (e.detail.type) {
-        //         case 'VKWebAppGetUserInfoResult':
-        //             this.setState({fetchedUser: e.detail.data});
-        //             break;
-        //         default:
-        //     }
-        // });
         connect.send('VKWebAppGetUserInfo', {});
-
     }
 
     render() {
@@ -58,9 +50,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
         return (
             <div>
                 {isFetching ?
-                    <h1>
-                        Kek
-                    </h1> :
+                    <PanelSpinner/> :
                     <Epic
                         activeStory={this.state.activeStory}
                         tabbar={
