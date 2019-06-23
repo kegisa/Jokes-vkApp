@@ -12,6 +12,7 @@
       true,
       "check-space"
     ],
+    "eofline": false,
     "import-blacklist": [
       true
     ],
@@ -19,7 +20,7 @@
     "interface-name": false,
     "max-line-length": [
       true,
-      120
+      220
     ],
     "member-access": false,
     "member-ordering": [
@@ -53,7 +54,7 @@
         "allow-destructuring": true
       }
     ],
-    "no-trailing-whitespace": true,
+    "no-trailing-whitespace": false,
     "object-literal-sort-keys": false,
     "object-literal-shorthand": false,
     "one-variable-per-declaration": [

@@ -1,7 +1,8 @@
 import React from 'react';
 import connect from '@vkontakte/vkui-connect';
-import {Avatar, Button, Cell, Group, List, ListItem, Panel, PanelHeader, ScreenSpinner} from '@vkontakte/vkui';
-import Icon16Like from '@vkontakte/icons/dist/16/like';
+import {Avatar, Cell, Group, List, ListItem, Panel, PanelHeader, ScreenSpinner} from '@vkontakte/vkui';
+import BottomCell from './BottomCell';
+import '../assets/style.css';
 
 interface FeedProps {
     id: string;
@@ -46,10 +47,10 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
 
     loadJokes() {
         // fetch('http://92.240.135.238:5000/')
-        fetch('https://api.icndb.com/jokes/random/10')
+        fetch('https://66160595b12e.sn.mynetname.net/db')
             .then(response => response.json())
             .then(data => {
-                this.setState({jokes: data.value});
+                this.setState({jokes: data});
             });
         this.state.isFetching = false;
     }
@@ -101,23 +102,12 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                 }
                 {
                     jokes.map((joke: any, index: number) =>
-                        <Group className="post" key={index}>
+                        <Group className="post" key={joke.anek_id}>
                             <List>
-                                <Cell multiline={true}>
-                                    {joke.joke}
+                                <Cell multiline={true} >
+                                    <div className="mlCell">{joke.joke}</div>
                                 </Cell>
-                                <Cell
-                                    key={index + 1}
-                                    asideContent={
-                                        <Button
-                                            className="likes"
-                                            level="tertiary"
-                                            after={<Icon16Like/>}
-                                            size="xl"
-                                        >{Math.floor(Math.random() * 100) + 1}
-                                        </Button>
-                                    }
-                                />
+                                <BottomCell quantity={joke.likes}/>
                             </List>
                         </Group>
                     )}
