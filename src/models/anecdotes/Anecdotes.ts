@@ -1,5 +1,7 @@
 export interface Anecdote {
-    id: number;
+    anek_id: number;
+    created: string;
     joke: string;
-    categories: string[];
+    like: number;
+    likes: number;
 }

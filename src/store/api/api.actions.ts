@@ -22,8 +22,20 @@ export const Thunks = {
                 :
                 '99444331';
             const promise = axios.get(`${API_URL}db?user_id=${id}`);
-            promise.then((data: any) => {
-                dispatch(Actions.finishFetchingAnecdotes(data.value));
+            promise.then((response: any) => {
+                // tslint:disable-next-line:no-console
+                console.log('response', response);
+                let data = response.data.map(
+                    (anecdote: any) => {
+                        if (anecdote.anek_id) {
+                            return anecdote;
+                        }
+                    }
+                );
+                data = data.filter(anecdote => anecdote !== undefined);
+                // tslint:disable-next-line:no-console
+                console.log('data', data);
+                dispatch(Actions.finishFetchingAnecdotes(data));
             });
         };
     },
