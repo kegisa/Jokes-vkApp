@@ -3,7 +3,7 @@ import {Avatar, Group, ListItem, Panel, PanelHeader, ScreenSpinner} from '@vkont
 import {Anecdote} from '../../components/anecdote/Anecdote';
 import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser, Thunks as appThunks} from '@store/app';
-import {FetchedUser} from '@models';
+import {FetchedUser, IAnecdote} from '@models';
 import {connect} from 'react-redux';
 import {getFetching as getApiFetching, getJokes, Thunks as apiThunks} from '@store/api';
 
@@ -11,6 +11,7 @@ interface FeedProps {
     id?: string;
     user?: FetchedUser;
     onLoadJokes: any;
+    toggleLike: any;
     jokes: any[];
     isJokesFetching: boolean;
 }
@@ -33,9 +34,10 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         this.props.onLoadJokes && this.props.onLoadJokes(userId);
     }
 
-    handleClick = (e) => {
-        // tslint:disable-next-line:no-console
-        console.log('like pressed', e);
+    handleClick = (anekId: any) => {
+        const fetchedUser = this.props.user;
+        const userId = fetchedUser && fetchedUser !== undefined ? fetchedUser.id : null;
+        this.props.toggleLike && this.props.toggleLike(userId, anekId);
     };
 
     renderUserInfo(): JSX.Element {
@@ -82,10 +84,10 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                             style={{marginTop: 20}}
                         />
                         :
-                        jokes.map((joke: any, index: number) =>
+                        jokes.map((joke: IAnecdote, index: number) =>
                             <Anecdote
-                                key={index}
-                                id={index}
+                                key={joke.anek_id}
+                                id={joke.anek_id}
                                 joke={joke}
                                 likePressed={this.handleClick}
                             />
@@ -112,6 +114,9 @@ const mapDispatchToProps = (dispatch: DispatchThunk) => ({
     },
     onLoadJokes: (userId: string) => {
         dispatch(apiThunks.getAnecdotes(userId));
+    },
+    toggleLike: (userId: string, anecdoteId: string) => {
+        dispatch(apiThunks.toggleLike(userId, anecdoteId));
     },
 });
 

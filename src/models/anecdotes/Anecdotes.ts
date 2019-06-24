@@ -1,4 +1,4 @@
-export interface Anecdote {
+export interface IAnecdote {
     anek_id: number;
     created: string;
     joke: string;
