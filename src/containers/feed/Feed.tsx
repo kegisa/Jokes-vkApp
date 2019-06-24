@@ -35,8 +35,6 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
     }
 
     handleClick = (anekId: any) => {
-        // tslint:disable-next-line:no-console
-        console.log('like pressed', anekId);
         const fetchedUser = this.props.user;
         const userId = fetchedUser && fetchedUser !== undefined ? fetchedUser.id : null;
         this.props.toggleLike && this.props.toggleLike(userId, anekId);
@@ -88,8 +86,8 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                         :
                         jokes.map((joke: IAnecdote, index: number) =>
                             <Anecdote
-                                key={index}
-                                id={index}
+                                key={joke.anek_id}
+                                id={joke.anek_id}
                                 joke={joke}
                                 likePressed={this.handleClick}
                             />

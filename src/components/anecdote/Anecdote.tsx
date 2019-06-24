@@ -14,7 +14,6 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
     const {id, joke, likePressed} = props;
     const isLikePressed = joke.like === 1;
     // tslint:disable-next-line:no-console
-    console.log('anek is', joke);
     return (
         <Group className="post" key={joke.anek_id}>
             <List>

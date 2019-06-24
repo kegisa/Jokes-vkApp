@@ -11,7 +11,7 @@ export const TOGGLE_LIKE = '[API] TOGGLE_LIKE';
 export const Actions = {
         startFetchingAnecdotes: () => createAction(START_FETCHING_ANECDOTES),
         finishFetchingAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
-        toggleLike: (userId: string, anecdoteId: string) => createAction(TOGGLE_LIKE),
+        toggleLike: (anek: any) => createAction(TOGGLE_LIKE, anek),
     }
 ;
 
@@ -25,8 +25,6 @@ export const Thunks = {
                 '99444331';
             const promise = axios.get(`${API_URL}db?user_id=${id}`);
             promise.then((response: any) => {
-                // tslint:disable-next-line:no-console
-                console.log('response', response);
                 let data = response.data.map(
                     (anecdote: any) => {
                         if (anecdote.anek_id) {
@@ -35,8 +33,6 @@ export const Thunks = {
                     }
                 );
                 data = data.filter(anecdote => anecdote !== undefined);
-                // tslint:disable-next-line:no-console
-                console.log('data', data);
                 dispatch(Actions.finishFetchingAnecdotes(data));
             });
         };
@@ -47,14 +43,11 @@ export const Thunks = {
                 userId
                 :
                 '99444331';
-            const promise = axios.post(`${API_URL}/likeswitch`, {
-                user_id: parsedUserId,
-                anek_id: anecdoteId,
-            });
+            const promise = axios.post(`${API_URL}/likeswitch`, `user_id=${parsedUserId}&anek_id=${anecdoteId}`);
             promise.then(
                 (response: any) => {
-                    // tslint:disable-next-line:no-console
-                    console.log('response from like', response);
+                    const anek = response.data[1];
+                    dispatch(Actions.toggleLike(anek));
                 }
             );
         };
