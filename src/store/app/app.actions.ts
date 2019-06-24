@@ -24,6 +24,7 @@ export const Thunks = {
                     default:
                 }
             });
+            connect.send('VKWebAppGetUserInfo', {});
         };
     },
 };

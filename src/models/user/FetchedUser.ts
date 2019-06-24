@@ -1,7 +1,7 @@
 export interface FetchedUser {
     id: any;
     photo_200?: any;
-    city?: City;
+    city: City;
     first_name?: string;
     last_name?: string;
 }
