@@ -28,7 +28,9 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
     ;
 
     componentDidMount() {
-        this.props.onLoadJokes && this.props.onLoadJokes();
+        const fetchedUser = this.props.user;
+        const userId = fetchedUser && fetchedUser !== undefined ? fetchedUser.id : null;
+        this.props.onLoadJokes && this.props.onLoadJokes(userId);
     }
 
     handleClick = (e) => {
@@ -108,8 +110,8 @@ const mapDispatchToProps = (dispatch: DispatchThunk) => ({
     onLoadUserInfo: () => {
         dispatch(appThunks.getUserInfo());
     },
-    onLoadJokes: () => {
-        dispatch(apiThunks.getAnecdotes());
+    onLoadJokes: (userId: string) => {
+        dispatch(apiThunks.getAnecdotes(userId));
     },
 });
 

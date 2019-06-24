@@ -1,7 +1,8 @@
+import axios from 'axios';
 import {ActionsUnion, createAction} from '@store/actions-helpers';
 import {Dispatch} from 'redux';
 import {Anecdote} from '../../models/anecdotes/Anecdotes';
-import {AnecdotesResponse} from '@models';
+import {API_URL} from '../../shared/GlobalConsts';
 
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';
@@ -13,16 +14,17 @@ export const Actions = {
 ;
 
 export const Thunks = {
-    getAnecdotes: () => {
+    getAnecdotes: (userId?: string) => {
         return (dispatch: Dispatch) => {
             dispatch(Actions.startFetchingAnecdotes());
-            fetch('https://api.icndb.com/jokes/random/10')
-                .then(response => response.json())
-                .then((data: AnecdotesResponse) => {
-                    // tslint:disable-next-line:no-console
-                    console.log('aneks are', data);
-                    dispatch(Actions.finishFetchingAnecdotes(data.value));
-                });
+            const id = userId && userId !== '' && userId !== undefined ?
+                userId
+                :
+                '99444331';
+            const promise = axios.get(`${API_URL}db?user_id=${id}`);
+            promise.then((data: any) => {
+                dispatch(Actions.finishFetchingAnecdotes(data.value));
+            });
         };
     },
 };
