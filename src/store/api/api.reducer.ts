@@ -1,8 +1,9 @@
 import * as apiActions from '@store/api/api.actions';
+import {IAnecdote} from '@models';
 
 export interface ApiState {
     isFetching: boolean;
-    jokes: any[];
+    jokes: IAnecdote[];
 }
 
 const initialState: ApiState = {

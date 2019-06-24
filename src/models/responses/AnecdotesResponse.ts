@@ -1,6 +1,6 @@
-import {Anecdote} from '@models';
+import {IAnecdote} from '@models';
 
 export interface AnecdotesResponse {
     type: string;
-    value: Anecdote[];
+    value: IAnecdote[];
 }

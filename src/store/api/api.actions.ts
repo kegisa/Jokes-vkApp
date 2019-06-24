@@ -1,15 +1,17 @@
 import axios from 'axios';
 import {ActionsUnion, createAction} from '@store/actions-helpers';
 import {Dispatch} from 'redux';
-import {Anecdote} from '../../models/anecdotes/Anecdotes';
 import {API_URL} from '../../shared/GlobalConsts';
+import {IAnecdote} from '@models';
 
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';
+export const TOGGLE_LIKE = '[API] TOGGLE_LIKE';
 
 export const Actions = {
         startFetchingAnecdotes: () => createAction(START_FETCHING_ANECDOTES),
-        finishFetchingAnecdotes: (data: Anecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
+        finishFetchingAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
+        toggleLike: (userId: string, anecdoteId: string) => createAction(TOGGLE_LIKE),
     }
 ;
 
@@ -37,6 +39,24 @@ export const Thunks = {
                 console.log('data', data);
                 dispatch(Actions.finishFetchingAnecdotes(data));
             });
+        };
+    },
+    toggleLike: (userId: string, anecdoteId: string) => {
+        return (dispatch: Dispatch) => {
+            const parsedUserId = userId && userId !== '' && userId !== undefined ?
+                userId
+                :
+                '99444331';
+            const promise = axios.post(`${API_URL}/likeswitch`, {
+                user_id: parsedUserId,
+                anek_id: anecdoteId,
+            });
+            promise.then(
+                (response: any) => {
+                    // tslint:disable-next-line:no-console
+                    console.log('response from like', response);
+                }
+            );
         };
     },
 };
