@@ -3,7 +3,6 @@ import { ActionsUnion, createAction } from '@store/actions-helpers';
 import { Dispatch } from 'redux';
 import { API_URL } from '../../shared/GlobalConsts';
 import { IAnecdote } from '@models';
-import { connect } from 'tls';
 
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';

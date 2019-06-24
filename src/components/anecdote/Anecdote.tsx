@@ -48,7 +48,7 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
                             level="tertiary"
                             after={<Icon16ReplyOutline/>}
                             size="xl"
-                            // onClick={() => repostPressed(joke.joke)}
+                            onClick={() => repostPressed(joke.joke)}
                         />
                     }
                 />
