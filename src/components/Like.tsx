@@ -23,16 +23,6 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
 
     }
 
-    /*  loadJokes(){
-           //fetch('http://92.240.135.238:5000/')
-           fetch('https://api.icndb.com/jokes/random/10')
-           .then(response => response.json())
-           .then(data => {this.setState({ jokes: data.value});
-          // .then(data => {this.setState({ jokes: data.value});
-           });
-           console.log(this.state.jokes);
-           this.state.isFetching = false;
-       }*/
     loadJokes() {
         fetch('http://66160595b12e.sn.mynetname.net:5000/')
             .then(response => response.json())
