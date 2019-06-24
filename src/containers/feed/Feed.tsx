@@ -31,24 +31,6 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         this.props.onLoadJokes && this.props.onLoadJokes();
     }
 
-    // loadJokes() {
-    //     // fetch('http://92.240.135.238:5000/')
-    //     fetch('https://api.icndb.com/jokes/random/10')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             this.setState({jokes: data.value});
-    //         });
-    //     this.state.isFetching = false;
-    // }
-
-    /*loadJokes(){
-        fetch('http://92.240.135.238:5000/')
-        .then(response => response.json())
-        .then(data => {this.setState({ jokes: data});
-        });
-        this.state.isFetching = false;
-    }*/
-
     handleClick = (e) => {
         // tslint:disable-next-line:no-console
         console.log('like pressed', e);

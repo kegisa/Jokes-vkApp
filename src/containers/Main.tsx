@@ -72,24 +72,6 @@ class MainComponent extends React.Component<MainProps, MainState> {
         );
     }
 
-    renderViews(): JSX.Element {
-        return (
-            <>
-                <View id="feed" activePanel="feed">
-                    <Feed
-                        id="feed"
-                    />
-                </View>
-                <View id="like" activePanel="like">
-                    <Like id="like"/>
-                </View>
-                <View id="send" activePanel="send">
-                    <Send id="send"/>
-                </View>
-            </>
-        );
-    }
-
     render() {
         const {isFetching, user} = this.props;
         return (
@@ -100,7 +82,17 @@ class MainComponent extends React.Component<MainProps, MainState> {
                         activeStory={this.state.activeStory}
                         tabbar={this.renderTabbar()}
                     >
-                        {this.renderViews()}
+                        <View id="feed" activePanel="feed">
+                            <Feed
+                                id="feed"
+                            />
+                        </View>
+                        <View id="like" activePanel="like">
+                            <Like id="like"/>
+                        </View>
+                        <View id="send" activePanel="send">
+                            <Send id="send"/>
+                        </View>
                     </Epic>
                 }
             </div>
