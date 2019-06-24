@@ -1,0 +1,44 @@
+
+.button {
+  background: #fadab4;
+  color: #F18407;
+}
+
+.header {
+  color: #F18407;
+  background: #f9cd9b;
+}
+
+.joke {
+  color: var(--text_primary)
+}
+
+.post {
+  padding: 3% 3% 0% 3%;
+}
+
+.Panel__in {
+  padding-bottom: 10px;
+}
+
+.spinner {
+  color: var(--snippet_border)
+}
+
+.Persik {
+  display: block;
+  width: 30%;
+  max-width: 400px;
+  min-width: 270px;
+  margin: 20px auto;
+  background: #FF8000;
+}
+
+.likes {
+  transition: background 9999999s;
+  color: #F18407;
+}
+
+.mlCell {
+  white-space: pre-wrap;
+}
