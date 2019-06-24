@@ -10,39 +10,6 @@ interface SendState {
 }
 
 class SendComponent extends React.Component<SendProps, SendState> {
-    state = {
-        popout: null,
-    };
-
-    sendingAnek() {
-        this.openDestructive();
-    }
-    openDestructive() {
-        this.setState({ popout:
-            <Alert 
-                actionsLayout="vertical" 
-                actions={
-                    [
-                        {
-                            title: 'Лишить права',
-                            autoclose: true,
-                            style: 'destructive'
-                        }, 
-                        {
-                            title: 'Отмена',
-                            autoclose: true,
-                            style: 'cancel'
-                        }
-                    ]
-                }
-                onClose={this.closePopout}
-            >
-                <h2>Подтвердите действие</h2>
-                <p>Вы уверены, что хотите лишить пользователя права на модерацию контента?</p>
-            </Alert>
-        });
-    }
-
     closePopout () {
         this.setState({ popout: null });
     }
