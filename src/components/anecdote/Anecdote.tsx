@@ -30,7 +30,9 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
                             className="likes"
                             level="tertiary"
                             after={
+
                                 joke.isLiked ?
+
                                     <Icon16Like id={joke.id}/>
                                     :
                                     <Icon16LikeOutline id={joke.id}/>
