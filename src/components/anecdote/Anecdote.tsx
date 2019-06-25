@@ -4,6 +4,7 @@ import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon16LikeOutline from '@vkontakte/icons/dist/16/like_outline';
 import Icon16ReplyOutline from '@vkontakte/icons/dist/16/reply_outline';
 import {IAnecdote} from '@models';
+import '../../assets/style.css';
 
 interface Props {
     id: number;
@@ -22,6 +23,7 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
                 </Cell>
                 <Cell
                     id={joke.id}
+                    className="mlCell"
                     key={joke.id}
                     asideContent={
                         <Button
