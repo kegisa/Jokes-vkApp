@@ -18,20 +18,6 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
         isFetching: true,
     };
 
-    componentDidMount() {
-        this.loadJokes();
-
-    }
-
-    loadJokes() {
-        fetch('http://66160595b12e.sn.mynetname.net:5000/')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({jokes: data});
-            });
-        this.state.isFetching = false;
-    }
-
     render() {
 
         const {jokes} = this.state;
@@ -69,4 +55,4 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     }
 }
 
-export const Like = (LikeComponent);
+export const CustomLike = (LikeComponent);

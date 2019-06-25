@@ -5,12 +5,13 @@ import PanelSpinner from '@vkontakte/vkui/dist/components/PanelSpinner/PanelSpin
 import Icon28Favorite from '@vkontakte/icons/dist/28/favorite';
 import Icon28Send from '@vkontakte/icons/dist/28/send';
 import Icon28Newsfeed from '@vkontakte/icons/dist/28/newsfeed';
-import {Feed} from './feed/Feed';
-import {Like} from '../components/Like';
-import {Send} from '../components/Send';
+
 import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser, getFetching, Thunks as appThunks} from '@store/app';
 import {FetchedUser} from '@models';
+import {Feed} from './feed/Feed';
+import {Send} from '../components/Send';
+import {CustomLike} from '../components/Like';
 
 interface MainProps {
     isFetching?: boolean;
@@ -74,9 +75,9 @@ class MainComponent extends React.Component<MainProps, MainState> {
 
     render() {
         const {user} = this.props;
-        const {isFetching} = this.props;
-        // let {isFetching} = this.props;
-        // isFetching = false;
+        // const {isFetching} = this.props;
+        let {isFetching} = this.props;
+        isFetching = false;
         return (
             <div>
                 {isFetching ?
@@ -91,7 +92,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
                             />
                         </View>
                         <View id="like" activePanel="like">
-                            <Like id="like"/>
+                            <CustomLike id="like"/>
                         </View>
                         <View id="send" activePanel="send">
                             <Send id="send"/>

@@ -14,30 +14,32 @@ interface Props {
 
 const AnecdoteComponent: FunctionComponent<Props> = props => {
     const {id, joke, likePressed, repostPressed} = props;
-    const isLikePressed = joke.like === 1;
+    // tslint:disable-next-line:no-console
+    console.log('joke.isLiked', joke.isLiked);
+
     return (
-        <Group className="post" key={joke.anek_id}>
+        <Group className="post" key={joke.id}>
             <List>
                 <Cell multiline={true}>
                     {joke.joke}
                 </Cell>
                 <Cell
-                    id={joke.anek_id}
-                    key={joke.anek_id}
+                    id={joke.id}
+                    key={joke.id}
                     asideContent={
                         <Button
-                            id={joke.anek_id}
-                            key={joke.anek_id}
+                            id={joke.id}
+                            key={joke.id}
                             className="likes"
                             level="tertiary"
                             after={
-                                isLikePressed ?
-                                    <Icon16Like id={joke.anek_id}/>
+                                joke.isLiked ?
+                                    <Icon16Like id={joke.id}/>
                                     :
-                                    <Icon16LikeOutline id={joke.anek_id}/>
+                                    <Icon16LikeOutline id={joke.id}/>
                             }
                             size="xl"
-                            onClick={() => likePressed(joke.anek_id)}
+                            onClick={() => likePressed(joke.id)}
                         >
                             {joke.likes}
                         </Button>

@@ -27,7 +27,7 @@ export const Thunks = {
             promise.then((response: any) => {
                 let data = response.data.map(
                     (anecdote: any) => {
-                        if (anecdote.anek_id) {
+                        if (anecdote.id) {
                             return anecdote;
                         }
                     }
@@ -47,6 +47,8 @@ export const Thunks = {
             promise.then(
                 (response: any) => {
                     const anek = response.data[1];
+                    // tslint:disable-next-line:no-console
+                    console.log('anek', anek);
                     dispatch(Actions.toggleLike(anek));
                 }
             );

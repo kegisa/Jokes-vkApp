@@ -2,7 +2,7 @@ import { ActionsUnion, createAction } from '@store/actions-helpers';
 import { Dispatch } from 'redux';
 import connect from '@vkontakte/vkui-connect';
 import { FetchedUser } from '@models';
-import { SIGNATURE } from '../../shared/GlobalConsts';
+import {SIGNATURE} from '../../shared/GlobalConsts';
 
 export const START_FETCHING_USER_INFO = '[APP] START_FETCHING_USER_INFO';
 export const FINISH_FETCHING_USER_INFO = '[APP] FINISH_FETCHING_USER_INFO';

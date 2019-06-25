@@ -29,13 +29,13 @@ export const apiReducer = (
             };
         case apiActions.TOGGLE_LIKE:
             const anekId = parseInt(action.payload.anek, 10);
-            const isLiked = action.payload.status === 'on' ? 1 : 0;
+            const isLiked = action.payload.status === 'on';
             const jokes = state.jokes.map(anecdote => {
-                if (anecdote.anek_id === anekId) {
+                if (anecdote.id === anekId) {
                     return {
                         ...anecdote,
                         like: isLiked,
-                        likes: isLiked === 1 ? anecdote.likes + 1 : anecdote.likes - 1,
+                        likes: isLiked ? anecdote.likes + 1 : anecdote.likes - 1,
                     };
                 }
                 return anecdote;
