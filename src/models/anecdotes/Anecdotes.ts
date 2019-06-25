@@ -2,6 +2,6 @@ export interface IAnecdote {
     id: number;
     created: string;
     joke: string;
-    like: number;
+    isLiked: boolean;
     likes: number;
 }

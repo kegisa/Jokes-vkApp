@@ -14,7 +14,6 @@ interface Props {
 
 const AnecdoteComponent: FunctionComponent<Props> = props => {
     const {id, joke, likePressed, repostPressed} = props;
-    const isLikePressed = joke.like === 1;
     return (
         <Group className="post" key={joke.id}>
             <List>
@@ -31,7 +30,9 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
                             className="likes"
                             level="tertiary"
                             after={
-                                isLikePressed ?
+
+                                joke.isLiked ?
+
                                     <Icon16Like id={joke.id}/>
                                     :
                                     <Icon16LikeOutline id={joke.id}/>

@@ -14,7 +14,6 @@ connect.subscribe((e) => {
             document.body.attributes.setNamedItem(schemeAttribute);
             break;
         default:
-        // console.log(e.detail.type);
     }
 });
 

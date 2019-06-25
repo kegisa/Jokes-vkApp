@@ -86,7 +86,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                             style={{ marginTop: 20 }}
                         />
                         :
-                        jokes.map((joke: IAnecdote, index: number) =>
+                        jokes.map((joke: IAnecdote) =>
                             <Anecdote
                                 key={joke.id}
                                 id={joke.id}
