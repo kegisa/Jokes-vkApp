@@ -204,6 +204,7 @@
 
 .post {
     padding: 3% 3% 0% 3%;
+    white-space: pre-wrap;
 }
 
 .Panel__in {
