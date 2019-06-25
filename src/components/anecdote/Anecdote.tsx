@@ -14,9 +14,6 @@ interface Props {
 
 const AnecdoteComponent: FunctionComponent<Props> = props => {
     const {id, joke, likePressed, repostPressed} = props;
-    // tslint:disable-next-line:no-console
-    console.log('joke.isLiked', joke.isLiked);
-
     return (
         <Group className="post" key={joke.id}>
             <List>

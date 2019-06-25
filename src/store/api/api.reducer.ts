@@ -34,7 +34,7 @@ export const apiReducer = (
                 if (anecdote.id === anekId) {
                     return {
                         ...anecdote,
-                        like: isLiked,
+                        isLiked: isLiked,
                         likes: isLiked ? anecdote.likes + 1 : anecdote.likes - 1,
                     };
                 }
