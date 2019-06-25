@@ -19,7 +19,9 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
         <Group className="post" key={joke.id}>
             <List>
                 <Cell multiline={true}>
-                    {joke.joke}
+                    <div className="mlCell">
+                        {joke.joke}
+                    </div>
                 </Cell>
                 <Cell
                     id={joke.id}
