@@ -31,7 +31,7 @@ export const apiReducer = (
             const anekId = parseInt(action.payload.anek, 10);
             const isLiked = action.payload.status === 'on' ? 1 : 0;
             const jokes = state.jokes.map(anecdote => {
-                if (anecdote.anek_id === anekId) {
+                if (anecdote.id === anekId) {
                     return {
                         ...anecdote,
                         like: isLiked,

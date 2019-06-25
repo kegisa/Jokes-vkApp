@@ -27,7 +27,7 @@ export const Thunks = {
             promise.then((response: any) => {
                 let data = response.data.map(
                     (anecdote: any) => {
-                        if (anecdote.anek_id) {
+                        if (anecdote.id) {
                             return anecdote;
                         }
                     }
@@ -43,7 +43,7 @@ export const Thunks = {
                 userId
                 :
                 '99444331';
-            const promise = axios.post(`${API_URL}/likeswitch`, `user_id=${parsedUserId}&anek_id=${anecdoteId}`);
+            const promise = axios.post(`${API_URL}/likeswitch`, `user_id=${parsedUserId}&id=${anecdoteId}`);
             promise.then(
                 (response: any) => {
                     const anek = response.data[1];
