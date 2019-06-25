@@ -10,7 +10,7 @@ interface SendState {
 }
 
 class SendComponent extends React.Component<SendProps, SendState> {
-    closePopout () {
+    closePopout() {
         this.setState({ popout: null });
     }
 
@@ -31,7 +31,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                         проверь пунктуацию и ошибки, пусть твои анекдоты будет приятнее читать."
                         placeholder="Нарды, армяне ....."
                     />
-                    <Button size="xl" level="secondary" onClick={this.sendingAnek}>Отправить</Button>
+                    <Button size="xl" level="secondary" >Отправить</Button>
                 </FormLayout>
             </Panel>
 

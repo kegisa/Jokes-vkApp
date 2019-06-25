@@ -1,19 +1,19 @@
 import axios from 'axios';
-import {ActionsUnion, createAction} from '@store/actions-helpers';
-import {Dispatch} from 'redux';
-import {API_URL} from '../../shared/GlobalConsts';
-import {IAnecdote} from '@models';
+import { ActionsUnion, createAction } from '@store/actions-helpers';
+import { Dispatch } from 'redux';
+import { API_URL } from '../../shared/GlobalConsts';
+import { IAnecdote } from '@models';
 
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';
 export const TOGGLE_LIKE = '[API] TOGGLE_LIKE';
 
 export const Actions = {
-        startFetchingAnecdotes: () => createAction(START_FETCHING_ANECDOTES),
-        finishFetchingAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
-        toggleLike: (anek: any) => createAction(TOGGLE_LIKE, anek),
-    }
-;
+    startFetchingAnecdotes: () => createAction(START_FETCHING_ANECDOTES),
+    finishFetchingAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
+    toggleLike: (anek: any) => createAction(TOGGLE_LIKE, anek),
+}
+    ;
 
 export const Thunks = {
     getAnecdotes: (userId?: string) => {

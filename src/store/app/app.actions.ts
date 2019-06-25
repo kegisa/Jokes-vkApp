@@ -1,16 +1,17 @@
-import {ActionsUnion, createAction} from '@store/actions-helpers';
-import {Dispatch} from 'redux';
+import { ActionsUnion, createAction } from '@store/actions-helpers';
+import { Dispatch } from 'redux';
 import connect from '@vkontakte/vkui-connect';
-import {FetchedUser} from '@models';
+import { FetchedUser } from '@models';
+import { SIGNATURE } from '../../shared/GlobalConsts';
 
 export const START_FETCHING_USER_INFO = '[APP] START_FETCHING_USER_INFO';
 export const FINISH_FETCHING_USER_INFO = '[APP] FINISH_FETCHING_USER_INFO';
 
 export const Actions = {
-        startFetchingUserInfo: () => createAction(START_FETCHING_USER_INFO),
-        finishFetchingUserInfo: (data: FetchedUser) => createAction(FINISH_FETCHING_USER_INFO, data),
-    }
-;
+    startFetchingUserInfo: () => createAction(START_FETCHING_USER_INFO),
+    finishFetchingUserInfo: (data: FetchedUser) => createAction(FINISH_FETCHING_USER_INFO, data),
+}
+    ;
 
 export const Thunks = {
     getUserInfo: () => {
@@ -25,6 +26,12 @@ export const Thunks = {
                 }
             });
             connect.send('VKWebAppGetUserInfo', {});
+        };
+    },
+    wallPost: (joke: string) => {
+        return () => {
+            const text = `${joke} \n ${SIGNATURE}`;
+            connect.send('VKWebAppShowWallPostBox', { message: text, attachments: 'photo139193693_456240066' });
         };
     },
 };

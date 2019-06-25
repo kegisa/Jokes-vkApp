@@ -1,17 +1,18 @@
 import React from 'react';
-import {Avatar, Group, ListItem, Panel, PanelHeader, ScreenSpinner} from '@vkontakte/vkui';
-import {Anecdote} from '../../components/anecdote/Anecdote';
-import {DispatchThunk, RootState} from '@store';
-import {getFetchedUser, Thunks as appThunks} from '@store/app';
-import {FetchedUser, IAnecdote} from '@models';
-import {connect} from 'react-redux';
-import {getFetching as getApiFetching, getJokes, Thunks as apiThunks} from '@store/api';
+import { Avatar, Group, ListItem, Panel, PanelHeader, ScreenSpinner } from '@vkontakte/vkui';
+import { Anecdote } from '../../components/anecdote/Anecdote';
+import { DispatchThunk, RootState } from '@store';
+import { getFetchedUser, Thunks as appThunks } from '@store/app';
+import { FetchedUser, IAnecdote } from '@models';
+import { connect } from 'react-redux';
+import { getFetching as getApiFetching, getJokes, Thunks as apiThunks } from '@store/api';
 
 interface FeedProps {
     id?: string;
     user?: FetchedUser;
     onLoadJokes: any;
     toggleLike: any;
+    doRepost: any;
     jokes: any[];
     isJokesFetching: boolean;
 }
@@ -26,7 +27,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         jokes: [],
         isFetching: true,
     }
-    ;
+        ;
 
     componentDidMount() {
         const fetchedUser = this.props.user;
@@ -40,8 +41,12 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         this.props.toggleLike && this.props.toggleLike(userId, anekId);
     };
 
+    handleRepost = (joke: string) => {
+        this.props.doRepost && this.props.doRepost(joke);
+    };
+
     renderUserInfo(): JSX.Element {
-        const {user} = this.props;
+        const { user } = this.props;
         return user && user !== undefined ?
             (
                 <Group
@@ -50,7 +55,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                     <ListItem
                         before={
                             user.photo_200 ?
-                                <Avatar src={user.photo_200}/> :
+                                <Avatar src={user.photo_200} /> :
                                 null
                         }
                     >
@@ -67,21 +72,18 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
     }
 
     render() {
-        const {isJokesFetching, jokes} = this.props;
+        const { isJokesFetching, jokes } = this.props;
         return (
             <Panel id="feed">
                 <PanelHeader>
                     Лента
                 </PanelHeader>
                 {
-                    this.renderUserInfo()
-                }
-                {
                     isJokesFetching ?
                         <ScreenSpinner
                             className="spinner"
                             size="large"
-                            style={{marginTop: 20}}
+                            style={{ marginTop: 20 }}
                         />
                         :
                         jokes.map((joke: IAnecdote, index: number) =>
@@ -90,6 +92,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                                 id={joke.anek_id}
                                 joke={joke}
                                 likePressed={this.handleClick}
+                                repostPressed={this.handleRepost}
                             />
                         )
                 }
@@ -117,6 +120,9 @@ const mapDispatchToProps = (dispatch: DispatchThunk) => ({
     },
     toggleLike: (userId: string, anecdoteId: string) => {
         dispatch(apiThunks.toggleLike(userId, anecdoteId));
+    },
+    doRepost: (joke: string) => {
+        dispatch(appThunks.wallPost(joke));
     },
 });
 
