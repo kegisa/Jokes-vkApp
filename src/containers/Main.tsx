@@ -11,7 +11,7 @@ import {getFetchedUser, getFetching, Thunks as appThunks} from '@store/app';
 import {FetchedUser} from '@models';
 import {Feed} from './feed/Feed';
 import {Send} from '../components/Send';
-import {CustomLike} from '../components/Like';
+import {Like} from '../components/Like';
 
 interface MainProps {
     isFetching?: boolean;
@@ -92,7 +92,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
                             />
                         </View>
                         <View id="like" activePanel="like">
-                            <CustomLike id="like"/>
+                            <Like id="like"/>
                         </View>
                         <View id="send" activePanel="send">
                             <Send id="send"/>
