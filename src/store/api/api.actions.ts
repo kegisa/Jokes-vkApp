@@ -37,6 +37,27 @@ export const Thunks = {
             });
         };
     },
+    getLikedAnecdotes: (userId?: string) => {
+        return (dispatch: Dispatch) => {
+            dispatch(Actions.startFetchingAnecdotes());
+            const id = userId && userId !== '' && userId !== undefined ?
+                userId
+                :
+                '99444331';
+            const promise = axios.get(`${API_URL}getlikes?user_id=${id}`);
+            promise.then((response: any) => {
+                let data = response.data.map(
+                    (anecdote: any) => {
+                        if (anecdote.id) {
+                            return anecdote;
+                        }
+                    }
+                );
+                data = data.filter(anecdote => anecdote !== undefined);
+                dispatch(Actions.finishFetchingAnecdotes(data));
+            });
+        };
+    },
     toggleLike: (userId: string, anecdoteId: string) => {
         return (dispatch: Dispatch) => {
             const parsedUserId = userId && userId !== '' && userId !== undefined ?
