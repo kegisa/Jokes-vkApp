@@ -43,7 +43,7 @@ export const Thunks = {
                 userId
                 :
                 '99444331';
-            const promise = axios.post(`${API_URL}/likeswitch`, `user_id=${parsedUserId}&id=${anecdoteId}`);
+            const promise = axios.post(`${API_URL}/likeswitch`, `user_id=${parsedUserId}&anek_id=${anecdoteId}`);
             promise.then(
                 (response: any) => {
                     const anek = response.data[1];
