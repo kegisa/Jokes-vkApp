@@ -64,11 +64,32 @@ export const Thunks = {
                 userId
                 :
                 '99444331';
-            const promise = axios.post(`${API_URL}/likeswitch`, `user_id=${parsedUserId}&anek_id=${anecdoteId}`);
+            const promise = axios.post(`${API_URL}likeswitch`, `user_id=${parsedUserId}&anek_id=${anecdoteId}`);
             promise.then(
                 (response: any) => {
                     const anek = response.data[1];
                     dispatch(Actions.toggleLike(anek));
+                }
+            );
+        };
+    },
+    uploadAnecdote: (userId: string, anecdoteText: string, isAnonymous: boolean, username: string) => {
+        return (dispatch: Dispatch) => {
+            const parsedUserId = userId && userId !== '' && userId !== undefined ?
+                userId
+                :
+                '99444331';
+            const parsedUsername = username && username !== '' && username !== undefined ?
+                username
+                :
+                'test';
+            const promise = axios.post(
+                `${API_URL}suggest`,
+                `userId=${parsedUserId}&text=${anecdoteText}&isAnon=${isAnonymous}&username=${parsedUsername}`);
+            promise.then(
+                (response: any) => {
+                    // tslint:disable-next-line:no-console
+                    console.log('response', response);
                 }
             );
         };
