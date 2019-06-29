@@ -80,11 +80,9 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                 </PanelHeader>
                 {
                     isJokesFetching ?
-                        <ScreenSpinner
-                            className="spinner"
-                            size="large"
-                            style={{ marginTop: 20 }}
-                        />
+                        <div>
+                            <img className="loader" src={'./loader.gif'} />
+                        </div>
                         :
                         jokes.map((joke: IAnecdote) =>
                             <Anecdote

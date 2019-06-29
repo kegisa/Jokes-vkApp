@@ -58,8 +58,9 @@ class SendComponent extends React.Component<SendProps, SendState> {
         if (!isTooLong && !isTooShort) {
             const userId = user ? user.id : null;
             const firstName = user ? user.first_name : null;
+            const lastName = user ? user.last_name : null;
             this.props.uploadAnecdote &&
-                this.props.uploadAnecdote(userId, anecdoteText, isAnonymous, firstName);
+                this.props.uploadAnecdote(userId, anecdoteText, isAnonymous, `${firstName} ${lastName} `);
         }
     };
 
@@ -76,7 +77,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                 <PanelHeader>Предложить</PanelHeader>
                 <img
                     className="Persik"
-                    src={'./img/loader.gif'}
+                    src={'./loader.gif'}
                 />
                 <FormLayout
                     onSubmit={this.handleSubmit}

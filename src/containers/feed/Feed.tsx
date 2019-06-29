@@ -80,11 +80,14 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                 </PanelHeader>
                 {
                     isJokesFetching ?
-                        <ScreenSpinner
+                        <div>
+                            <img className="loader" src={'./loader.gif'} />
+                        </div>
+                        /*<ScreenSpinner
                             className="spinner"
                             size="large"
                             style={{ marginTop: 20 }}
-                        />
+                        />*/
                         :
                         jokes.map((joke: IAnecdote) =>
                             <Anecdote
