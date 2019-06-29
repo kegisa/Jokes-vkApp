@@ -24,7 +24,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
         isAnonymous: true,
         isTooShort: false,
         isTooLong: false,
-        anecdoteText: 'Одной ногой тут , а другой там!',
+        anecdoteText: '',
     };
 
     changeAnonymousStatus = () => {
@@ -76,7 +76,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                 <PanelHeader>Предложить</PanelHeader>
                 <img
                     className="Persik"
-                    src={'./anek.jpg'}
+                    src={'./img/loader.gif'}
                 />
                 <FormLayout
                     onSubmit={this.handleSubmit}
@@ -84,19 +84,19 @@ class SendComponent extends React.Component<SendProps, SendState> {
                     {
                         this.state.isTooShort &&
                         <FormStatus title="Анекдот слишком короткий" state="error">
-                            Анекдод должен содержать больше 10 символов!
+                            Возможно ты не дописал.
                         </FormStatus>
                     }
                     {
                         this.state.isTooLong &&
                         <FormStatus title="Анекдот слишком длинный" state="error">
-                            Анекдод не должен содержать больше 10000 символов!
+                            Постарайся сократить анекдот и попробуй еще раз.
                         </FormStatus>
                     }
                     <Textarea
                         top="Мы просим тебя, пожалуйста,
                         проверь пунктуацию и ошибки, пусть твои анекдоты будет приятнее читать."
-                        placeholder="Нарды, армяне ....."
+                        placeholder="Анекдоты начинаются здесь"
                         value={this.state.anecdoteText}
                         onChange={this.handleTextAreaChange}
                     />
@@ -104,7 +104,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                         value={this.state.isAnonymous}
                         onChange={this.changeAnonymousStatus}
                     >
-                        Я хочу отправить анекдот анонимно
+                        Анонимно
                     </Checkbox>
                     <Button
                         size="xl"
