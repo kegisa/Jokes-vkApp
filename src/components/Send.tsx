@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Checkbox, FormLayout, FormStatus, Panel, PanelHeader, Textarea} from '@vkontakte/vkui';
 import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser} from '@store/app';
-import {Thunks as apiThunks} from '@store/api';
+import {getAnecdoteShared, Thunks as apiThunks} from '@store/api';
 import {connect} from 'react-redux';
 import {FetchedUser} from '@models';
 
@@ -10,6 +10,7 @@ interface SendProps {
     id: string;
     uploadAnecdote: any;
     user?: FetchedUser;
+    isAnecdoteShared: boolean;
 }
 
 interface SendState {
@@ -17,6 +18,7 @@ interface SendState {
     isTooShort: boolean;
     isTooLong: boolean;
     anecdoteText: string;
+    isSent: boolean;
 }
 
 class SendComponent extends React.Component<SendProps, SendState> {
@@ -25,6 +27,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
         isTooShort: false,
         isTooLong: false,
         anecdoteText: '',
+        isSent: false,
     };
 
     changeAnonymousStatus = () => {
@@ -61,6 +64,19 @@ class SendComponent extends React.Component<SendProps, SendState> {
             const lastName = user ? user.last_name : null;
             this.props.uploadAnecdote &&
                 this.props.uploadAnecdote(userId, anecdoteText, isAnonymous, `${firstName} ${lastName} `);
+            this.setState({
+                    ...this.state,
+                    isSent: true,
+                    anecdoteText: '',
+                }
+            );
+            setInterval(() => (
+                this.setState({
+                    ...this.state,
+                    isSent: false,
+                    }
+                )), 5000
+            );
         }
     };
 
@@ -94,6 +110,12 @@ class SendComponent extends React.Component<SendProps, SendState> {
                             Постарайся сократить анекдот и попробуй еще раз.
                         </FormStatus>
                     }
+                    {
+                        this.state.isSent &&
+                        <FormStatus title="Анекдот отправлен" state="default">
+                            Ваш анекдот отправлен
+                        </FormStatus>
+                    }
                     <Textarea
                         top="Мы просим тебя, пожалуйста,
                         проверь пунктуацию и ошибки, пусть твои анекдоты будет приятнее читать."
@@ -123,6 +145,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
 const mapStateToProps = (state: RootState) => {
     return {
         user: getFetchedUser(state),
+        isAnecdoteShared: getAnecdoteShared(state),
     };
 };
 
