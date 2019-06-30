@@ -93,13 +93,17 @@ export const Thunks = {
                 `userId=${parsedUserId}&text=${anecdoteText}&isAnon=${isAnonymous}&username=${parsedUsername}`);
             promise.then(
                 (response: any) => {
-                    // tslint:disable-next-line:no-console
-                    console.log('response.status', response.status);
                     if (response.status === 200) {
                         dispatch(Actions.finishSharingAnecdote());
                     }
                 }
             );
+        };
+    },
+    // TODO: костыль
+    toggleFlag: () => {
+        return (dispatch: Dispatch) => {
+            dispatch(Actions.finishSharingAnecdote());
         };
     },
 };

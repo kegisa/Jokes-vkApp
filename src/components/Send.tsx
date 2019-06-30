@@ -40,45 +40,59 @@ class SendComponent extends React.Component<SendProps, SendState> {
 
     handleSubmit = (e: any) => {
         e.preventDefault();
-        const {anecdoteText, isTooLong, isTooShort, isAnonymous} = this.state;
+        const {anecdoteText, isAnonymous} = this.state;
         const {user} = this.props;
-        if (anecdoteText.length < 10) {
-            this.setState({
-                    ...this.state,
-                    isTooShort: true,
-                    isTooLong: false,
-                }
-            );
-        }
-        if (anecdoteText.length > 100) {
-            this.setState({
-                    ...this.state,
-                    isTooShort: false,
-                    isTooLong: true,
-                }
-            );
-        }
-        if (!isTooLong && !isTooShort) {
+        if (!this.isAnecdoteTextTooShort() && !this.isAnecdoteTextTooLong()) {
             const userId = user ? user.id : null;
             const firstName = user ? user.first_name : null;
             const lastName = user ? user.last_name : null;
             this.props.uploadAnecdote &&
-                this.props.uploadAnecdote(userId, anecdoteText, isAnonymous, `${firstName} ${lastName} `);
-            this.setState({
-                    ...this.state,
-                    isSent: true,
-                    anecdoteText: '',
-                }
-            );
-            setInterval(() => (
+            this.props.uploadAnecdote(userId, anecdoteText, isAnonymous, `${firstName} ${lastName} `);
+            if (this.props.isAnecdoteShared) {
                 this.setState({
-                    ...this.state,
-                    isSent: false,
+                        ...this.state,
+                        isSent: true,
+                        isTooShort: false,
+                        isTooLong: false,
+                        anecdoteText: '',
                     }
-                )), 5000
-            );
+                );
+                setInterval(() => (
+                    this.setState({
+                            ...this.state,
+                            isSent: false,
+                        }
+                    )), 5000
+                );
+            }
         }
     };
+
+    isAnecdoteTextTooShort(): boolean {
+      if (this.state.anecdoteText.length < 10) {
+          this.setState({
+                  ...this.state,
+                  isTooShort: true,
+                  isTooLong: false,
+              }
+          );
+          return true;
+      }
+      return false;
+    }
+
+    isAnecdoteTextTooLong(): boolean {
+      if (this.state.anecdoteText.length > 1000) {
+          this.setState({
+                  ...this.state,
+                  isTooShort: false,
+                  isTooLong: true,
+              }
+          );
+          return true;
+      }
+      return false;
+    }
 
     handleTextAreaChange = (e: any) => {
         this.setState({
