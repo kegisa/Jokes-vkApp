@@ -214,12 +214,12 @@
     color: var(--snippet_border)
 }
 
-.Persik {
+.imageSend {
     display: block;
     width: 30%;
     max-width: 400px;
     min-width: 270px;
-    margin: 20px auto;
+    margin: 0 auto;
 }
 .loader{
     display: block;

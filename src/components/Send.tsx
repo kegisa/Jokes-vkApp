@@ -110,7 +110,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
             <Panel id="send" className="header">
                 <PanelHeader>Предложить</PanelHeader>
                 <img
-                    className="Persik"
+                    className="imageSend"
                     src={'./send.png'}
                 />
                 <FormLayout
@@ -141,12 +141,12 @@ class SendComponent extends React.Component<SendProps, SendState> {
                         value={this.state.anecdoteText}
                         onChange={this.handleTextAreaChange}
                     />
-                    <Checkbox
+                    {/* <Checkbox
                         value={this.state.isAnonymous}
                         onChange={this.changeAnonymousStatus}
                     >
                         Анонимно
-                    </Checkbox>
+                    </Checkbox> */}
                     <Button
                         size="xl"
                         level="secondary"
