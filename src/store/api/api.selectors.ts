@@ -12,3 +12,8 @@ export const getJokes = createSelector(
     getApi,
     apiState => apiState.jokes,
 );
+
+export const getAnecdoteShared = createSelector(
+    getApi,
+    apiState => apiState.isAnecdoteShared,
+);

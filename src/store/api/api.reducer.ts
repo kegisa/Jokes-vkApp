@@ -4,11 +4,13 @@ import {IAnecdote} from '@models';
 export interface ApiState {
     isFetching: boolean;
     jokes: IAnecdote[];
+    isAnecdoteShared: boolean;
 }
 
 const initialState: ApiState = {
     isFetching: false,
     jokes: [],
+    isAnecdoteShared: false,
 };
 
 export const apiReducer = (
@@ -43,6 +45,16 @@ export const apiReducer = (
             return {
                 ...state,
                 jokes: jokes,
+            };
+        case apiActions.START_ANECDOTE_SHARING:
+            return {
+                ...state,
+                isAnecdoteShared: false,
+            };
+        case apiActions.FINISH_ANECDOTE_SHARING:
+            return {
+                ...state,
+                isAnecdoteShared: true,
             };
         default:
             return state;

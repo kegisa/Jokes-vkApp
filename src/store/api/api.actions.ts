@@ -7,11 +7,15 @@ import {IAnecdote} from '@models';
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';
 export const TOGGLE_LIKE = '[API] TOGGLE_LIKE';
+export const START_ANECDOTE_SHARING = '[API] START_ANECDOTE_SHARING';
+export const FINISH_ANECDOTE_SHARING = '[API] FINISH_ANECDOTE_SHARING';
 
 export const Actions = {
         startFetchingAnecdotes: () => createAction(START_FETCHING_ANECDOTES),
         finishFetchingAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
         toggleLike: (anek: any) => createAction(TOGGLE_LIKE, anek),
+        startSharingAnecdote: () => createAction(START_ANECDOTE_SHARING),
+        finishSharingAnecdote: () => createAction(FINISH_ANECDOTE_SHARING),
     }
 ;
 
@@ -89,10 +93,17 @@ export const Thunks = {
                 `userId=${parsedUserId}&text=${anecdoteText}&isAnon=${isAnonymous}&username=${parsedUsername}`);
             promise.then(
                 (response: any) => {
-                    // tslint:disable-next-line:no-console
-                    console.log('response', response);
+                    if (response.status === 200) {
+                        dispatch(Actions.finishSharingAnecdote());
+                    }
                 }
             );
+        };
+    },
+    // TODO: костыль
+    toggleFlag: () => {
+        return (dispatch: Dispatch) => {
+            dispatch(Actions.finishSharingAnecdote());
         };
     },
 };
