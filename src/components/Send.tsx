@@ -111,7 +111,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                 <PanelHeader>Предложить</PanelHeader>
                 <img
                     className="Persik"
-                    src={'./loader.gif'}
+                    src={'./send.png'}
                 />
                 <FormLayout
                     onSubmit={this.handleSubmit}
