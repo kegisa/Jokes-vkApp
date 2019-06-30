@@ -11,6 +11,7 @@ interface SendProps {
     uploadAnecdote: any;
     user?: FetchedUser;
     isAnecdoteShared: boolean;
+    toggleFlag: any;
 }
 
 interface SendState {
@@ -42,56 +43,59 @@ class SendComponent extends React.Component<SendProps, SendState> {
         e.preventDefault();
         const {anecdoteText, isAnonymous} = this.state;
         const {user} = this.props;
+        // tslint:disable-next-line:no-debugger
+        // debugger;
         if (!this.isAnecdoteTextTooShort() && !this.isAnecdoteTextTooLong()) {
             const userId = user ? user.id : null;
             const firstName = user ? user.first_name : null;
             const lastName = user ? user.last_name : null;
             this.props.uploadAnecdote &&
             this.props.uploadAnecdote(userId, anecdoteText, isAnonymous, `${firstName} ${lastName} `);
-            if (this.props.isAnecdoteShared) {
+            // TODO: process response from server;
+            this.setState({
+                    ...this.state,
+                    isSent: true,
+                    isTooShort: false,
+                    isTooLong: false,
+                    anecdoteText: '',
+                }
+            );
+            this.props.toggleFlag && this.props.toggleFlag();
+            setInterval(() => (
                 this.setState({
                         ...this.state,
-                        isSent: true,
-                        isTooShort: false,
-                        isTooLong: false,
-                        anecdoteText: '',
+                        isSent: false,
                     }
-                );
-                setInterval(() => (
-                    this.setState({
-                            ...this.state,
-                            isSent: false,
-                        }
-                    )), 5000
-                );
-            }
+                )), 5000
+            );
+
         }
     };
 
     isAnecdoteTextTooShort(): boolean {
-      if (this.state.anecdoteText.length < 10) {
-          this.setState({
-                  ...this.state,
-                  isTooShort: true,
-                  isTooLong: false,
-              }
-          );
-          return true;
-      }
-      return false;
+        if (this.state.anecdoteText.length < 10) {
+            this.setState({
+                    ...this.state,
+                    isTooShort: true,
+                    isTooLong: false,
+                }
+            );
+            return true;
+        }
+        return false;
     }
 
     isAnecdoteTextTooLong(): boolean {
-      if (this.state.anecdoteText.length > 1000) {
-          this.setState({
-                  ...this.state,
-                  isTooShort: false,
-                  isTooLong: true,
-              }
-          );
-          return true;
-      }
-      return false;
+        if (this.state.anecdoteText.length > 1000) {
+            this.setState({
+                    ...this.state,
+                    isTooShort: false,
+                    isTooLong: true,
+                }
+            );
+            return true;
+        }
+        return false;
     }
 
     handleTextAreaChange = (e: any) => {
@@ -166,6 +170,9 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch: DispatchThunk) => ({
     uploadAnecdote: (userId: string, anecdoteText: string, isAnonymous: boolean, username: string) => {
         dispatch(apiThunks.uploadAnecdote(userId, anecdoteText, isAnonymous, username));
+    },
+    toggleFlag: () => {
+        dispatch(apiThunks.toggleFlag());
     },
 });
 

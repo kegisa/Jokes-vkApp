@@ -103,7 +103,7 @@ export const Thunks = {
     // TODO: костыль
     toggleFlag: () => {
         return (dispatch: Dispatch) => {
-            dispatch(Actions.finishSharingAnecdote());
+            dispatch(Actions.startSharingAnecdote());
         };
     },
 };
