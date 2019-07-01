@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Group, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
+import {Avatar, Group, List, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
 import {Anecdote} from '../../components/anecdote/Anecdote';
 import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser, Thunks as appThunks} from '@store/app';
@@ -86,20 +86,24 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                     Лента
                 </PanelHeader>
                 <PullToRefresh
-                    onRefresh={this.onRefresh()}
+                    onRefresh={this.onRefresh}
                     isFetching={isJokesFetching}
                 >
-                    {
-                        jokes.map((joke: IAnecdote) =>
-                            <Anecdote
-                                key={joke.id}
-                                id={joke.id}
-                                joke={joke}
-                                likePressed={this.handleClick}
-                                repostPressed={this.handleRepost}
-                            />
-                        )
-                    }
+                    <Group>
+                        <List>
+                            {
+                                jokes.map((joke: IAnecdote) =>
+                                    <Anecdote
+                                        key={joke.id}
+                                        id={joke.id}
+                                        joke={joke}
+                                        likePressed={this.handleClick}
+                                        repostPressed={this.handleRepost}
+                                    />
+                                )
+                            }
+                        </List>
+                    </Group>
                 </PullToRefresh>
             </Panel>
 
