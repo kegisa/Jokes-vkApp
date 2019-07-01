@@ -5,10 +5,10 @@ import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser, Thunks as appThunks} from '@store/app';
 import {FetchedUser, IAnecdote} from '@models';
 import {connect} from 'react-redux';
-import {getFetching as getApiFetching, getJokes, Thunks as apiThunks} from '@store/api';
-import {FEED_VIEW} from '../../shared/GlobalConsts';
+import {getFetching as getApiFetching, getLikedAnecdotes, Thunks as apiThunks} from '@store/api';
+import {LIKE_VIEW} from '../../shared/GlobalConsts';
 
-interface FeedProps {
+interface LikeProps {
     id?: string;
     user?: FetchedUser;
     onLoadJokes: any;
@@ -18,12 +18,12 @@ interface FeedProps {
     isJokesFetching: boolean;
 }
 
-interface FeedState {
+interface LikeState {
     jokes: any;
     isFirstFetching: boolean;
 }
 
-class FeedComponent extends React.Component<FeedProps, FeedState> {
+class LikeComponent extends React.Component<LikeProps, LikeState> {
     state = {
         jokes: [],
         isFirstFetching: true,
@@ -34,6 +34,8 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         const userId = fetchedUser ? fetchedUser.id : null;
         if (this.props.jokes.length === 0) {
             this.props.onLoadJokes && this.props.onLoadJokes(userId);
+            // tslint:disable-next-line:no-console
+            console.log('foo!');
         }
         this.setState({
             ...this.state,
@@ -49,6 +51,12 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
 
     handleRepost = (joke: string) => {
         this.props.doRepost && this.props.doRepost(joke);
+    };
+
+    onRefresh = () => {
+        const fetchedUser = this.props.user;
+        const userId = fetchedUser ? fetchedUser.id : null;
+        this.props.onLoadJokes && this.props.onLoadJokes(userId);
     };
 
     renderUserInfo(): JSX.Element {
@@ -77,16 +85,10 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
             <></>;
     }
 
-    onRefresh = () => {
-        const fetchedUser = this.props.user;
-        const userId = fetchedUser ? fetchedUser.id : null;
-        this.props.onLoadJokes && this.props.onLoadJokes(userId);
-    };
-
     render() {
         const {isJokesFetching, jokes} = this.props;
         return (
-            <Panel id="feed">
+            <Panel id="like">
                 <PanelHeader>
                     Лента
                 </PanelHeader>
@@ -128,7 +130,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         user: getFetchedUser(state),
         isJokesFetching: getApiFetching(state),
-        jokes: getJokes(state),
+        jokes: getLikedAnecdotes(state),
     };
 };
 
@@ -137,14 +139,14 @@ const mapDispatchToProps = (dispatch: DispatchThunk) => ({
         dispatch(appThunks.getUserInfo());
     },
     onLoadJokes: (userId: string) => {
-        dispatch(apiThunks.getAnecdotes(userId));
+        dispatch(apiThunks.getLikedAnecdotes(userId));
     },
     toggleLike: (userId: string, anecdoteId: string) => {
-        dispatch(apiThunks.toggleLike(userId, anecdoteId, FEED_VIEW));
+        dispatch(apiThunks.toggleLike(userId, anecdoteId, LIKE_VIEW));
     },
     doRepost: (joke: string) => {
         dispatch(appThunks.wallPost(joke));
     },
 });
 
-export const Feed = connect(mapStateToProps, mapDispatchToProps)(FeedComponent);
+export const Like = connect(mapStateToProps, mapDispatchToProps)(LikeComponent);
