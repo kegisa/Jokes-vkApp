@@ -1,11 +1,11 @@
 import React from 'react';
-import { Avatar, Group, ListItem, Panel, PanelHeader, ScreenSpinner } from '@vkontakte/vkui';
-import { Anecdote } from '../../components/anecdote/Anecdote';
-import { DispatchThunk, RootState } from '@store';
-import { getFetchedUser, Thunks as appThunks } from '@store/app';
-import { FetchedUser, IAnecdote } from '@models';
-import { connect } from 'react-redux';
-import { getFetching as getApiFetching, getJokes, Thunks as apiThunks } from '@store/api';
+import {Avatar, Group, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
+import {Anecdote} from '../../components/anecdote/Anecdote';
+import {DispatchThunk, RootState} from '@store';
+import {getFetchedUser, Thunks as appThunks} from '@store/app';
+import {FetchedUser, IAnecdote} from '@models';
+import {connect} from 'react-redux';
+import {getFetching as getApiFetching, getJokes, Thunks as apiThunks} from '@store/api';
 
 interface FeedProps {
     id?: string;
@@ -27,7 +27,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         jokes: [],
         isFetching: true,
     }
-        ;
+    ;
 
     componentDidMount() {
         const fetchedUser = this.props.user;
@@ -46,7 +46,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
     };
 
     renderUserInfo(): JSX.Element {
-        const { user } = this.props;
+        const {user} = this.props;
         return user && user !== undefined ?
             (
                 <Group
@@ -55,7 +55,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                     <ListItem
                         before={
                             user.photo_200 ?
-                                <Avatar src={user.photo_200} /> :
+                                <Avatar src={user.photo_200}/> :
                                 null
                         }
                     >
@@ -71,24 +71,25 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
             <></>;
     }
 
+    onRefresh = () => {
+        const fetchedUser = this.props.user;
+        const userId = fetchedUser ? fetchedUser.id : null;
+        this.props.onLoadJokes && this.props.onLoadJokes(userId);
+    }
+
     render() {
-        const { isJokesFetching, jokes } = this.props;
+        const {isJokesFetching, jokes} = this.props;
+
         return (
             <Panel id="feed">
                 <PanelHeader>
                     Лента
                 </PanelHeader>
-                {
-                    isJokesFetching ?
-                        <div>
-                            <img className="loader" src={'./loader.gif'} />
-                        </div>
-                        /*<ScreenSpinner
-                            className="spinner"
-                            size="large"
-                            style={{ marginTop: 20 }}
-                        />*/
-                        :
+                <PullToRefresh
+                    onRefresh={this.onRefresh()}
+                    isFetching={isJokesFetching}
+                >
+                    {
                         jokes.map((joke: IAnecdote) =>
                             <Anecdote
                                 key={joke.id}
@@ -98,7 +99,8 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                                 repostPressed={this.handleRepost}
                             />
                         )
-                }
+                    }
+                </PullToRefresh>
             </Panel>
 
         );
