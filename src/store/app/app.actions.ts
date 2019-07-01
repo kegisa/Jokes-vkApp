@@ -30,8 +30,9 @@ export const Thunks = {
     },
     wallPost: (joke: string) => {
         return () => {
-            const text = `${joke} \n ${SIGNATURE}`;
-            connect.send('VKWebAppShowWallPostBox', {message: text, attachments: 'photo-83635163_456239105' });
+            const text = `${joke}\n${SIGNATURE}`;
+            connect.send('VKWebAppShowWallPostBox', {message: text,
+                attachments: 'https://vk.com/app7009416,photo-156898140_456239035' });
         };
     },
 };
