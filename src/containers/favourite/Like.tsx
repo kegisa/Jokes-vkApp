@@ -1,11 +1,11 @@
 import React from 'react';
-import { Avatar, Group, ListItem, Panel, PanelHeader, ScreenSpinner } from '@vkontakte/vkui';
-import { Anecdote } from '../components/anecdote/Anecdote';
-import { DispatchThunk, RootState } from '@store';
-import { getFetchedUser, Thunks as appThunks } from '@store/app';
-import { FetchedUser, IAnecdote } from '@models';
-import { connect } from 'react-redux';
-import { getFetching as getApiFetching, getJokes, Thunks as apiThunks } from '@store/api';
+import {Avatar, Group, List, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
+import {Anecdote} from '../../components/anecdote/Anecdote';
+import {DispatchThunk, RootState} from '@store';
+import {getFetchedUser, Thunks as appThunks} from '@store/app';
+import {FetchedUser, IAnecdote} from '@models';
+import {connect} from 'react-redux';
+import {getFetching as getApiFetching, getJokes, Thunks as apiThunks} from '@store/api';
 
 interface LikeProps {
     id?: string;
@@ -19,25 +19,30 @@ interface LikeProps {
 
 interface LikeState {
     jokes: any;
-    isFetching: boolean;
+    isFirstFetching: boolean;
 }
 
 class LikeComponent extends React.Component<LikeProps, LikeState> {
     state = {
         jokes: [],
-        isFetching: true,
-    }
-        ;
+        isFirstFetching: true,
+    };
 
     componentDidMount() {
         const fetchedUser = this.props.user;
-        const userId = fetchedUser && fetchedUser !== undefined ? fetchedUser.id : null;
-        this.props.onLoadJokes && this.props.onLoadJokes(userId);
+        const userId = fetchedUser ? fetchedUser.id : null;
+        if (this.props.jokes.length === 0) {
+            this.props.onLoadJokes && this.props.onLoadJokes(userId);
+        }
+        this.setState({
+            ...this.state,
+            isFirstFetching: false,
+        });
     }
 
     handleClick = (anekId: any) => {
         const fetchedUser = this.props.user;
-        const userId = fetchedUser && fetchedUser !== undefined ? fetchedUser.id : null;
+        const userId = fetchedUser ? fetchedUser.id : null;
         this.props.toggleLike && this.props.toggleLike(userId, anekId);
     };
 
@@ -45,9 +50,15 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
         this.props.doRepost && this.props.doRepost(joke);
     };
 
+    onRefresh = () => {
+        const fetchedUser = this.props.user;
+        const userId = fetchedUser ? fetchedUser.id : null;
+        this.props.onLoadJokes && this.props.onLoadJokes(userId);
+    };
+
     renderUserInfo(): JSX.Element {
-        const { user } = this.props;
-        return user && user !== undefined ?
+        const {user} = this.props;
+        return user ?
             (
                 <Group
                     title="User Data Fetched with VK Connect"
@@ -55,7 +66,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                     <ListItem
                         before={
                             user.photo_200 ?
-                                <Avatar src={user.photo_200} /> :
+                                <Avatar src={user.photo_200}/> :
                                 null
                         }
                     >
@@ -72,27 +83,38 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     }
 
     render() {
-        const { isJokesFetching, jokes } = this.props;
+        const {isJokesFetching, jokes} = this.props;
         return (
             <Panel id="like">
                 <PanelHeader>
                     Лента
                 </PanelHeader>
                 {
-                    isJokesFetching ?
+                    isJokesFetching && this.state.isFirstFetching ?
                         <div>
-                            <img className="loader" src={'./loader.gif'} />
+                            <img className="loader" src={'./loader.gif'}/>
                         </div>
                         :
-                        jokes.map((joke: IAnecdote) =>
-                            <Anecdote
-                                key={joke.id}
-                                id={joke.id}
-                                joke={joke}
-                                likePressed={this.handleClick}
-                                repostPressed={this.handleRepost}
-                            />
-                        )
+                        <PullToRefresh
+                            onRefresh={this.onRefresh}
+                            isFetching={isJokesFetching}
+                        >
+                            <Group>
+                                <List>
+                                    {
+                                        jokes.map((joke: IAnecdote) =>
+                                            <Anecdote
+                                                key={joke.id}
+                                                id={joke.id}
+                                                joke={joke}
+                                                likePressed={this.handleClick}
+                                                repostPressed={this.handleRepost}
+                                            />
+                                        )
+                                    }
+                                </List>
+                            </Group>
+                        </PullToRefresh>
                 }
             </Panel>
 

@@ -19,25 +19,30 @@ interface FeedProps {
 
 interface FeedState {
     jokes: any;
-    isFetching: boolean;
+    isFirstFetching: boolean;
 }
 
 class FeedComponent extends React.Component<FeedProps, FeedState> {
     state = {
         jokes: [],
-        isFetching: true,
-    }
-    ;
+        isFirstFetching: true,
+    };
 
     componentDidMount() {
         const fetchedUser = this.props.user;
-        const userId = fetchedUser && fetchedUser !== undefined ? fetchedUser.id : null;
-        this.props.onLoadJokes && this.props.onLoadJokes(userId);
+        const userId = fetchedUser ? fetchedUser.id : null;
+        if (this.props.jokes.length === 0) {
+            this.props.onLoadJokes && this.props.onLoadJokes(userId);
+        }
+        this.setState({
+            ...this.state,
+            isFirstFetching: false,
+        });
     }
 
     handleClick = (anekId: any) => {
         const fetchedUser = this.props.user;
-        const userId = fetchedUser && fetchedUser !== undefined ? fetchedUser.id : null;
+        const userId = fetchedUser ? fetchedUser.id : null;
         this.props.toggleLike && this.props.toggleLike(userId, anekId);
     };
 
@@ -47,7 +52,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
 
     renderUserInfo(): JSX.Element {
         const {user} = this.props;
-        return user && user !== undefined ?
+        return user ?
             (
                 <Group
                     title="User Data Fetched with VK Connect"
@@ -75,36 +80,42 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
         this.props.onLoadJokes && this.props.onLoadJokes(userId);
-    }
+    };
 
     render() {
         const {isJokesFetching, jokes} = this.props;
-
         return (
             <Panel id="feed">
                 <PanelHeader>
                     Лента
                 </PanelHeader>
-                <PullToRefresh
-                    onRefresh={this.onRefresh}
-                    isFetching={isJokesFetching}
-                >
-                    <Group>
-                        <List>
-                            {
-                                jokes.map((joke: IAnecdote) =>
-                                    <Anecdote
-                                        key={joke.id}
-                                        id={joke.id}
-                                        joke={joke}
-                                        likePressed={this.handleClick}
-                                        repostPressed={this.handleRepost}
-                                    />
-                                )
-                            }
-                        </List>
-                    </Group>
-                </PullToRefresh>
+                {
+                    isJokesFetching && this.state.isFirstFetching ?
+                        <div>
+                            <img className="loader" src={'./loader.gif'}/>
+                        </div>
+                        :
+                        <PullToRefresh
+                            onRefresh={this.onRefresh}
+                            isFetching={isJokesFetching}
+                        >
+                            <Group>
+                                <List>
+                                    {
+                                        jokes.map((joke: IAnecdote) =>
+                                            <Anecdote
+                                                key={joke.id}
+                                                id={joke.id}
+                                                joke={joke}
+                                                likePressed={this.handleClick}
+                                                repostPressed={this.handleRepost}
+                                            />
+                                        )
+                                    }
+                                </List>
+                            </Group>
+                        </PullToRefresh>
+                }
             </Panel>
 
         );

@@ -10,8 +10,8 @@ import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser, getFetching, Thunks as appThunks} from '@store/app';
 import {FetchedUser} from '@models';
 import {Feed} from './feed/Feed';
-import {Send} from '../components/Send';
-import {Like} from '../components/Like';
+import {Send} from './share/Send';
+import {Like} from './favourite/Like';
 
 interface MainProps {
     isFetching?: boolean;
