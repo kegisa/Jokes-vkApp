@@ -17,3 +17,8 @@ export const getAnecdoteShared = createSelector(
     getApi,
     apiState => apiState.isAnecdoteShared,
 );
+
+export const getLikedAnecdotes = createSelector(
+    getApi,
+    apiState => apiState.likedAnecdotes,
+);

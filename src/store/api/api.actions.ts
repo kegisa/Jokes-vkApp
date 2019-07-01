@@ -6,6 +6,8 @@ import {IAnecdote} from '@models';
 
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';
+export const START_FETCHING_LIKED_ANECDOTES = '[API] START_FETCHING_LIKED_ANECDOTES';
+export const FINISH_FETCHING_LIKED_ANECDOTES = '[API] FINISH_FETCHING_LIKED_ANECDOTES';
 export const TOGGLE_LIKE = '[API] TOGGLE_LIKE';
 export const START_ANECDOTE_SHARING = '[API] START_ANECDOTE_SHARING';
 export const FINISH_ANECDOTE_SHARING = '[API] FINISH_ANECDOTE_SHARING';
@@ -13,6 +15,8 @@ export const FINISH_ANECDOTE_SHARING = '[API] FINISH_ANECDOTE_SHARING';
 export const Actions = {
         startFetchingAnecdotes: () => createAction(START_FETCHING_ANECDOTES),
         finishFetchingAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
+        startFetchingLikedAnecdotes: () => createAction(START_FETCHING_LIKED_ANECDOTES),
+        finishFetchingLikedAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_LIKED_ANECDOTES, data),
         toggleLike: (anek: any) => createAction(TOGGLE_LIKE, anek),
         startSharingAnecdote: () => createAction(START_ANECDOTE_SHARING),
         finishSharingAnecdote: () => createAction(FINISH_ANECDOTE_SHARING),
@@ -43,7 +47,7 @@ export const Thunks = {
     },
     getLikedAnecdotes: (userId?: string) => {
         return (dispatch: Dispatch) => {
-            dispatch(Actions.startFetchingAnecdotes());
+            dispatch(Actions.startFetchingLikedAnecdotes());
             const id = userId && userId !== '' && userId !== undefined ?
                 userId
                 :
@@ -58,11 +62,11 @@ export const Thunks = {
                     }
                 );
                 data = data.filter(anecdote => anecdote !== undefined);
-                dispatch(Actions.finishFetchingAnecdotes(data));
+                dispatch(Actions.finishFetchingLikedAnecdotes(data));
             });
         };
     },
-    toggleLike: (userId: string, anecdoteId: string) => {
+    toggleLike: (userId: string, anecdoteId: string, currentView: string) => {
         return (dispatch: Dispatch) => {
             const parsedUserId = userId && userId !== '' && userId !== undefined ?
                 userId
@@ -72,7 +76,11 @@ export const Thunks = {
             const promise = axios.post(`${API_URL}likeswitch`, `user_id=${parsedUserId}&anek_id=${anecdoteId}`);
             promise.then(
                 (response: any) => {
-                    const anek = response.data[1];
+                    let anek = response.data[1];
+                    anek = {
+                        ...anek,
+                        currentView: currentView,
+                    };
                     dispatch(Actions.toggleLike(anek));
                 }
             );

@@ -6,6 +6,7 @@ import {getFetchedUser, Thunks as appThunks} from '@store/app';
 import {FetchedUser, IAnecdote} from '@models';
 import {connect} from 'react-redux';
 import {getFetching as getApiFetching, getJokes, Thunks as apiThunks} from '@store/api';
+import {FEED_VIEW} from '../../shared/GlobalConsts';
 
 interface FeedProps {
     id?: string;
@@ -139,7 +140,7 @@ const mapDispatchToProps = (dispatch: DispatchThunk) => ({
         dispatch(apiThunks.getAnecdotes(userId));
     },
     toggleLike: (userId: string, anecdoteId: string) => {
-        dispatch(apiThunks.toggleLike(userId, anecdoteId));
+        dispatch(apiThunks.toggleLike(userId, anecdoteId, FEED_VIEW));
     },
     doRepost: (joke: string) => {
         dispatch(appThunks.wallPost(joke));

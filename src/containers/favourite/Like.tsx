@@ -5,7 +5,8 @@ import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser, Thunks as appThunks} from '@store/app';
 import {FetchedUser, IAnecdote} from '@models';
 import {connect} from 'react-redux';
-import {getFetching as getApiFetching, getJokes, Thunks as apiThunks} from '@store/api';
+import {getFetching as getApiFetching, getLikedAnecdotes, Thunks as apiThunks} from '@store/api';
+import {LIKE_VIEW} from '../../shared/GlobalConsts';
 
 interface LikeProps {
     id?: string;
@@ -33,6 +34,8 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
         const userId = fetchedUser ? fetchedUser.id : null;
         if (this.props.jokes.length === 0) {
             this.props.onLoadJokes && this.props.onLoadJokes(userId);
+            // tslint:disable-next-line:no-console
+            console.log('foo!');
         }
         this.setState({
             ...this.state,
@@ -127,7 +130,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         user: getFetchedUser(state),
         isJokesFetching: getApiFetching(state),
-        jokes: getJokes(state),
+        jokes: getLikedAnecdotes(state),
     };
 };
 
@@ -139,7 +142,7 @@ const mapDispatchToProps = (dispatch: DispatchThunk) => ({
         dispatch(apiThunks.getLikedAnecdotes(userId));
     },
     toggleLike: (userId: string, anecdoteId: string) => {
-        dispatch(apiThunks.toggleLike(userId, anecdoteId));
+        dispatch(apiThunks.toggleLike(userId, anecdoteId, LIKE_VIEW));
     },
     doRepost: (joke: string) => {
         dispatch(appThunks.wallPost(joke));
