@@ -1,12 +1,12 @@
 import React from 'react';
-import {Avatar, Group, List, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
-import {Anecdote} from '../../components/anecdote/Anecdote';
-import {DispatchThunk, RootState} from '@store';
-import {getFetchedUser, Thunks as appThunks} from '@store/app';
-import {FetchedUser, IAnecdote} from '@models';
-import {connect} from 'react-redux';
-import {getFetching as getApiFetching, getLikedAnecdotes, Thunks as apiThunks} from '@store/api';
-import {LIKE_VIEW} from '../../shared/GlobalConsts';
+import { Avatar, Group, List, ListItem, Panel, PanelHeader, PullToRefresh } from '@vkontakte/vkui';
+import { Anecdote } from '../../components/anecdote/Anecdote';
+import { DispatchThunk, RootState } from '@store';
+import { getFetchedUser, Thunks as appThunks } from '@store/app';
+import { FetchedUser, IAnecdote } from '@models';
+import { connect } from 'react-redux';
+import { getFetching as getApiFetching, getLikedAnecdotes, Thunks as apiThunks } from '@store/api';
+import { LIKE_VIEW } from '../../shared/GlobalConsts';
 
 interface LikeProps {
     id?: string;
@@ -60,7 +60,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     };
 
     renderUserInfo(): JSX.Element {
-        const {user} = this.props;
+        const { user } = this.props;
         return user ?
             (
                 <Group
@@ -69,7 +69,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                     <ListItem
                         before={
                             user.photo_200 ?
-                                <Avatar src={user.photo_200}/> :
+                                <Avatar src={user.photo_200} /> :
                                 null
                         }
                     >
@@ -86,7 +86,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     }
 
     render() {
-        const {isJokesFetching, jokes} = this.props;
+        const { isJokesFetching, jokes } = this.props;
         return (
             <Panel id="like">
                 <PanelHeader>
@@ -95,28 +95,24 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                 {
                     isJokesFetching && this.state.isFirstFetching ?
                         <div>
-                            <img className="loader" src={'./loader.gif'}/>
+                            <img className="loader" src={'./loader.gif'} />
                         </div>
                         :
                         <PullToRefresh
                             onRefresh={this.onRefresh}
                             isFetching={isJokesFetching}
                         >
-                            <Group>
-                                <List>
-                                    {
-                                        jokes.map((joke: IAnecdote) =>
-                                            <Anecdote
-                                                key={joke.id}
-                                                id={joke.id}
-                                                joke={joke}
-                                                likePressed={this.handleClick}
-                                                repostPressed={this.handleRepost}
-                                            />
-                                        )
-                                    }
-                                </List>
-                            </Group>
+                            {
+                                jokes.map((joke: IAnecdote) =>
+                                    <Anecdote
+                                        key={joke.id}
+                                        id={joke.id}
+                                        joke={joke}
+                                        likePressed={this.handleClick}
+                                        repostPressed={this.handleRepost}
+                                    />
+                                )
+                            }
                         </PullToRefresh>
                 }
             </Panel>

@@ -100,8 +100,6 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                             onRefresh={this.onRefresh}
                             isFetching={isJokesFetching}
                         >
-                            <Group>
-                                <List>
                                     {
                                         jokes.map((joke: IAnecdote) =>
                                             <Anecdote
@@ -113,8 +111,6 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                                             />
                                         )
                                     }
-                                </List>
-                            </Group>
                         </PullToRefresh>
                 }
             </Panel>

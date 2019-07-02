@@ -206,10 +206,6 @@
     padding: 3% 3% 0% 3%;
 }
 
-.Panel__in {
-    padding-bottom: 10px;
-}
-
 .spinner {
     color: var(--snippet_border)
 }
