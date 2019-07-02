@@ -90,7 +90,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
         return (
             <Panel id="like">
                 <PanelHeader>
-                    Лента
+                    Любимые
                 </PanelHeader>
                 {
                     isJokesFetching && this.state.isFirstFetching ?
