@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {Avatar, Group, List, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
 import {Anecdote} from '../../components/anecdote/Anecdote';
 import {DispatchThunk, RootState} from '@store';
@@ -62,7 +63,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     };
 
     renderUserInfo(): JSX.Element {
-        const {user} = this.props;
+        const { user } = this.props;
         return user ?
             (
                 <Group
@@ -71,7 +72,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                     <ListItem
                         before={
                             user.photo_200 ?
-                                <Avatar src={user.photo_200}/> :
+                                <Avatar src={user.photo_200} /> :
                                 null
                         }
                     >
@@ -94,33 +95,29 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
         return (
             <Panel id="like">
                 <PanelHeader>
-                    Лента
+                    Любимые
                 </PanelHeader>
                 {
                     isJokesFetching && isFirstFetchingLikedStarted ?
                         <div>
-                            <img className="loader" src={'./loader.gif'}/>
+                            <img className="loader" src={'./loader.gif'} />
                         </div>
                         :
                         <PullToRefresh
                             onRefresh={this.onRefresh}
                             isFetching={isJokesFetching}
                         >
-                            <Group>
-                                <List>
-                                    {
-                                        jokes.map((joke: IAnecdote) =>
-                                            <Anecdote
-                                                key={joke.id}
-                                                id={joke.id}
-                                                joke={joke}
-                                                likePressed={this.handleClick}
-                                                repostPressed={this.handleRepost}
-                                            />
-                                        )
-                                    }
-                                </List>
-                            </Group>
+                            {
+                                jokes.map((joke: IAnecdote) =>
+                                    <Anecdote
+                                        key={joke.id}
+                                        id={joke.id}
+                                        joke={joke}
+                                        likePressed={this.handleClick}
+                                        repostPressed={this.handleRepost}
+                                    />
+                                )
+                            }
                         </PullToRefresh>
                 }
             </Panel>
