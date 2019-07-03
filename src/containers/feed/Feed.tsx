@@ -5,7 +5,7 @@ import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser, Thunks as appThunks} from '@store/app';
 import {FetchedUser, IAnecdote} from '@models';
 import {connect} from 'react-redux';
-import {getFetching as getApiFetching, getJokes, Thunks as apiThunks} from '@store/api';
+import {getFetching as getApiFetching, getIsFirstFetchingFeed, getJokes, Thunks as apiThunks} from '@store/api';
 import {FEED_VIEW} from '../../shared/GlobalConsts';
 
 interface FeedProps {
@@ -16,17 +16,16 @@ interface FeedProps {
     doRepost: any;
     jokes: any[];
     isJokesFetching: boolean;
+    isFirstFetchingFeedStarted: boolean;
 }
 
 interface FeedState {
     jokes: any;
-    isFirstFetching: boolean;
 }
 
 class FeedComponent extends React.Component<FeedProps, FeedState> {
     state = {
         jokes: [],
-        isFirstFetching: true,
     };
 
     componentDidMount() {
@@ -35,10 +34,6 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         if (this.props.jokes.length === 0) {
             this.props.onLoadJokes && this.props.onLoadJokes(userId);
         }
-        this.setState({
-            ...this.state,
-            isFirstFetching: false,
-        });
     }
 
     handleClick = (anekId: any) => {
@@ -91,7 +86,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                     Лента
                 </PanelHeader>
                 {
-                    isJokesFetching && this.state.isFirstFetching ?
+                    isJokesFetching && this.props.isFirstFetchingFeedStarted ?
                         <div>
                             <img className="loader" src={'./loader.gif'}/>
                         </div>
@@ -129,6 +124,7 @@ const mapStateToProps = (state: RootState) => {
         user: getFetchedUser(state),
         isJokesFetching: getApiFetching(state),
         jokes: getJokes(state),
+        isFirstFetchingFeedStarted: getIsFirstFetchingFeed(state),
     };
 };
 

@@ -5,7 +5,12 @@ import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser, Thunks as appThunks} from '@store/app';
 import {FetchedUser, IAnecdote} from '@models';
 import {connect} from 'react-redux';
-import {getFetching as getApiFetching, getLikedAnecdotes, Thunks as apiThunks} from '@store/api';
+import {
+    getFetching as getApiFetching,
+    getIsFirstFetchingLiked,
+    getLikedAnecdotes,
+    Thunks as apiThunks
+} from '@store/api';
 import {LIKE_VIEW} from '../../shared/GlobalConsts';
 
 interface LikeProps {
@@ -16,11 +21,11 @@ interface LikeProps {
     doRepost: any;
     jokes: any[];
     isJokesFetching: boolean;
+    isFirstFetchingLikedStarted: boolean;
 }
 
 interface LikeState {
     jokes: any;
-    isFirstFetching: boolean;
 }
 
 class LikeComponent extends React.Component<LikeProps, LikeState> {
@@ -30,17 +35,14 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     };
 
     componentDidMount() {
+        // tslint:disable-next-line:no-console
+        console.log('cdm liked this.props', this.props);
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
         if (this.props.jokes.length === 0) {
             this.props.onLoadJokes && this.props.onLoadJokes(userId);
-            // tslint:disable-next-line:no-console
-            console.log('foo!');
         }
-        this.setState({
-            ...this.state,
-            isFirstFetching: false,
-        });
+
     }
 
     handleClick = (anekId: any) => {
@@ -86,14 +88,16 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     }
 
     render() {
-        const {isJokesFetching, jokes} = this.props;
+        // tslint:disable-next-line:no-console
+        console.log('render liked this.props', this.props);
+        const {isJokesFetching, isFirstFetchingLikedStarted, jokes} = this.props;
         return (
             <Panel id="like">
                 <PanelHeader>
                     Лента
                 </PanelHeader>
                 {
-                    isJokesFetching && this.state.isFirstFetching ?
+                    isJokesFetching && isFirstFetchingLikedStarted ?
                         <div>
                             <img className="loader" src={'./loader.gif'}/>
                         </div>
@@ -131,6 +135,7 @@ const mapStateToProps = (state: RootState) => {
         user: getFetchedUser(state),
         isJokesFetching: getApiFetching(state),
         jokes: getLikedAnecdotes(state),
+        isFirstFetchingLikedStarted: getIsFirstFetchingLiked(state),
     };
 };
 

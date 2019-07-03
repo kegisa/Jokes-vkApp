@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {Epic, Tabbar, TabbarItem, View} from '@vkontakte/vkui';
 import {connect} from 'react-redux';
-import PanelSpinner from '@vkontakte/vkui/dist/components/PanelSpinner/PanelSpinner';
 import Icon28Favorite from '@vkontakte/icons/dist/28/favorite';
 import Icon28Send from '@vkontakte/icons/dist/28/send';
 import Icon28Newsfeed from '@vkontakte/icons/dist/28/newsfeed';
@@ -80,7 +79,10 @@ class MainComponent extends React.Component<MainProps, MainState> {
         return (
             <div>
                 {isFetching ?
-                    <PanelSpinner/> :
+                    <div>
+                        <img className="loader" src={'./loader.gif'}/>
+                    </div>
+                    :
                     <Epic
                         activeStory={this.state.activeStory}
                         tabbar={this.renderTabbar()}

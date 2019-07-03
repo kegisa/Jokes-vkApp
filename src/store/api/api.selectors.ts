@@ -22,3 +22,13 @@ export const getLikedAnecdotes = createSelector(
     getApi,
     apiState => apiState.likedAnecdotes,
 );
+
+export const getIsFirstFetchingFeed = createSelector(
+    getApi,
+    apiState => apiState.isFirstFetchingFeedStarted,
+);
+
+export const getIsFirstFetchingLiked = createSelector(
+    getApi,
+    apiState => apiState.isFirstFetchingLikedStarted,
+);

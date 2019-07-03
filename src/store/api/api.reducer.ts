@@ -7,13 +7,17 @@ export interface ApiState {
     jokes: IAnecdote[];
     likedAnecdotes: IAnecdote[];
     isAnecdoteShared: boolean;
+    isFirstFetchingFeedStarted: boolean;
+    isFirstFetchingLikedStarted: boolean;
 }
 
 const initialState: ApiState = {
     isFetching: false,
     jokes: [],
+    isFirstFetchingFeedStarted: true,
     likedAnecdotes: [],
     isAnecdoteShared: false,
+    isFirstFetchingLikedStarted: true,
 };
 
 export const apiReducer = (
@@ -31,6 +35,7 @@ export const apiReducer = (
                 ...state,
                 isFetching: false,
                 jokes: action.payload,
+                isFirstFetchingFeedStarted: false,
             };
         case apiActions.START_FETCHING_LIKED_ANECDOTES:
             return {
@@ -42,6 +47,7 @@ export const apiReducer = (
                 ...state,
                 isFetching: false,
                 likedAnecdotes: action.payload,
+                isFirstFetchingLikedStarted: false,
             };
         case apiActions.TOGGLE_LIKE:
 
