@@ -36,6 +36,8 @@ class MainComponent extends React.Component<MainProps, MainState> {
 
     componentDidMount() {
         this.props.onLoadUserInfo && this.props.onLoadUserInfo();
+        const img = new Image();
+        img.src = './send.png';
     }
 
     renderTabbar(): JSX.Element {
