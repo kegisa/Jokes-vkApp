@@ -119,13 +119,13 @@ class SendComponent extends React.Component<SendProps, SendState> {
                     {
                         this.state.isTooShort &&
                         <FormStatus title="Анекдот слишком короткий" state="error">
-                            Возможно ты не дописал.
+                            Возможно Вы не дописали.
                         </FormStatus>
                     }
                     {
                         this.state.isTooLong &&
                         <FormStatus title="Анекдот слишком длинный" state="error">
-                            Постарайся сократить анекдот и попробуй еще раз.
+                            Постарайтесь сократить свой анекдот до 1000 символов и попробуйте еще раз.
                         </FormStatus>
                     }
                     {
@@ -135,8 +135,8 @@ class SendComponent extends React.Component<SendProps, SendState> {
                         </FormStatus>
                     }
                     <Textarea
-                        top="Мы просим тебя, пожалуйста,
-                        проверь пунктуацию и ошибки, пусть твои анекдоты будет приятнее читать."
+                        top="Мы просим Вас, пожалуйста,
+                        проверьте пунктуацию и ошибки, пусть Ваши анекдоты будет приятнее читать."
                         placeholder="Анекдоты начинаются здесь"
                         value={this.state.anecdoteText}
                         onChange={this.handleTextAreaChange}
