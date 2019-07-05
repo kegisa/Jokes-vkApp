@@ -136,7 +136,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                     }
                     <Textarea
                         top="Мы просим Вас, пожалуйста,
-                        проверьте пунктуацию и ошибки, пусть ваши анекдоты будет приятнее читать."
+                        проверьте пунктуацию и ошибки, пусть Ваши анекдоты будет приятнее читать."
                         placeholder="Анекдоты начинаются здесь"
                         value={this.state.anecdoteText}
                         onChange={this.handleTextAreaChange}
