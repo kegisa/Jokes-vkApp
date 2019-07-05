@@ -1,18 +1,18 @@
 import React from 'react';
 
-import {Avatar, Group, List, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
-import {Anecdote} from '../../components/anecdote/Anecdote';
-import {DispatchThunk, RootState} from '@store';
-import {getFetchedUser, Thunks as appThunks} from '@store/app';
-import {FetchedUser, IAnecdote} from '@models';
-import {connect} from 'react-redux';
+import { Avatar, Group, FormStatus, ListItem, Panel, PanelHeader, PullToRefresh } from '@vkontakte/vkui';
+import { Anecdote } from '../../components/anecdote/Anecdote';
+import { DispatchThunk, RootState } from '@store';
+import { getFetchedUser, Thunks as appThunks } from '@store/app';
+import { FetchedUser, IAnecdote } from '@models';
+import { connect } from 'react-redux';
 import {
     getFetching as getApiFetching,
     getIsFirstFetchingLiked,
     getLikedAnecdotes,
     Thunks as apiThunks
 } from '@store/api';
-import {LIKE_VIEW} from '../../shared/GlobalConsts';
+import { LIKE_VIEW } from '../../shared/GlobalConsts';
 
 interface LikeProps {
     id?: string;
@@ -91,7 +91,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     render() {
         // tslint:disable-next-line:no-console
         console.log('render liked this.props', this.props);
-        const {isJokesFetching, isFirstFetchingLikedStarted, jokes} = this.props;
+        const { isJokesFetching, isFirstFetchingLikedStarted, jokes } = this.props;
         return (
             <Panel id="like">
                 <PanelHeader>
@@ -108,15 +108,20 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                             isFetching={isJokesFetching}
                         >
                             {
-                                jokes.map((joke: IAnecdote) =>
-                                    <Anecdote
-                                        key={joke.id}
-                                        id={joke.id}
-                                        joke={joke}
-                                        likePressed={this.handleClick}
-                                        repostPressed={this.handleRepost}
-                                    />
-                                )
+                                jokes.length > 0 ?
+                                    jokes.map((joke: IAnecdote) =>
+                                        <Anecdote
+                                            key={joke.id}
+                                            id={joke.id}
+                                            joke={joke}
+                                            likePressed={this.handleClick}
+                                            repostPressed={this.handleRepost}
+                                        />
+                                    )
+                                    :
+                                    <div className="haveNotLiked">
+                                        У Вас пока нет любимых анекдотов, обязательно исправьте это, посетив ленту.
+                                    </div>
                             }
                         </PullToRefresh>
                 }
