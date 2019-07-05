@@ -44,7 +44,7 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
                             size="xl"
                             onClick={() => likePressed(joke.id)}
                         >
-                            {joke.likes}
+                            {joke.likes + ''}
                         </Button>
                     }
                     before={
