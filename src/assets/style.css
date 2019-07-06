@@ -232,7 +232,8 @@
     white-space: pre-wrap;
 }
 .haveNotLiked{
-    margin: 20px auto;
+    padding: 2%;
+    margin: 40px auto;
     text-align: center;
     color: var(--panel_tab_active_text);
 }
