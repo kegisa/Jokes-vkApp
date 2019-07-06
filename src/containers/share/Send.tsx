@@ -18,6 +18,7 @@ interface SendState {
     isAnonymous: boolean;
     isTooShort: boolean;
     isTooLong: boolean;
+    isUnvalidFormat: boolean;
     anecdoteText: string;
     isSent: boolean;
 }
@@ -27,6 +28,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
         isAnonymous: true,
         isTooShort: false,
         isTooLong: false,
+        isUnvalidFormat: false,
         anecdoteText: '',
         isSent: false,
     };
@@ -45,7 +47,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
         const {user} = this.props;
         // tslint:disable-next-line:no-debugger
         // debugger;
-        if (!this.isAnecdoteTextTooShort() && !this.isAnecdoteTextTooLong()) {
+        if (!this.isAnecdoteTextTooShort() && !this.isAnecdoteTextTooLong() && !this.isAnecdoteUnvalidFormat()) {
             const userId = user ? user.id : null;
             const firstName = user ? user.first_name : null;
             const lastName = user ? user.last_name : null;
@@ -57,6 +59,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                     isSent: true,
                     isTooShort: false,
                     isTooLong: false,
+                    isUnvalidFormat: false,
                     anecdoteText: '',
                 }
             );
@@ -66,7 +69,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                         ...this.state,
                         isSent: false,
                     }
-                )), 10000
+                )), 6000
             );
 
         }
@@ -76,6 +79,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
         if (this.state.anecdoteText.length < 10) {
             this.setState({
                     ...this.state,
+                    isUnvalidFormat: false,
                     isTooShort: true,
                     isTooLong: false,
                 }
@@ -89,10 +93,24 @@ class SendComponent extends React.Component<SendProps, SendState> {
         if (this.state.anecdoteText.length > 1000) {
             this.setState({
                     ...this.state,
+                    isUnvalidFormat: false,
                     isTooShort: false,
                     isTooLong: true,
                 }
             );
+            return true;
+        }
+        return false;
+    }
+    isAnecdoteUnvalidFormat(): boolean {
+        const match = this.state.anecdoteText.match(/[а-яёa-z]{1,25}/gi);
+        if (match == null || (match != null && match.length < 2)) {
+            this.setState({
+                ...this.state,
+                isTooShort: false,
+                isTooLong: false,
+                isUnvalidFormat: true,
+            });
             return true;
         }
         return false;
@@ -116,6 +134,12 @@ class SendComponent extends React.Component<SendProps, SendState> {
                 <FormLayout
                     onSubmit={this.handleSubmit}
                 >
+                    {
+                        this.state.isUnvalidFormat &&
+                        <FormStatus title="Кажется это не анекдот" state="error">
+                            Возможно, Вы не дописали.
+                        </FormStatus>
+                    }
                     {
                         this.state.isTooShort &&
                         <FormStatus title="Анекдот слишком короткий" state="error">
