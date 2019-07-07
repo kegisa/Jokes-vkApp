@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://privalou.github.io/vkApps/",
+  "homepage": "https://kegisa.github.io/testVK/",
   "scripts": {
     "start": "cross-env PORT=10888 react-scripts-ts start",
     "build": "react-scripts-ts build",

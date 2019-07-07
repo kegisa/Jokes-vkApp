@@ -18,7 +18,7 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
     return (
         <Group className="post" key={joke.id}>
             <List>
-                <Cell multiline={true}>
+                <Cell multiline={true} style={{ 'user-select': 'text' }}>
                     <div className="mlCell">
                         {joke.joke}
                     </div>
