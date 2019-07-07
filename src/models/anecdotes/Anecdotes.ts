@@ -4,4 +4,5 @@ export interface IAnecdote {
     joke: string;
     isLiked: boolean;
     likes: number;
+    author: string;
 }

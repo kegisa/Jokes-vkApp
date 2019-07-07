@@ -165,12 +165,12 @@ class SendComponent extends React.Component<SendProps, SendState> {
                         value={this.state.anecdoteText}
                         onChange={this.handleTextAreaChange}
                     />
-                    {/* <Checkbox
+                    { <Checkbox
                         value={this.state.isAnonymous}
                         onChange={this.changeAnonymousStatus}
                     >
                         Анонимно
-                    </Checkbox> */}
+                    </Checkbox> }
                     <Button
                         size="xl"
                         level="secondary"
