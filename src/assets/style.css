@@ -238,3 +238,6 @@
     text-align: center;
     color: var(--panel_tab_active_text);
 }
+.author{
+    text-align: right;
+}
