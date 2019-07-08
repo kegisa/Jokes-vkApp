@@ -79,8 +79,6 @@ export const Thunks = {
                 );
             promise.then(
                 (response: any) => {
-                    // tslint:disable-next-line:no-console
-                    console.log('response', response);
                     let anek = response.data[1];
                     anek = {
                         ...anek,

@@ -11,6 +11,7 @@ import {FetchedUser} from '@models';
 import {Feed} from './feed/Feed';
 import {Send} from './share/Send';
 import {Like} from './favourite/Like';
+import {IS_DEV_MODE} from '../shared/GlobalConsts';
 
 interface MainProps {
     isFetching?: boolean;
@@ -76,8 +77,12 @@ class MainComponent extends React.Component<MainProps, MainState> {
 
     render() {
         const {user} = this.props;
-        // const {isFetching} = this.props;
-        const isFetching = false;
+        let isFetching: boolean | undefined;
+        if (IS_DEV_MODE) {
+            isFetching = false;
+        } else {
+            isFetching = this.props.isFetching;
+        }
         return (
             <div>
                 {isFetching ?

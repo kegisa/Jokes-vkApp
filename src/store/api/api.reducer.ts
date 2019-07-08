@@ -50,14 +50,8 @@ export const apiReducer = (
                 isFirstFetchingLikedStarted: false,
             };
         case apiActions.TOGGLE_LIKE:
-            // tslint:disable-next-line:no-console
-            console.log('action.payload', action.payload);
             const anekId = parseInt(action.payload.anek, 10);
-            // tslint:disable-next-line:no-console
-            console.log('anekId', anekId);
             const isLiked = action.payload.status === 'on';
-            // tslint:disable-next-line:no-console
-            console.log('isLiked', isLiked);
             const currentView = action.payload.currentView;
             const anecdoteType = currentView === FEED_VIEW ? 'jokes' : 'likedAnecdotes';
             const jokes = state[anecdoteType].map(anecdote => {
@@ -70,8 +64,6 @@ export const apiReducer = (
                 }
                 return anecdote;
             });
-            // tslint:disable-next-line:no-console
-            console.log('state', state);
             return {
                 ...state,
                 [anecdoteType]: jokes,

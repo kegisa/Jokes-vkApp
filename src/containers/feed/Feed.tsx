@@ -2,11 +2,11 @@ import React from 'react';
 import {Avatar, Group, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
 import {Anecdote} from '../../components/anecdote/Anecdote';
 import {DispatchThunk, RootState} from '@store';
-import {getFetchedUser, Thunks as appThunks} from '@store/app';
+import {getFeedScrollPosition, getFetchedUser, Thunks as appThunks} from '@store/app';
 import {FetchedUser, IAnecdote} from '@models';
 import {connect} from 'react-redux';
 import {getFetching as getApiFetching, getIsFirstFetchingFeed, getJokes, Thunks as apiThunks} from '@store/api';
-import {FEED_VIEW} from '../../shared/GlobalConsts';
+import {FEED_SCROLL, FEED_VIEW} from '../../shared/GlobalConsts';
 
 interface FeedProps {
     id?: string;
@@ -17,6 +17,8 @@ interface FeedProps {
     jokes: any[];
     isJokesFetching: boolean;
     isFirstFetchingFeedStarted: boolean;
+    onSaveScroll: any;
+    scrollPosition: number;
 }
 
 interface FeedState {
@@ -34,6 +36,11 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         if (this.props.jokes.length === 0) {
             this.props.onLoadJokes && this.props.onLoadJokes(userId);
         }
+        window.scrollTo(0, this.props.scrollPosition);
+    }
+
+    componentWillUnmount(): void {
+        this.props.onSaveScroll && this.props.onSaveScroll(window.scrollY);
     }
 
     handleClick = (anekId: any) => {
@@ -126,6 +133,7 @@ const mapStateToProps = (state: RootState) => {
         isJokesFetching: getApiFetching(state),
         jokes: getJokes(state),
         isFirstFetchingFeedStarted: getIsFirstFetchingFeed(state),
+        scrollPosition: getFeedScrollPosition(state),
     };
 };
 
@@ -141,6 +149,9 @@ const mapDispatchToProps = (dispatch: DispatchThunk) => ({
     },
     doRepost: (joke: string) => {
         dispatch(appThunks.wallPost(joke));
+    },
+    onSaveScroll: (scrollPosition: number) => {
+        dispatch(appThunks.saveScrollPosition(scrollPosition, FEED_SCROLL));
     },
 });
 

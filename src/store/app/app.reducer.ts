@@ -4,11 +4,15 @@ import {FetchedUser} from '@models';
 export interface AppState {
     isFetching: boolean;
     fetchedUser: FetchedUser | null;
+    feedScrollPosition: number;
+    likeScrollPosition: number;
 }
 
 const initialState: AppState = {
     isFetching: false,
     fetchedUser: null,
+    feedScrollPosition: 0,
+    likeScrollPosition: 0,
 };
 
 export const appReducer = (
@@ -29,5 +33,11 @@ export const appReducer = (
             };
         default:
             return state;
+        case appActions.SAVE_SCROLL_POSITION:
+            const scrollName = `${action.payload.view}ScrollPosition`;
+            return {
+                ...state,
+                [scrollName]: action.payload.scrollPosition,
+            };
     }
 };
