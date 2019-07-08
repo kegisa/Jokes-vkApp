@@ -217,12 +217,14 @@
     min-width: 270px;
     margin: 0 auto;
 }
-.loader{
+
+.loader {
     display: block;
     width: 20%;
     min-width: 100px;
     margin: 20px auto;
 }
+
 .likes {
     transition: background 9999999s;
     color: #F18407;
@@ -232,12 +234,14 @@
     white-space: pre-wrap;
     user-select: text;
 }
-.haveNotLiked{
+
+.haveNotLiked {
     padding: 2%;
     margin: 40px auto;
     text-align: center;
     color: var(--panel_tab_active_text);
 }
-.author{
+
+.author {
     text-align: right;
 }
