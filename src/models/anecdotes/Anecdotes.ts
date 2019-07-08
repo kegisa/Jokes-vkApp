@@ -5,4 +5,5 @@ export interface IAnecdote {
     isLiked: boolean;
     likes: number;
     author: string;
+    authorId: string;
 }

@@ -1,9 +1,10 @@
-import React, {FunctionComponent} from 'react';
-import {Button, Cell, Group, List} from '@vkontakte/vkui';
+import React, { FunctionComponent } from 'react';
+import { Button, Cell, Group, List } from '@vkontakte/vkui';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon16LikeOutline from '@vkontakte/icons/dist/16/like_outline';
 import Icon16ReplyOutline from '@vkontakte/icons/dist/16/reply_outline';
-import {IAnecdote} from '@models';
+import {API_URL, HREF_AUTHOR} from '../../shared/GlobalConsts';
+import { IAnecdote } from '@models';
 import '../../assets/style.css';
 
 interface Props {
@@ -14,13 +15,16 @@ interface Props {
 }
 
 const AnecdoteComponent: FunctionComponent<Props> = props => {
-    const {id, joke, likePressed, repostPressed} = props;
+    const { id, joke, likePressed, repostPressed } = props;
     return (
         <Group className="post" key={joke.id}>
             <List>
                 <Cell
                     multiline={true}
-                    description={joke.author !== 'anon' && <div className="author">{`Автор: ${joke.author}`}</div>}
+                    description={joke.author !== 'anon' &&
+                        <div className="author">
+                            <a className="refId" href={`${HREF_AUTHOR}${joke.authorId}`}>{`Автор: ${joke.author}`}</a>
+                        </div>}
                 >
                     <div className="mlCell">
                         {joke.joke}
@@ -40,9 +44,9 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
 
                                 joke.isLiked ?
 
-                                    <Icon16Like id={joke.id}/>
+                                    <Icon16Like id={joke.id} />
                                     :
-                                    <Icon16LikeOutline id={joke.id}/>
+                                    <Icon16LikeOutline id={joke.id} />
                             }
                             size="xl"
                             onClick={() => likePressed(joke.id)}
@@ -54,7 +58,7 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
                         <Button
                             className="likes"
                             level="tertiary"
-                            after={<Icon16ReplyOutline/>}
+                            after={<Icon16ReplyOutline />}
                             size="xl"
                             onClick={() => repostPressed(joke.joke)}
                         />
