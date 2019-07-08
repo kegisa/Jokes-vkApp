@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Group, List, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
+import {Avatar, Group, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
 import {Anecdote} from '../../components/anecdote/Anecdote';
 import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser, Thunks as appThunks} from '@store/app';
@@ -95,17 +95,22 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                             onRefresh={this.onRefresh}
                             isFetching={isJokesFetching}
                         >
-                                    {
-                                        jokes.map((joke: IAnecdote) =>
-                                            <Anecdote
-                                                key={joke.id}
-                                                id={joke.id}
-                                                joke={joke}
-                                                likePressed={this.handleClick}
-                                                repostPressed={this.handleRepost}
-                                            />
-                                        )
-                                    }
+                            {
+                                jokes.length > 0 ?
+                                    jokes.map((joke: IAnecdote) =>
+                                        <Anecdote
+                                            key={joke.id}
+                                            id={joke.id}
+                                            joke={joke}
+                                            likePressed={this.handleClick}
+                                            repostPressed={this.handleRepost}
+                                        />
+                                    )
+                                    :
+                                    <div className="haveNotLiked">
+                                        Анекдоты пока не завезли.
+                                    </div>
+                            }
                         </PullToRefresh>
                 }
             </Panel>

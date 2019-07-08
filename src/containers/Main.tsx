@@ -76,8 +76,8 @@ class MainComponent extends React.Component<MainProps, MainState> {
 
     render() {
         const {user} = this.props;
-        const {isFetching} = this.props;
-        // const isFetching = false;
+        // const {isFetching} = this.props;
+        const isFetching = false;
         return (
             <div>
                 {isFetching ?

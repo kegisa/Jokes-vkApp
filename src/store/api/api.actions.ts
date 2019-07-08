@@ -1,8 +1,8 @@
-import axios from 'axios';
 import {ActionsUnion, createAction} from '@store/actions-helpers';
 import {Dispatch} from 'redux';
 import {API_URL} from '../../shared/GlobalConsts';
 import {IAnecdote} from '@models';
+import {customAxiosRequest} from '../../shared/wrappers/axios';
 
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';
@@ -31,7 +31,7 @@ export const Thunks = {
                 userId
                 :
                 '99444331';
-            const promise = axios.get(`${API_URL}db?user_id=${id}`);
+            const promise = customAxiosRequest().get(`${API_URL}db?user_id=${id}`);
             promise.then((response: any) => {
                 let data = response.data.map(
                     (anecdote: any) => {
@@ -52,7 +52,7 @@ export const Thunks = {
                 userId
                 :
                 '99444331';
-            const promise = axios.get(`${API_URL}getlikes?user_id=${id}`);
+            const promise = customAxiosRequest().get(`${API_URL}getlikes?user_id=${id}`);
             promise.then((response: any) => {
                 let data = response.data.map(
                     (anecdote: any) => {
@@ -73,9 +73,14 @@ export const Thunks = {
                 :
                 '99444331';
 
-            const promise = axios.post(`${API_URL}likeswitch`, `user_id=${parsedUserId}&anek_id=${anecdoteId}`);
+            const promise = customAxiosRequest()
+                .post(`${API_URL}likeswitch`,
+                    `user_id=${parsedUserId}&anek_id=${anecdoteId}`
+                );
             promise.then(
                 (response: any) => {
+                    // tslint:disable-next-line:no-console
+                    console.log('response', response);
                     let anek = response.data[1];
                     anek = {
                         ...anek,
@@ -96,7 +101,7 @@ export const Thunks = {
                 username
                 :
                 'test';
-            const promise = axios.post(
+            const promise = customAxiosRequest().post(
                 `${API_URL}suggest`,
                 `userId=${parsedUserId}&text=${anecdoteText}&isAnon=${isAnonymous}&username=${parsedUsername}`);
             promise.then(
