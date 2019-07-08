@@ -1,18 +1,18 @@
 import React from 'react';
 
-import { Avatar, Group, FormStatus, ListItem, Panel, PanelHeader, PullToRefresh } from '@vkontakte/vkui';
-import { Anecdote } from '../../components/anecdote/Anecdote';
-import { DispatchThunk, RootState } from '@store';
-import { getFetchedUser, Thunks as appThunks } from '@store/app';
-import { FetchedUser, IAnecdote } from '@models';
-import { connect } from 'react-redux';
+import {Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
+import {Anecdote} from '../../components/anecdote/Anecdote';
+import {DispatchThunk, RootState} from '@store';
+import {getFetchedUser, getLikeScrollPosition, Thunks as appThunks} from '@store/app';
+import {FetchedUser, IAnecdote} from '@models';
+import {connect} from 'react-redux';
 import {
     getFetching as getApiFetching,
     getIsFirstFetchingLiked,
     getLikedAnecdotes,
     Thunks as apiThunks
 } from '@store/api';
-import { LIKE_VIEW } from '../../shared/GlobalConsts';
+import {LIKE_SCROLL, LIKE_VIEW} from '../../shared/GlobalConsts';
 
 interface LikeProps {
     id?: string;
@@ -23,6 +23,8 @@ interface LikeProps {
     jokes: any[];
     isJokesFetching: boolean;
     isFirstFetchingLikedStarted: boolean;
+    onSaveScroll: any;
+    scrollPosition: number;
 }
 
 interface LikeState {
@@ -36,14 +38,20 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     };
 
     componentDidMount() {
-        // tslint:disable-next-line:no-console
-        console.log('cdm liked this.props', this.props);
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
         if (this.props.jokes.length === 0) {
             this.props.onLoadJokes && this.props.onLoadJokes(userId);
         }
+        // tslint:disable-next-line:no-console
+        console.log('like cdm this.props.scrollPosition', this.props.scrollPosition);
+        window.scrollTo(0, this.props.scrollPosition);
+    }
 
+    componentWillUnmount(): void {
+        // tslint:disable-next-line:no-console
+        console.log('like cwu window.scrollY', window.scrollY);
+        this.props.onSaveScroll && this.props.onSaveScroll(window.scrollY);
     }
 
     handleClick = (anekId: any) => {
@@ -62,36 +70,8 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
         this.props.onLoadJokes && this.props.onLoadJokes(userId);
     };
 
-    renderUserInfo(): JSX.Element {
-        const { user } = this.props;
-        return user ?
-            (
-                <Group
-                    title="User Data Fetched with VK Connect"
-                >
-                    <ListItem
-                        before={
-                            user.photo_200 ?
-                                <Avatar src={user.photo_200} /> :
-                                null
-                        }
-                    >
-                        {
-                            `${user.first_name}
-                                ${user.last_name}
-                                ${user.id}
-                                ${user.city.title ? user.city.title : ''}`}
-                    </ListItem>
-                </Group>
-            )
-            :
-            <></>;
-    }
-
     render() {
-        // tslint:disable-next-line:no-console
-        console.log('render liked this.props', this.props);
-        const { isJokesFetching, isFirstFetchingLikedStarted, jokes } = this.props;
+        const {isJokesFetching, isFirstFetchingLikedStarted, jokes} = this.props;
         return (
             <Panel id="like">
                 <PanelHeader>
@@ -100,7 +80,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                 {
                     isJokesFetching && isFirstFetchingLikedStarted ?
                         <div>
-                            <img className="loader" src={'./loader.gif'} />
+                            <img className="loader" src={'./loader.gif'}/>
                         </div>
                         :
                         <PullToRefresh
@@ -138,6 +118,7 @@ const mapStateToProps = (state: RootState) => {
         isJokesFetching: getApiFetching(state),
         jokes: getLikedAnecdotes(state),
         isFirstFetchingLikedStarted: getIsFirstFetchingLiked(state),
+        scrollPosition: getLikeScrollPosition(state),
     };
 };
 
@@ -153,6 +134,9 @@ const mapDispatchToProps = (dispatch: DispatchThunk) => ({
     },
     doRepost: (joke: string) => {
         dispatch(appThunks.wallPost(joke));
+    },
+    onSaveScroll: (scrollPosition: number) => {
+        dispatch(appThunks.saveScrollPosition(scrollPosition, LIKE_SCROLL));
     },
 });
 

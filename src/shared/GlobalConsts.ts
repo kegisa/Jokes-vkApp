@@ -3,3 +3,9 @@ export const SIGNATURE = 'Больше анекдотов здесь -> https://
 
 export const FEED_VIEW = 'FEED_VIEW';
 export const LIKE_VIEW = 'LIKE_VIEW';
+
+export const FEED_SCROLL = 'feed';
+export const LIKE_SCROLL = 'like';
+
+// export const IS_DEV_MODE = true;
+export const IS_DEV_MODE = false;

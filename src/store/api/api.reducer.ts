@@ -50,7 +50,6 @@ export const apiReducer = (
                 isFirstFetchingLikedStarted: false,
             };
         case apiActions.TOGGLE_LIKE:
-
             const anekId = parseInt(action.payload.anek, 10);
             const isLiked = action.payload.status === 'on';
             const currentView = action.payload.currentView;
