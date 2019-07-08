@@ -102,6 +102,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
         }
         return false;
     }
+
     isAnecdoteUnvalidFormat(): boolean {
         const match = this.state.anecdoteText.match(/[а-яёa-z]{1,25}/gi);
         if (match == null || (match != null && match.length < 2)) {
@@ -165,12 +166,12 @@ class SendComponent extends React.Component<SendProps, SendState> {
                         value={this.state.anecdoteText}
                         onChange={this.handleTextAreaChange}
                     />
-                    { <Checkbox
+                    {<Checkbox
                         value={this.state.isAnonymous}
                         onChange={this.changeAnonymousStatus}
                     >
                         Анонимно
-                    </Checkbox> }
+                    </Checkbox>}
                     <Button
                         size="xl"
                         level="secondary"
