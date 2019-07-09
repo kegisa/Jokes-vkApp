@@ -40,17 +40,11 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     componentDidMount() {
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
-        if (this.props.jokes.length === 0) {
-            this.props.onLoadJokes && this.props.onLoadJokes(userId);
-        }
-        // tslint:disable-next-line:no-console
-        console.log('like cdm this.props.scrollPosition', this.props.scrollPosition);
+        this.props.onLoadJokes && this.props.onLoadJokes(userId);
         window.scrollTo(0, this.props.scrollPosition);
     }
 
     componentWillUnmount(): void {
-        // tslint:disable-next-line:no-console
-        console.log('like cwu window.scrollY', window.scrollY);
         this.props.onSaveScroll && this.props.onSaveScroll(window.scrollY);
     }
 

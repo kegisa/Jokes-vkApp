@@ -33,9 +33,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
     componentDidMount() {
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
-        if (this.props.jokes.length === 0) {
-            this.props.onLoadJokes && this.props.onLoadJokes(userId);
-        }
+        this.props.onLoadJokes && this.props.onLoadJokes(userId);
         window.scrollTo(0, this.props.scrollPosition);
     }
 

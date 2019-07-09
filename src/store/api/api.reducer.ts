@@ -52,9 +52,17 @@ export const apiReducer = (
         case apiActions.TOGGLE_LIKE:
             const anekId = parseInt(action.payload.anek, 10);
             const isLiked = action.payload.status === 'on';
-            const currentView = action.payload.currentView;
-            const anecdoteType = currentView === FEED_VIEW ? 'jokes' : 'likedAnecdotes';
-            const jokes = state[anecdoteType].map(anecdote => {
+            const jokes = state.jokes.map(anecdote => {
+                if (anecdote.id === anekId) {
+                    return {
+                        ...anecdote,
+                        isLiked: isLiked,
+                        likes: isLiked ? anecdote.likes + 1 : anecdote.likes - 1,
+                    };
+                }
+                return anecdote;
+            });
+            const likedJokes = state.likedAnecdotes.map(anecdote => {
                 if (anecdote.id === anekId) {
                     return {
                         ...anecdote,
@@ -66,7 +74,8 @@ export const apiReducer = (
             });
             return {
                 ...state,
-                [anecdoteType]: jokes,
+                jokes: jokes,
+                likedAnecdotes: likedJokes,
             };
         case apiActions.START_ANECDOTE_SHARING:
             return {
