@@ -25,7 +25,7 @@ interface SendState {
 
 class SendComponent extends React.Component<SendProps, SendState> {
     state = {
-        isAnonymous: true,
+        isAnonymous: false,
         isTooShort: false,
         isTooLong: false,
         isUnvalidFormat: false,
@@ -137,7 +137,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                 >
                     {
                         this.state.isUnvalidFormat &&
-                        <FormStatus title="Кажется это не анекдот" state="error">
+                        <FormStatus title="Кажется, это не анекдот" state="error">
                             Возможно, Вы не дописали.
                         </FormStatus>
                     }

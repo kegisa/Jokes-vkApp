@@ -1,18 +1,18 @@
 import React from 'react';
 
-import {Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
-import {Anecdote} from '../../components/anecdote/Anecdote';
-import {DispatchThunk, RootState} from '@store';
-import {getFetchedUser, getLikeScrollPosition, Thunks as appThunks} from '@store/app';
-import {FetchedUser, IAnecdote} from '@models';
-import {connect} from 'react-redux';
+import { Panel, PanelHeader, PullToRefresh } from '@vkontakte/vkui';
+import { Anecdote } from '../../components/anecdote/Anecdote';
+import { DispatchThunk, RootState } from '@store';
+import { getFetchedUser, getLikeScrollPosition, Thunks as appThunks } from '@store/app';
+import { FetchedUser, IAnecdote } from '@models';
+import { connect } from 'react-redux';
 import {
     getFetching as getApiFetching,
     getIsFirstFetchingLiked,
     getLikedAnecdotes,
     Thunks as apiThunks
 } from '@store/api';
-import {LIKE_SCROLL, LIKE_VIEW} from '../../shared/GlobalConsts';
+import { LIKE_SCROLL, LIKE_VIEW } from '../../shared/GlobalConsts';
 
 interface LikeProps {
     id?: string;
@@ -65,7 +65,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     };
 
     render() {
-        const {isJokesFetching, isFirstFetchingLikedStarted, jokes} = this.props;
+        const { isJokesFetching, isFirstFetchingLikedStarted, jokes } = this.props;
         return (
             <Panel id="like">
                 <PanelHeader>
@@ -74,7 +74,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                 {
                     isJokesFetching && isFirstFetchingLikedStarted ?
                         <div>
-                            <img className="loader" src={'./loader.gif'}/>
+                            <img className="loader" src={'./loader.gif'} />
                         </div>
                         :
                         <PullToRefresh
@@ -95,6 +95,10 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                                     :
                                     <div className="haveNotLiked">
                                         У Вас пока нет любимых анекдотов, обязательно исправьте это, посетив ленту.
+                                        <img
+                                            className="imageSend"
+                                            src={'./empty.png'}
+                                        />
                                     </div>
                             }
                         </PullToRefresh>
