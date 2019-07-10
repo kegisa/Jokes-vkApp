@@ -94,11 +94,11 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                                     )
                                     :
                                     <div className="haveNotLiked">
-                                        У Вас пока нет любимых анекдотов, обязательно исправьте это, посетив ленту.
                                         <img
                                             className="imageSend"
                                             src={'./empty.png'}
                                         />
+                                        У Вас пока нет любимых анекдотов, обязательно исправьте это, посетив ленту.
                                     </div>
                             }
                         </PullToRefresh>
