@@ -3,7 +3,7 @@ import { Button, Cell, Group, List } from '@vkontakte/vkui';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon16LikeOutline from '@vkontakte/icons/dist/16/like_outline';
 import Icon16ReplyOutline from '@vkontakte/icons/dist/16/reply_outline';
-import {API_URL, HREF_AUTHOR} from '../../shared/GlobalConsts';
+import { API_URL, HREF_AUTHOR } from '../../shared/GlobalConsts';
 import { IAnecdote } from '@models';
 import '../../assets/style.css';
 
@@ -23,7 +23,13 @@ const AnecdoteComponent: FunctionComponent<Props> = props => {
                     multiline={true}
                     description={joke.author !== 'anon' &&
                         <div className="author">
-                            <a className="refId" href={`${HREF_AUTHOR}${joke.authorId}`}>{`Автор: ${joke.author}`}</a>
+                            <a
+                                className="refId"
+                                target="_blank"
+                                href={`${HREF_AUTHOR}${joke.authorId}`}
+                            >
+                                {`Автор: ${joke.author}`}
+                            </a>
                         </div>}
                 >
                     <div className="mlCell">
