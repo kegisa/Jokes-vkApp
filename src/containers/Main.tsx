@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Epic, Tabbar, TabbarItem, View } from '@vkontakte/vkui';
+import { Epic, Tabbar, TabbarItem, View, Panel, PanelHeader } from '@vkontakte/vkui';
 import { connect } from 'react-redux';
 import Icon28Favorite from '@vkontakte/icons/dist/28/favorite';
 import Icon28Send from '@vkontakte/icons/dist/28/send';
@@ -38,6 +38,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
     componentDidMount() {
         this.props.onLoadUserInfo && this.props.onLoadUserInfo();
         this.loadImages();
+        // window.setInterval(this.checkInternet, 250);
     }
 
     loadImages() {
@@ -45,6 +46,17 @@ class MainComponent extends React.Component<MainProps, MainState> {
         const emptyPNG = new Image();
         sendPNG.src = './send.png';
         emptyPNG.src = './empty.png';
+    }
+
+    checkInternet() {
+        const network = window.navigator.onLine;
+        if (!network) {
+            this.setState({ activeStory: 'off' });
+        } else {
+            if (this.state.activeStory === 'off') {
+                this.setState({ activeStory: 'feed' });
+            }
+        }
     }
 
     renderTabbar(): JSX.Element {
@@ -96,22 +108,33 @@ class MainComponent extends React.Component<MainProps, MainState> {
                         <img className="loader" src={'./loader.gif'} />
                     </div>
                     :
-                    <Epic
-                        activeStory={this.state.activeStory}
-                        tabbar={this.renderTabbar()}
-                    >
-                        <View id="feed" activePanel="feed">
-                            <Feed
-                                id="feed"
-                            />
-                        </View>
-                        <View id="like" activePanel="like">
-                            <Like id="like" />
-                        </View>
-                        <View id="send" activePanel="send">
-                            <Send id="send" />
-                        </View>
-                    </Epic>
+                    <div>
+                        <Epic
+                            activeStory={this.state.activeStory}
+                            tabbar={this.renderTabbar()}
+                        >
+                            <View id="feed" activePanel="feed">
+                                <Feed
+                                    id="feed"
+                                />
+                            </View>
+                            <View id="like" activePanel="like">
+                                <Like id="like" />
+                            </View>
+                            <View id="send" activePanel="send">
+                                <Send id="send" />
+                            </View>
+                        </Epic>
+                        {/* <View id="off" activePanel="off">
+                            <Panel id="off">
+                                <PanelHeader>Нет соединения</PanelHeader>
+                                <img
+                                    className="imageSend"
+                                    src={'./send.png'}
+                                />
+                            </Panel>
+                        </View> */}
+                    </div>
                 }
             </div>
         );
