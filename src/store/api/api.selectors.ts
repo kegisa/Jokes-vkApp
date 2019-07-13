@@ -32,3 +32,18 @@ export const getIsFirstFetchingLiked = createSelector(
     getApi,
     apiState => apiState.isFirstFetchingLikedStarted,
 );
+
+export const getIsErrorAtFeedLoadingExisting = createSelector(
+    getApi,
+    apiState => apiState.isErrorAtFeedLoadingExisting,
+);
+
+export const getIsErrorAtLikedLoadingExisting = createSelector(
+    getApi,
+    apiState => apiState.isErrorAtLikedLoadingExisting,
+);
+
+export const getIsErrorAtSharing = createSelector(
+    getApi,
+    apiState => apiState.isErrorAtSharing,
+);

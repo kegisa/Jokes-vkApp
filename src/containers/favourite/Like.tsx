@@ -1,18 +1,19 @@
 import React from 'react';
 
-import { Panel, PanelHeader, PullToRefresh } from '@vkontakte/vkui';
-import { Anecdote } from '../../components/anecdote/Anecdote';
-import { DispatchThunk, RootState } from '@store';
-import { getFetchedUser, getLikeScrollPosition, Thunks as appThunks } from '@store/app';
-import { FetchedUser, IAnecdote } from '@models';
-import { connect } from 'react-redux';
+import {Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
+import {Anecdote} from '../../components/anecdote/Anecdote';
+import {DispatchThunk, RootState} from '@store';
+import {getFetchedUser, getLikeScrollPosition, Thunks as appThunks} from '@store/app';
+import {FetchedUser, IAnecdote} from '@models';
+import {connect} from 'react-redux';
 import {
     getFetching as getApiFetching,
+    getIsErrorAtLikedLoadingExisting,
     getIsFirstFetchingLiked,
     getLikedAnecdotes,
     Thunks as apiThunks
 } from '@store/api';
-import { LIKE_SCROLL, LIKE_VIEW } from '../../shared/GlobalConsts';
+import {LIKE_SCROLL, LIKE_VIEW} from '../../shared/GlobalConsts';
 
 interface LikeProps {
     id?: string;
@@ -25,6 +26,7 @@ interface LikeProps {
     isFirstFetchingLikedStarted: boolean;
     onSaveScroll: any;
     scrollPosition: number;
+    isErrorAtLikedLoadingExisting: boolean;
 }
 
 interface LikeState {
@@ -64,44 +66,57 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
         this.props.onLoadJokes && this.props.onLoadJokes(userId);
     };
 
+    renderLiked(): JSX.Element {
+        const {isJokesFetching, jokes} = this.props;
+
+        return (
+            <PullToRefresh
+                onRefresh={this.onRefresh}
+                isFetching={isJokesFetching}
+            >
+                {
+                    jokes.length > 0 ?
+                        jokes.map((joke: IAnecdote) =>
+                            <Anecdote
+                                key={joke.id}
+                                id={joke.id}
+                                joke={joke}
+                                likePressed={this.handleClick}
+                                repostPressed={this.handleRepost}
+                            />
+                        )
+                        :
+                        <div className="haveNotLiked">
+                            <img
+                                className="imageSend"
+                                src={'./empty.png'}
+                            />
+                            У Вас пока нет любимых анекдотов, обязательно исправьте это, посетив ленту.
+                        </div>
+                }
+            </PullToRefresh>
+        );
+    }
+
     render() {
-        const { isJokesFetching, isFirstFetchingLikedStarted, jokes } = this.props;
+        const {isJokesFetching, isFirstFetchingLikedStarted, isErrorAtLikedLoadingExisting} = this.props;
         return (
             <Panel id="like">
                 <PanelHeader>
                     Любимые
                 </PanelHeader>
                 {
-                    isJokesFetching && isFirstFetchingLikedStarted ?
-                        <div>
-                            <img className="loader" src={'./loader.gif'} />
-                        </div>
+                    isErrorAtLikedLoadingExisting ?
+                        <h4>
+                            Отсутствует интернет - соединение.
+                        </h4>
                         :
-                        <PullToRefresh
-                            onRefresh={this.onRefresh}
-                            isFetching={isJokesFetching}
-                        >
-                            {
-                                jokes.length > 0 ?
-                                    jokes.map((joke: IAnecdote) =>
-                                        <Anecdote
-                                            key={joke.id}
-                                            id={joke.id}
-                                            joke={joke}
-                                            likePressed={this.handleClick}
-                                            repostPressed={this.handleRepost}
-                                        />
-                                    )
-                                    :
-                                    <div className="haveNotLiked">
-                                        <img
-                                            className="imageSend"
-                                            src={'./empty.png'}
-                                        />
-                                        У Вас пока нет любимых анекдотов, обязательно исправьте это, посетив ленту.
-                                    </div>
-                            }
-                        </PullToRefresh>
+                        isJokesFetching && isFirstFetchingLikedStarted ?
+                            <div>
+                                <img className="loader" src={'./loader.gif'}/>
+                            </div>
+                            :
+                            this.renderLiked()
                 }
             </Panel>
 
@@ -117,6 +132,7 @@ const mapStateToProps = (state: RootState) => {
         jokes: getLikedAnecdotes(state),
         isFirstFetchingLikedStarted: getIsFirstFetchingLiked(state),
         scrollPosition: getLikeScrollPosition(state),
+        isErrorAtLikedLoadingExisting: getIsErrorAtLikedLoadingExisting(state),
     };
 };
 
