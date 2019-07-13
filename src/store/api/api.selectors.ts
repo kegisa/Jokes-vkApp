@@ -47,3 +47,8 @@ export const getIsErrorAtSharing = createSelector(
     getApi,
     apiState => apiState.isErrorAtSharing,
 );
+
+export const getIsAnecdoteSent = createSelector(
+    getApi,
+    apiState => apiState.isAnecdoteShared,
+);

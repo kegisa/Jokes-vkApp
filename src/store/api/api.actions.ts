@@ -136,13 +136,7 @@ export const Thunks = {
                 }
             ).catch(
                 (error: any) => {
-                    if (error.response) {
-                        dispatch(Actions.errorSharingAnecdote());
-                    } else if (error.request) {
-                        dispatch(Actions.errorSharingAnecdote());
-                    } else {
-                        dispatch(Actions.errorSharingAnecdote());
-                    }
+                    dispatch(Actions.errorSharingAnecdote());
                 }
             );
         };

@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Checkbox, FormLayout, FormStatus, Panel, PanelHeader, Textarea} from '@vkontakte/vkui';
 import {DispatchThunk, RootState} from '@store';
 import {getFetchedUser} from '@store/app';
-import {getAnecdoteShared, getIsErrorAtSharing, Thunks as apiThunks} from '@store/api';
+import {getAnecdoteShared, getIsAnecdoteSent, getIsErrorAtSharing, Thunks as apiThunks} from '@store/api';
 import {connect} from 'react-redux';
 import {FetchedUser} from '@models';
 
@@ -13,6 +13,7 @@ interface SendProps {
     isAnecdoteShared: boolean;
     toggleFlag: any;
     isErrorAtSharing: boolean;
+    isSent: boolean;
 }
 
 interface SendState {
@@ -21,7 +22,6 @@ interface SendState {
     isTooLong: boolean;
     isUnvalidFormat: boolean;
     anecdoteText: string;
-    isSent: boolean;
 }
 
 class SendComponent extends React.Component<SendProps, SendState> {
@@ -31,7 +31,6 @@ class SendComponent extends React.Component<SendProps, SendState> {
         isTooLong: false,
         isUnvalidFormat: false,
         anecdoteText: '',
-        isSent: false,
     };
 
     changeAnonymousStatus = () => {
@@ -49,32 +48,26 @@ class SendComponent extends React.Component<SendProps, SendState> {
         if (!this.isAnecdoteTextTooShort()
             && !this.isAnecdoteTextTooLong()
             && !this.isAnecdoteInvalidFormat()
-            && !this.props.isErrorAtSharing
         ) {
             const userId = user ? user.id : null;
             const firstName = user ? user.first_name : null;
             const lastName = user ? user.last_name : null;
             this.props.uploadAnecdote &&
             this.props.uploadAnecdote(userId, anecdoteText, isAnonymous, `${firstName} ${lastName} `);
-            // TODO: process response from server;
-            this.setState({
-                    ...this.state,
-                    isSent: true,
-                    isTooShort: false,
-                    isTooLong: false,
-                    isUnvalidFormat: false,
-                    anecdoteText: '',
-                }
-            );
-            this.props.toggleFlag && this.props.toggleFlag();
-            setInterval(() => (
+            if (!this.props.isErrorAtSharing) {
                 this.setState({
                         ...this.state,
-                        isSent: false,
+                        isTooShort: false,
+                        isTooLong: false,
+                        isUnvalidFormat: false,
+                        anecdoteText: '',
                     }
-                )), 6000
-            );
-
+                );
+                setInterval(() => (
+                    this.props.toggleFlag
+                    && this.props.toggleFlag()
+                ), 6000);
+            }
         }
     };
 
@@ -164,7 +157,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                         </FormStatus>
                     }
                     {
-                        this.state.isSent &&
+                        this.props.isSent &&
                         <FormStatus title="Анекдот отправлен" state="default">
                             Ваш анекдот отправлен
                         </FormStatus>
@@ -176,12 +169,13 @@ class SendComponent extends React.Component<SendProps, SendState> {
                         value={this.state.anecdoteText}
                         onChange={this.handleTextAreaChange}
                     />
-                    {<Checkbox
-                        value={this.state.isAnonymous}
-                        onChange={this.changeAnonymousStatus}
-                    >
-                        Анонимно
-                    </Checkbox>}
+                    {
+                        <Checkbox
+                            value={this.state.isAnonymous}
+                            onChange={this.changeAnonymousStatus}
+                        >
+                            Анонимно
+                        </Checkbox>}
                     <Button
                         size="xl"
                         level="secondary"
@@ -200,6 +194,7 @@ const mapStateToProps = (state: RootState) => {
         user: getFetchedUser(state),
         isAnecdoteShared: getAnecdoteShared(state),
         isErrorAtSharing: getIsErrorAtSharing(state),
+        isSent: getIsAnecdoteSent(state),
     };
 };
 
