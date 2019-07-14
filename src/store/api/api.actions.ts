@@ -1,6 +1,6 @@
 import {ActionsUnion, createAction} from '@store/actions-helpers';
 import {Dispatch} from 'redux';
-import {API_URL} from '../../shared/GlobalConsts';
+import {API_URL, IS_DEV_MODE} from '../../shared/GlobalConsts';
 import {IAnecdote} from '@models';
 import {customAxiosRequest} from '../../shared/wrappers/axios';
 
@@ -32,33 +32,32 @@ export const Actions = {
 export const Thunks = {
     getAnecdotes: (userId?: string) => {
         return (dispatch: Dispatch) => {
-            dispatch(Actions.startFetchingAnecdotes());
-            const id = userId && userId !== '' && userId !== undefined ?
-                userId
-                :
-                '99444331';
-            const promise = customAxiosRequest().get(`${API_URL}db?user_id=${id}`);
-            promise.then((response: any) => {
-                let data = response.data.map(
-                    (anecdote: any) => {
-                        if (anecdote.id) {
-                            return anecdote;
+            if (IS_DEV_MODE || (userId && userId !== '' && userId !== undefined)) {
+                const id = IS_DEV_MODE ? '99444331' : userId;
+                dispatch(Actions.startFetchingAnecdotes());
+                const promise = customAxiosRequest().get(`${API_URL}db?user_id=${id}`);
+                promise.then((response: any) => {
+                    let data = response.data.map(
+                        (anecdote: any) => {
+                            if (anecdote.id) {
+                                return anecdote;
+                            }
+                        }
+                    );
+                    data = data.filter(anecdote => anecdote !== undefined);
+                    dispatch(Actions.finishFetchingAnecdotes(data));
+                }).catch(
+                    (error: any) => {
+                        if (error.response) {
+                            dispatch(Actions.errorFetchingAnecdotes());
+                        } else if (error.request) {
+                            dispatch(Actions.errorFetchingAnecdotes());
+                        } else {
+                            dispatch(Actions.errorFetchingAnecdotes());
                         }
                     }
                 );
-                data = data.filter(anecdote => anecdote !== undefined);
-                dispatch(Actions.finishFetchingAnecdotes(data));
-            }).catch(
-                (error: any) => {
-                    if (error.response) {
-                        dispatch(Actions.errorFetchingAnecdotes());
-                    } else if (error.request) {
-                        dispatch(Actions.errorFetchingAnecdotes());
-                    } else {
-                        dispatch(Actions.errorFetchingAnecdotes());
-                    }
-                }
-            );
+            }
         };
     },
     getLikedAnecdotes: (userId?: string) => {
