@@ -152,7 +152,7 @@ class SendComponent extends React.Component<SendProps, SendState> {
                     {
                         this.props.isErrorAtSharing &&
                         <FormStatus title="Неполадки с соединением" state="error">
-                            Ваш анекдот не был отправлен. Возникли трудности с интернет-соединением.
+                            Ваш анекдот не был отправлен. Возникли проблемы с интернет-соединением.
                             Повторите позже.
                         </FormStatus>
                     }

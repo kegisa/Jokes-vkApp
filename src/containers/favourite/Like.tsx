@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
-import {Anecdote} from '../../components/anecdote/Anecdote';
-import {DispatchThunk, RootState} from '@store';
-import {getFetchedUser, getLikeScrollPosition, Thunks as appThunks} from '@store/app';
-import {FetchedUser, IAnecdote} from '@models';
-import {connect} from 'react-redux';
+import { Panel, PanelHeader, PullToRefresh } from '@vkontakte/vkui';
+import { Anecdote } from '../../components/anecdote/Anecdote';
+import { DispatchThunk, RootState } from '@store';
+import { getFetchedUser, getLikeScrollPosition, Thunks as appThunks } from '@store/app';
+import { FetchedUser, IAnecdote } from '@models';
+import { connect } from 'react-redux';
 import {
     getFetching as getApiFetching,
     getIsErrorAtLikedLoadingExisting,
@@ -13,7 +13,7 @@ import {
     getLikedAnecdotes,
     Thunks as apiThunks
 } from '@store/api';
-import {LIKE_SCROLL, LIKE_VIEW} from '../../shared/GlobalConsts';
+import { LIKE_SCROLL, LIKE_VIEW } from '../../shared/GlobalConsts';
 
 interface LikeProps {
     id?: string;
@@ -67,7 +67,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     };
 
     renderLiked(): JSX.Element {
-        const {isJokesFetching, jokes} = this.props;
+        const { isJokesFetching, jokes } = this.props;
 
         return (
             <PullToRefresh
@@ -99,7 +99,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     }
 
     render() {
-        const {isJokesFetching, isFirstFetchingLikedStarted, isErrorAtLikedLoadingExisting} = this.props;
+        const { isJokesFetching, isFirstFetchingLikedStarted, isErrorAtLikedLoadingExisting } = this.props;
         return (
             <Panel id="like">
                 <PanelHeader>
@@ -107,13 +107,17 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                 </PanelHeader>
                 {
                     isErrorAtLikedLoadingExisting ?
-                        <h4>
-                            Отсутствует интернет - соединение.
-                        </h4>
+                        <div className="nointernet">
+                            <img
+                                className="imageInet"
+                                src={'./nointernet.png'}
+                            />
+                            Возникли проблемы с интернет соединением, пожалуйста, повтороите попытку позже.
+                        </div>
                         :
                         isJokesFetching && isFirstFetchingLikedStarted ?
                             <div>
-                                <img className="loader" src={'./loader.gif'}/>
+                                <img className="loader" src={'./loader.gif'} />
                             </div>
                             :
                             this.renderLiked()

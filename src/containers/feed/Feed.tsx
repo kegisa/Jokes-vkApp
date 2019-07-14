@@ -1,10 +1,10 @@
 import React from 'react';
-import {Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
-import {Anecdote} from '../../components/anecdote/Anecdote';
-import {DispatchThunk, RootState} from '@store';
-import {getFeedScrollPosition, getFetchedUser, Thunks as appThunks} from '@store/app';
-import {FetchedUser, IAnecdote} from '@models';
-import {connect} from 'react-redux';
+import { Panel, PanelHeader, PullToRefresh } from '@vkontakte/vkui';
+import { Anecdote } from '../../components/anecdote/Anecdote';
+import { DispatchThunk, RootState } from '@store';
+import { getFeedScrollPosition, getFetchedUser, Thunks as appThunks } from '@store/app';
+import { FetchedUser, IAnecdote } from '@models';
+import { connect } from 'react-redux';
 import {
     getFetching as getApiFetching,
     getIsErrorAtFeedLoadingExisting,
@@ -12,7 +12,7 @@ import {
     getJokes,
     Thunks as apiThunks
 } from '@store/api';
-import {FEED_SCROLL, FEED_VIEW} from '../../shared/GlobalConsts';
+import { FEED_SCROLL, FEED_VIEW } from '../../shared/GlobalConsts';
 
 interface FeedProps {
     id?: string;
@@ -65,7 +65,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
     };
 
     renderFeed(): JSX.Element {
-        const {isJokesFetching, jokes} = this.props;
+        const { isJokesFetching, jokes } = this.props;
 
         return (
             <PullToRefresh
@@ -93,21 +93,26 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
     }
 
     render() {
-        const {isJokesFetching, isErrorAtFeedLoadingExisting} = this.props;
+        const { isJokesFetching, isErrorAtFeedLoadingExisting } = this.props;
         return (
             <Panel id="feed">
                 <PanelHeader>
                     Лента
                 </PanelHeader>
                 {
+
                     isErrorAtFeedLoadingExisting ?
-                        <h4>
-                            Отсутствует интернет - соединение.
-                        </h4>
+                        <div className="nointernet">
+                            <img
+                                className="imageInet"
+                                src={'./nointernet.png'}
+                            />
+                            Возникли проблемы с интернет соединением, пожалуйста, повтороите попытку позже.
+                        </div>
                         :
                         isJokesFetching && this.props.isFirstFetchingFeedStarted ?
                             <div>
-                                <img className="loader" src={'./loader.gif'}/>
+                                <img className="loader" src={'./loader.gif'} />
                             </div>
                             :
                             this.renderFeed()
