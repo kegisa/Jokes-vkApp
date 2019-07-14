@@ -247,7 +247,7 @@
     padding: 5px;
 }
 
-.refId, a:link, a:visited{
+.refId, a:link, a:visited {
     text-decoration: none;
     color: var(--text_subhead);
 }

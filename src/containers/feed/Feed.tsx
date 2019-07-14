@@ -1,11 +1,17 @@
 import React from 'react';
-import {Avatar, Group, ListItem, Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
+import {Panel, PanelHeader, PullToRefresh} from '@vkontakte/vkui';
 import {Anecdote} from '../../components/anecdote/Anecdote';
 import {DispatchThunk, RootState} from '@store';
 import {getFeedScrollPosition, getFetchedUser, Thunks as appThunks} from '@store/app';
 import {FetchedUser, IAnecdote} from '@models';
 import {connect} from 'react-redux';
-import {getFetching as getApiFetching, getIsFirstFetchingFeed, getJokes, Thunks as apiThunks} from '@store/api';
+import {
+    getFetching as getApiFetching,
+    getIsErrorAtFeedLoadingExisting,
+    getIsFirstFetchingFeed,
+    getJokes,
+    Thunks as apiThunks
+} from '@store/api';
 import {FEED_SCROLL, FEED_VIEW} from '../../shared/GlobalConsts';
 
 interface FeedProps {
@@ -19,6 +25,7 @@ interface FeedProps {
     isFirstFetchingFeedStarted: boolean;
     onSaveScroll: any;
     scrollPosition: number;
+    isErrorAtFeedLoadingExisting: boolean;
 }
 
 interface FeedState {
@@ -51,72 +58,59 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         this.props.doRepost && this.props.doRepost(joke);
     };
 
-    renderUserInfo(): JSX.Element {
-        const {user} = this.props;
-        return user ?
-            (
-                <Group
-                    title="User Data Fetched with VK Connect"
-                >
-                    <ListItem
-                        before={
-                            user.photo_200 ?
-                                <Avatar src={user.photo_200}/> :
-                                null
-                        }
-                    >
-                        {
-                            `${user.first_name}
-                                ${user.last_name}
-                                ${user.id}
-                                ${user.city.title ? user.city.title : ''}`}
-                    </ListItem>
-                </Group>
-            )
-            :
-            <></>;
-    }
-
     onRefresh = () => {
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
         this.props.onLoadJokes && this.props.onLoadJokes(userId);
     };
 
-    render() {
+    renderFeed(): JSX.Element {
         const {isJokesFetching, jokes} = this.props;
+
+        return (
+            <PullToRefresh
+                onRefresh={this.onRefresh}
+                isFetching={isJokesFetching}
+            >
+                {
+                    jokes.length > 0 ?
+                        jokes.map((joke: IAnecdote) =>
+                            <Anecdote
+                                key={joke.id}
+                                id={joke.id}
+                                joke={joke}
+                                likePressed={this.handleClick}
+                                repostPressed={this.handleRepost}
+                            />
+                        )
+                        :
+                        <div className="haveNotLiked">
+                            Анекдоты пока не завезли.
+                        </div>
+                }
+            </PullToRefresh>
+        );
+    }
+
+    render() {
+        const {isJokesFetching, isErrorAtFeedLoadingExisting} = this.props;
         return (
             <Panel id="feed">
                 <PanelHeader>
                     Лента
                 </PanelHeader>
                 {
-                    isJokesFetching && this.props.isFirstFetchingFeedStarted ?
-                        <div>
-                            <img className="loader" src={'./loader.gif'}/>
-                        </div>
+                    isErrorAtFeedLoadingExisting ?
+                        <h4>
+                            Отсутствует интернет - соединение.
+                        </h4>
                         :
-                        <PullToRefresh
-                            onRefresh={this.onRefresh}
-                            isFetching={isJokesFetching}
-                        >
-                            {
-                                jokes.length > 0 ?
-                                    jokes.map((joke: IAnecdote) =>
-                                        <Anecdote
-                                            key={joke.id}
-                                            id={joke.id}
-                                            joke={joke}
-                                            likePressed={this.handleClick}
-                                            repostPressed={this.handleRepost}
-                                        />
-                                    )
-                                    :
-                                    <div className="haveNotLiked">
-                                        Анекдоты пока не завезли.
-                                    </div>
-                            }
-                        </PullToRefresh>
+                        isJokesFetching && this.props.isFirstFetchingFeedStarted ?
+                            <div>
+                                <img className="loader" src={'./loader.gif'}/>
+                            </div>
+                            :
+                            this.renderFeed()
                 }
             </Panel>
 
@@ -132,6 +126,8 @@ const mapStateToProps = (state: RootState) => {
         jokes: getJokes(state),
         isFirstFetchingFeedStarted: getIsFirstFetchingFeed(state),
         scrollPosition: getFeedScrollPosition(state),
+        isErrorAtFeedLoadingExisting: getIsErrorAtFeedLoadingExisting(state),
+
     };
 };
 

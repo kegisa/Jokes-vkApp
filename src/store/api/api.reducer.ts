@@ -1,6 +1,5 @@
 import * as apiActions from '@store/api/api.actions';
 import {IAnecdote} from '@models';
-import {FEED_VIEW} from '../../shared/GlobalConsts';
 
 export interface ApiState {
     isFetching: boolean;
@@ -9,16 +8,23 @@ export interface ApiState {
     isAnecdoteShared: boolean;
     isFirstFetchingFeedStarted: boolean;
     isFirstFetchingLikedStarted: boolean;
+    isErrorAtFeedLoadingExisting: boolean;
+    isErrorAtLikedLoadingExisting: boolean;
+    isErrorAtSharing: boolean;
 }
 
 const initialState: ApiState = {
-    isFetching: false,
-    jokes: [],
-    isFirstFetchingFeedStarted: true,
-    likedAnecdotes: [],
-    isAnecdoteShared: false,
-    isFirstFetchingLikedStarted: true,
-};
+        isFetching: false,
+        jokes: [],
+        isFirstFetchingFeedStarted: true,
+        likedAnecdotes: [],
+        isAnecdoteShared: false,
+        isFirstFetchingLikedStarted: true,
+        isErrorAtFeedLoadingExisting: false,
+        isErrorAtLikedLoadingExisting: false,
+        isErrorAtSharing: false,
+    }
+;
 
 export const apiReducer = (
     state = initialState,
@@ -48,6 +54,8 @@ export const apiReducer = (
                 isFetching: false,
                 likedAnecdotes: action.payload,
                 isFirstFetchingLikedStarted: false,
+                isErrorAtFeedLoadingExisting: false,
+                isErrorAtLikedLoadingExisting: false,
             };
         case apiActions.TOGGLE_LIKE:
             const anekId = parseInt(action.payload.anek, 10);
@@ -86,6 +94,22 @@ export const apiReducer = (
             return {
                 ...state,
                 isAnecdoteShared: true,
+                isErrorAtSharing: false,
+            };
+        case apiActions.ERROR_FETCHING_ANECDOTES:
+            return {
+                ...state,
+                isErrorAtFeedLoadingExisting: true,
+            };
+        case apiActions.ERROR_FETCHING_LIKED_ANECDOTES:
+            return {
+                ...state,
+                isErrorAtLikedLoadingExisting: true,
+            };
+        case apiActions.ERROR_SHARING_ANECDOTES:
+            return {
+                ...state,
+                isErrorAtSharing: true,
             };
         default:
             return state;

@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { Epic, Tabbar, TabbarItem, View, Panel, PanelHeader } from '@vkontakte/vkui';
-import { connect } from 'react-redux';
+import {Epic, Tabbar, TabbarItem, View} from '@vkontakte/vkui';
+import {connect} from 'react-redux';
 import Icon28Favorite from '@vkontakte/icons/dist/28/favorite';
 import Icon28Send from '@vkontakte/icons/dist/28/send';
 import Icon28Newsfeed from '@vkontakte/icons/dist/28/newsfeed';
 
-import { DispatchThunk, RootState } from '@store';
-import { getFetchedUser, getFetching, Thunks as appThunks } from '@store/app';
-import { FetchedUser } from '@models';
-import { Feed } from './feed/Feed';
-import { Send } from './share/Send';
-import { Like } from './favourite/Like';
-import { IS_DEV_MODE } from '../shared/GlobalConsts';
+import {DispatchThunk, RootState} from '@store';
+import {getFetchedUser, getFetching, Thunks as appThunks} from '@store/app';
+import {FetchedUser} from '@models';
+import {Feed} from './feed/Feed';
+import {Send} from './share/Send';
+import {Like} from './favourite/Like';
+import {IS_DEV_MODE} from '../shared/GlobalConsts';
 
 interface MainProps {
     isFetching?: boolean;
@@ -32,7 +32,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
     };
 
     onStoryChange = (e: any) => {
-        this.setState({ activeStory: e.currentTarget.dataset.story });
+        this.setState({activeStory: e.currentTarget.dataset.story});
     };
 
     componentDidMount() {
@@ -51,10 +51,10 @@ class MainComponent extends React.Component<MainProps, MainState> {
     checkInternet() {
         const network = window.navigator.onLine;
         if (!network) {
-            this.setState({ activeStory: 'off' });
+            this.setState({activeStory: 'off'});
         } else {
             if (this.state.activeStory === 'off') {
-                this.setState({ activeStory: 'feed' });
+                this.setState({activeStory: 'feed'});
             }
         }
     }
@@ -69,7 +69,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
                     data-story="feed"
                     text="Лента"
                 >
-                    <Icon28Newsfeed />
+                    <Icon28Newsfeed/>
                 </TabbarItem>
                 <TabbarItem
                     className="tb"
@@ -78,7 +78,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
                     data-story="like"
                     text="Любимые"
                 >
-                    <Icon28Favorite />
+                    <Icon28Favorite/>
                 </TabbarItem>
                 <TabbarItem
                     className="tb"
@@ -87,14 +87,14 @@ class MainComponent extends React.Component<MainProps, MainState> {
                     data-story="send"
                     text="Предложить"
                 >
-                    <Icon28Send />
+                    <Icon28Send/>
                 </TabbarItem>
             </Tabbar>
         );
     }
 
     render() {
-        const { user } = this.props;
+        const {user} = this.props;
         let isFetching: boolean | undefined;
         if (IS_DEV_MODE) {
             isFetching = false;
@@ -105,7 +105,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
             <div>
                 {isFetching ?
                     <div>
-                        <img className="loader" src={'./loader.gif'} />
+                        <img className="loader" src={'./loader.gif'}/>
                     </div>
                     :
                     <div>
@@ -119,10 +119,10 @@ class MainComponent extends React.Component<MainProps, MainState> {
                                 />
                             </View>
                             <View id="like" activePanel="like">
-                                <Like id="like" />
+                                <Like id="like"/>
                             </View>
                             <View id="send" activePanel="send">
-                                <Send id="send" />
+                                <Send id="send"/>
                             </View>
                         </Epic>
                         {/* <View id="off" activePanel="off">

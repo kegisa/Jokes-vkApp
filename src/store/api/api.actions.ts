@@ -6,20 +6,26 @@ import {customAxiosRequest} from '../../shared/wrappers/axios';
 
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';
+export const ERROR_FETCHING_ANECDOTES = '[API] ERROR_FETCHING_ANECDOTES';
 export const START_FETCHING_LIKED_ANECDOTES = '[API] START_FETCHING_LIKED_ANECDOTES';
 export const FINISH_FETCHING_LIKED_ANECDOTES = '[API] FINISH_FETCHING_LIKED_ANECDOTES';
+export const ERROR_FETCHING_LIKED_ANECDOTES = '[API] ERROR_FETCHING_LIKED_ANECDOTES';
 export const TOGGLE_LIKE = '[API] TOGGLE_LIKE';
 export const START_ANECDOTE_SHARING = '[API] START_ANECDOTE_SHARING';
 export const FINISH_ANECDOTE_SHARING = '[API] FINISH_ANECDOTE_SHARING';
+export const ERROR_SHARING_ANECDOTES = '[API] ERROR_SHARING_ANECDOTES';
 
 export const Actions = {
         startFetchingAnecdotes: () => createAction(START_FETCHING_ANECDOTES),
         finishFetchingAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
+        errorFetchingAnecdotes: () => createAction(ERROR_FETCHING_ANECDOTES),
         startFetchingLikedAnecdotes: () => createAction(START_FETCHING_LIKED_ANECDOTES),
         finishFetchingLikedAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_LIKED_ANECDOTES, data),
+        errorFetchingLikedAnecdotes: () => createAction(ERROR_FETCHING_LIKED_ANECDOTES),
         toggleLike: (anek: any) => createAction(TOGGLE_LIKE, anek),
         startSharingAnecdote: () => createAction(START_ANECDOTE_SHARING),
         finishSharingAnecdote: () => createAction(FINISH_ANECDOTE_SHARING),
+        errorSharingAnecdote: () => createAction(ERROR_SHARING_ANECDOTES),
     }
 ;
 
@@ -42,7 +48,17 @@ export const Thunks = {
                 );
                 data = data.filter(anecdote => anecdote !== undefined);
                 dispatch(Actions.finishFetchingAnecdotes(data));
-            });
+            }).catch(
+                (error: any) => {
+                    if (error.response) {
+                        dispatch(Actions.errorFetchingAnecdotes());
+                    } else if (error.request) {
+                        dispatch(Actions.errorFetchingAnecdotes());
+                    } else {
+                        dispatch(Actions.errorFetchingAnecdotes());
+                    }
+                }
+            );
         };
     },
     getLikedAnecdotes: (userId?: string) => {
@@ -63,7 +79,17 @@ export const Thunks = {
                 );
                 data = data.filter(anecdote => anecdote !== undefined);
                 dispatch(Actions.finishFetchingLikedAnecdotes(data));
-            });
+            }).catch(
+                (error: any) => {
+                    if (error.response) {
+                        dispatch(Actions.errorFetchingLikedAnecdotes());
+                    } else if (error.request) {
+                        dispatch(Actions.errorFetchingLikedAnecdotes());
+                    } else {
+                        dispatch(Actions.errorFetchingLikedAnecdotes());
+                    }
+                }
+            );
         };
     },
     toggleLike: (userId: string, anecdoteId: string, currentView: string) => {
@@ -107,6 +133,10 @@ export const Thunks = {
                     if (response.status === 200) {
                         dispatch(Actions.finishSharingAnecdote());
                     }
+                }
+            ).catch(
+                (error: any) => {
+                    dispatch(Actions.errorSharingAnecdote());
                 }
             );
         };
