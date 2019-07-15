@@ -30,11 +30,13 @@ interface FeedProps {
 
 interface FeedState {
     jokes: any;
+    latestTimeLike: any;
 }
 
 class FeedComponent extends React.Component<FeedProps, FeedState> {
     state = {
         jokes: [],
+        latestTimeLike: new Date().getTime(),
     };
 
     componentDidMount() {
@@ -51,6 +53,8 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
     handleClick = (anekId: any) => {
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
+        if (new Date().getTime() - this.state.latestTimeLike < 300) { return; }
+        this.setState({ latestTimeLike: new Date().getTime() });
         this.props.toggleLike && this.props.toggleLike(userId, anekId);
     };
 
@@ -100,7 +104,6 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                     Лента
                 </PanelHeader>
                 {
-
                     isErrorAtFeedLoadingExisting ?
                         <div className="nointernet">
                             <img

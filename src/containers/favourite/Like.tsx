@@ -31,12 +31,14 @@ interface LikeProps {
 
 interface LikeState {
     jokes: any;
+    latestTimeLike: any;
 }
 
 class LikeComponent extends React.Component<LikeProps, LikeState> {
     state = {
         jokes: [],
         isFirstFetching: true,
+        latestTimeLike: new Date().getTime(),
     };
 
     componentDidMount() {
@@ -53,6 +55,8 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
     handleClick = (anekId: any) => {
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
+        if (new Date().getTime() - this.state.latestTimeLike < 300) { return; }
+        this.setState({ latestTimeLike: new Date().getTime() });
         this.props.toggleLike && this.props.toggleLike(userId, anekId);
     };
 
