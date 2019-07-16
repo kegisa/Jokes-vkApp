@@ -245,6 +245,7 @@
 }
 
 .imageSend {
+    pointer-events: none;
     display: block;
     width: 30%;
     min-width: 270px;
