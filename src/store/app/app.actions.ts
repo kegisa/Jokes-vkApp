@@ -35,7 +35,7 @@ export const Thunks = {
             const text = `${joke}\n\n${SIGNATURE}`;
             connect.send('VKWebAppShowWallPostBox', {
                 message: text,
-                attachments: 'https://vk.com/app7009416,photo-156898140_456239035',
+                attachments: 'https://vk.com/app7009416',
             });
         };
     },
