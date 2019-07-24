@@ -1,8 +1,8 @@
-import {ActionsUnion, createAction} from '@store/actions-helpers';
-import {Dispatch} from 'redux';
-import {API_URL, IS_DEV_MODE} from '../../shared/GlobalConsts';
-import {IAnecdote} from '@models';
-import {customAxiosRequest} from '../../shared/wrappers/axios';
+import { ActionsUnion, createAction } from '@store/actions-helpers';
+import { Dispatch } from 'redux';
+import { API_URL, IS_DEV_MODE } from '../../shared/GlobalConsts';
+import { IAnecdote, UserTop } from '@models';
+import { customAxiosRequest } from '../../shared/wrappers/axios';
 
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';
@@ -14,20 +14,26 @@ export const TOGGLE_LIKE = '[API] TOGGLE_LIKE';
 export const START_ANECDOTE_SHARING = '[API] START_ANECDOTE_SHARING';
 export const FINISH_ANECDOTE_SHARING = '[API] FINISH_ANECDOTE_SHARING';
 export const ERROR_SHARING_ANECDOTES = '[API] ERROR_SHARING_ANECDOTES';
+export const START_FETCHING_TOP_USERS = '[API] START_FETCHING_TOP_USERS';
+export const FINISH_FETCHING_TOP_USERS = '[API] FINISH_FETCHING_TOP_USERS';
+export const ERROR_FETCHING_TOP_USERS = '[API] ERROR_FETCHING_TOP_USERS';
 
 export const Actions = {
-        startFetchingAnecdotes: () => createAction(START_FETCHING_ANECDOTES),
-        finishFetchingAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
-        errorFetchingAnecdotes: () => createAction(ERROR_FETCHING_ANECDOTES),
-        startFetchingLikedAnecdotes: () => createAction(START_FETCHING_LIKED_ANECDOTES),
-        finishFetchingLikedAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_LIKED_ANECDOTES, data),
-        errorFetchingLikedAnecdotes: () => createAction(ERROR_FETCHING_LIKED_ANECDOTES),
-        toggleLike: (anek: any) => createAction(TOGGLE_LIKE, anek),
-        startSharingAnecdote: () => createAction(START_ANECDOTE_SHARING),
-        finishSharingAnecdote: () => createAction(FINISH_ANECDOTE_SHARING),
-        errorSharingAnecdote: () => createAction(ERROR_SHARING_ANECDOTES),
-    }
-;
+    startFetchingAnecdotes: () => createAction(START_FETCHING_ANECDOTES),
+    finishFetchingAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_ANECDOTES, data),
+    errorFetchingAnecdotes: () => createAction(ERROR_FETCHING_ANECDOTES),
+    startFetchingLikedAnecdotes: () => createAction(START_FETCHING_LIKED_ANECDOTES),
+    finishFetchingLikedAnecdotes: (data: IAnecdote[]) => createAction(FINISH_FETCHING_LIKED_ANECDOTES, data),
+    errorFetchingLikedAnecdotes: () => createAction(ERROR_FETCHING_LIKED_ANECDOTES),
+    toggleLike: (anek: any) => createAction(TOGGLE_LIKE, anek),
+    startSharingAnecdote: () => createAction(START_ANECDOTE_SHARING),
+    finishSharingAnecdote: () => createAction(FINISH_ANECDOTE_SHARING),
+    errorSharingAnecdote: () => createAction(ERROR_SHARING_ANECDOTES),
+    startFetchingTopUsers: () => createAction(START_FETCHING_TOP_USERS),
+    finishFetchingTopUsers: (data: UserTop[]) => createAction(FINISH_FETCHING_TOP_USERS, data),
+    errorFetchingTopUsers: () => createAction(ERROR_FETCHING_TOP_USERS),
+}
+    ;
 
 export const Thunks = {
     getAnecdotes: (userId?: string) => {
@@ -110,6 +116,33 @@ export const Thunks = {
                         currentView: currentView,
                     };
                     dispatch(Actions.toggleLike(anek));
+                }
+            );
+        };
+    },
+    getTopUsers: () => {
+        return (dispatch: Dispatch) => {
+            dispatch(Actions.startFetchingTopUsers());
+            const promise = customAxiosRequest().get(`${API_URL}getlikes/top?debug101=1`);
+            promise.then((response: any) => {
+                let data = response.data.map(
+                    (topUser: any) => {
+                        if (topUser) {
+                            return topUser;
+                        }
+                    }
+                );
+                data = data.filter(topUser => topUser !== undefined);
+                dispatch(Actions.finishFetchingTopUsers(data));
+            }).catch(
+                (error: any) => {
+                    if (error.response) {
+                        dispatch(Actions.errorFetchingTopUsers());
+                    } else if (error.request) {
+                        dispatch(Actions.errorFetchingTopUsers());
+                    } else {
+                        dispatch(Actions.errorFetchingTopUsers());
+                    }
                 }
             );
         };

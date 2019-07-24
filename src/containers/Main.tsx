@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Icon28Favorite from '@vkontakte/icons/dist/28/favorite';
 import Icon28Send from '@vkontakte/icons/dist/28/send';
 import Icon28Newsfeed from '@vkontakte/icons/dist/28/newsfeed';
+import Icon28Users from '@vkontakte/icons/dist/28/users';
 
 import { DispatchThunk, RootState } from '@store';
 import { getFetchedUser, getFetching, Thunks as appThunks } from '@store/app';
@@ -11,6 +12,7 @@ import { FetchedUser } from '@models';
 import { Feed } from './feed/Feed';
 import { Send } from './share/Send';
 import { Like } from './favourite/Like';
+import { Top } from './tops/Top';
 import { IS_DEV_MODE } from '../shared/GlobalConsts';
 
 interface MainProps {
@@ -91,6 +93,15 @@ class MainComponent extends React.Component<MainProps, MainState> {
                 >
                     <Icon28Send />
                 </TabbarItem>
+                <TabbarItem
+                    className="tb"
+                    onClick={this.onStoryChange}
+                    selected={this.state.activeStory === 'top'}
+                    data-story="top"
+                    text="Топ"
+                >
+                    <Icon28Users />
+                </TabbarItem>
             </Tabbar>
         );
     }
@@ -125,6 +136,9 @@ class MainComponent extends React.Component<MainProps, MainState> {
                             </View>
                             <View id="send" activePanel="send">
                                 <Send id="send" />
+                            </View>
+                            <View id="top" activePanel="top">
+                                <Top id="top" />
                             </View>
                         </Epic>
                         {/* <View id="off" activePanel="off">

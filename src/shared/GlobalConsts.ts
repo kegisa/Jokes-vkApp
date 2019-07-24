@@ -9,4 +9,4 @@ export const FEED_SCROLL = 'feed';
 export const LIKE_SCROLL = 'like';
 
 // export const IS_DEV_MODE = true;
-export const IS_DEV_MODE = false;
+export const IS_DEV_MODE = true;
