@@ -13,7 +13,7 @@ import {
     getLikedAnecdotes,
     Thunks as apiThunks
 } from '@store/api';
-import { LIKE_SCROLL, LIKE_VIEW } from '../../shared/GlobalConsts';
+import { LIKE_SCROLL, LIKE_VIEW, ERROR_NETWORK } from '../../shared/GlobalConsts';
 
 interface LikeProps {
     id?: string;
@@ -116,7 +116,7 @@ class LikeComponent extends React.Component<LikeProps, LikeState> {
                                 className="imageInet"
                                 src={'./nointernet.png'}
                             />
-                            Возникли проблемы с интернет соединением, пожалуйста, повтороите попытку позже.
+                            {ERROR_NETWORK}
                         </div>
                         :
                         isJokesFetching && isFirstFetchingLikedStarted ?

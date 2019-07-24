@@ -10,3 +10,5 @@ export const LIKE_SCROLL = 'like';
 
 // export const IS_DEV_MODE = true;
 export const IS_DEV_MODE = false;
+
+export const ERROR_NETWORK = 'Возникли проблемы с интернет-соединением, пожалуйста, повтороите попытку позже.';

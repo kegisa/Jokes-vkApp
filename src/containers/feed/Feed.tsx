@@ -12,7 +12,7 @@ import {
     getJokes,
     Thunks as apiThunks
 } from '@store/api';
-import { FEED_SCROLL, FEED_VIEW } from '../../shared/GlobalConsts';
+import { FEED_SCROLL, FEED_VIEW, ERROR_NETWORK } from '../../shared/GlobalConsts';
 
 interface FeedProps {
     id?: string;
@@ -110,7 +110,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                                 className="imageInet"
                                 src={'./nointernet.png'}
                             />
-                            Возникли проблемы с интернет соединением, пожалуйста, повтороите попытку позже.
+                            {ERROR_NETWORK}
                         </div>
                         :
                         isJokesFetching && this.props.isFirstFetchingFeedStarted ?
