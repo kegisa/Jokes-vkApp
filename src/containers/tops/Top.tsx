@@ -7,6 +7,7 @@ import Icon16Like from '@vkontakte/icons/dist/16/like';
 
 import {
     getTopUsers,
+    getFetching,
     Thunks as apiThunks
 } from '@store/api';
 
@@ -27,7 +28,7 @@ class TopComponent extends React.Component<any, TopState> {
     state = {
         topUsers: [],
         isErrorFetchingTopUsers: false,
-        isFetching: false,
+        isFetching: true,
     };
 
     componentDidMount() {
@@ -35,31 +36,39 @@ class TopComponent extends React.Component<any, TopState> {
     }
 
     render() {
-        const { topUsers } = this.props;
+        const { topUsers, isFetching } = this.props;
         return (
             <Panel id="top">
                 <PanelHeader>
                     Топ
                 </PanelHeader>
-                <Group title="Лучшие пользователи">
-                    <List>
-                        {
-                            topUsers.map((topUser) => (
-                                <Cell
-                                    before={<Avatar
-                                        size={40}
-                                        src="https://pp.userapi.com/c841034/v841034569/3b8c1/pt3sOw_qhfg.jpg"
 
-                                    />}
-                                    indicator={topUser.avgLikes}
-                                    asideContent={<Icon16Like className="topLike" />}
-                                >
-                                    {topUser.username}
-                                </Cell>
-                            ))
-                        }
-                    </List>
-                </Group>
+                {isFetching ?
+                    <div>
+                        <img className="loader" src={'./loader.gif'} />
+                    </div>
+                    :
+                    <Group title="Лучшие пользователи">
+                        <List>
+                            {
+                                topUsers.map((topUser) => (
+                                    <Cell
+                                        key={topUser.authorId}
+                                        before={<Avatar
+                                            size={40}
+                                            src="https://pp.userapi.com/c841034/v841034569/3b8c1/pt3sOw_qhfg.jpg"
+
+                                        />}
+                                        indicator={topUser.avgLikes}
+                                        asideContent={<Icon16Like className="topLike" />}
+                                    >
+                                        {topUser.username}
+                                    </Cell>
+                                ))
+                            }
+                        </List>
+                    </Group>
+                }
             </Panel>
         );
     }
@@ -68,6 +77,7 @@ class TopComponent extends React.Component<any, TopState> {
 const mapStateToProps = (state) => {
     return {
         topUsers: getTopUsers(state),
+        isFetching: getFetching(state),
     };
 };
 
