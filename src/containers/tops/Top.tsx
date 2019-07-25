@@ -48,15 +48,17 @@ class TopComponent extends React.Component<any, TopState> {
                         <img className="loader" src={'./loader.gif'} />
                     </div>
                     :
-                    <Group title="Лучшие пользователи">
+                    <Group title="Лучшие юмористы">
                         <List>
                             {
                                 topUsers.map((topUser) => (
                                     <Cell
+                                        href={`https://vk.com/id${topUser.authorId}`}
+                                        target="_blank"
                                         key={topUser.authorId}
                                         before={<Avatar
                                             size={40}
-                                            src="https://pp.userapi.com/c841034/v841034569/3b8c1/pt3sOw_qhfg.jpg"
+                                            src={topUser.ava}
 
                                         />}
                                         indicator={topUser.avgLikes}

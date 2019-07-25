@@ -123,7 +123,7 @@ export const Thunks = {
     getTopUsers: () => {
         return (dispatch: Dispatch) => {
             dispatch(Actions.startFetchingTopUsers());
-            const promise = customAxiosRequest().get(`${API_URL}getlikes/top?debug101=1`);
+            const promise = customAxiosRequest().get(`${API_URL}getlikes/top`);
             promise.then((response: any) => {
                 let data = response.data.map(
                     (topUser: any) => {
@@ -147,7 +147,7 @@ export const Thunks = {
             );
         };
     },
-    uploadAnecdote: (userId: string, anecdoteText: string, isAnonymous: boolean, username: string) => {
+    uploadAnecdote: (userId: string, anecdoteText: string, isAnonymous: boolean, username: string, avatar: string) => {
         return (dispatch: Dispatch) => {
             const parsedUserId = userId && userId !== '' && userId !== undefined ?
                 userId
@@ -159,7 +159,8 @@ export const Thunks = {
                 'test';
             const promise = customAxiosRequest().post(
                 `${API_URL}suggest`,
-                `userId=${parsedUserId}&text=${anecdoteText}&isAnon=${isAnonymous}&username=${parsedUsername}`);
+                `userId=${parsedUserId}&text=${anecdoteText}`
+                + `&isAnon=${isAnonymous}&username=${parsedUsername}&ava=${avatar}`);
             promise.then(
                 (response: any) => {
                     if (response.status === 200) {
