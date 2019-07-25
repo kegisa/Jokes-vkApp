@@ -123,7 +123,7 @@ export const Thunks = {
     getTopUsers: () => {
         return (dispatch: Dispatch) => {
             dispatch(Actions.startFetchingTopUsers());
-            const promise = customAxiosRequest().get(`${API_URL}getlikes/top`);
+            const promise = customAxiosRequest().get(`${API_URL}getlikes/top?dummy=0`);
             promise.then((response: any) => {
                 let data = response.data.map(
                     (topUser: any) => {
