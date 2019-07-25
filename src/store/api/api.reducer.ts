@@ -1,5 +1,5 @@
 import * as apiActions from '@store/api/api.actions';
-import {IAnecdote} from '@models';
+import { IAnecdote, UserTop } from '@models';
 
 export interface ApiState {
     isFetching: boolean;
@@ -11,20 +11,24 @@ export interface ApiState {
     isErrorAtFeedLoadingExisting: boolean;
     isErrorAtLikedLoadingExisting: boolean;
     isErrorAtSharing: boolean;
+    isErrorFetchingTopUsers: boolean;
+    topUsers: UserTop[];
 }
 
 const initialState: ApiState = {
-        isFetching: false,
-        jokes: [],
-        isFirstFetchingFeedStarted: true,
-        likedAnecdotes: [],
-        isAnecdoteShared: false,
-        isFirstFetchingLikedStarted: true,
-        isErrorAtFeedLoadingExisting: false,
-        isErrorAtLikedLoadingExisting: false,
-        isErrorAtSharing: false,
-    }
-;
+    isFetching: false,
+    jokes: [],
+    isFirstFetchingFeedStarted: true,
+    likedAnecdotes: [],
+    isAnecdoteShared: false,
+    isFirstFetchingLikedStarted: true,
+    isErrorAtFeedLoadingExisting: false,
+    isErrorAtLikedLoadingExisting: false,
+    isErrorAtSharing: false,
+    isErrorFetchingTopUsers: false,
+    topUsers: [],
+}
+    ;
 
 export const apiReducer = (
     state = initialState,
@@ -48,6 +52,11 @@ export const apiReducer = (
                 ...state,
                 isFetching: true,
             };
+        case apiActions.START_FETCHING_TOP_USERS:
+            return {
+                ...state,
+                isFetching: true,
+            };
         case apiActions.FINISH_FETCHING_LIKED_ANECDOTES:
             return {
                 ...state,
@@ -56,6 +65,13 @@ export const apiReducer = (
                 isFirstFetchingLikedStarted: false,
                 isErrorAtFeedLoadingExisting: false,
                 isErrorAtLikedLoadingExisting: false,
+            };
+        case apiActions.FINISH_FETCHING_TOP_USERS:
+            return {
+                ...state,
+                isFetching: false,
+                topUsers: action.payload,
+                isErrorFetchingTopUsers: false,
             };
         case apiActions.TOGGLE_LIKE:
             const anekId = parseInt(action.payload.anek, 10);

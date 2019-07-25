@@ -52,8 +52,9 @@ class SendComponent extends React.Component<SendProps, SendState> {
             const userId = user ? user.id : null;
             const firstName = user ? user.first_name : null;
             const lastName = user ? user.last_name : null;
+            const avatar200 = user ? user.photo_200 : null;
             this.props.uploadAnecdote &&
-            this.props.uploadAnecdote(userId, anecdoteText, isAnonymous, `${firstName} ${lastName} `);
+            this.props.uploadAnecdote(userId, anecdoteText, isAnonymous, `${firstName} ${lastName} `, avatar200);
             if (!this.props.isErrorAtSharing) {
                 this.setState({
                         ...this.state,
@@ -199,8 +200,8 @@ const mapStateToProps = (state: RootState) => {
 };
 
 const mapDispatchToProps = (dispatch: DispatchThunk) => ({
-    uploadAnecdote: (userId: string, anecdoteText: string, isAnonymous: boolean, username: string) => {
-        dispatch(apiThunks.uploadAnecdote(userId, anecdoteText, isAnonymous, username));
+    uploadAnecdote: (userId: string, anecdoteText: string, isAnonymous: boolean, username: string, avatar: string) => {
+        dispatch(apiThunks.uploadAnecdote(userId, anecdoteText, isAnonymous, username, avatar));
     },
     toggleFlag: () => {
         dispatch(apiThunks.toggleFlag());

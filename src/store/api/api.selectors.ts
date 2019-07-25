@@ -52,3 +52,8 @@ export const getIsAnecdoteSent = createSelector(
     getApi,
     apiState => apiState.isAnecdoteShared,
 );
+
+export const getTopUsers = createSelector(
+    getApi,
+    apiState => apiState.topUsers,
+);
