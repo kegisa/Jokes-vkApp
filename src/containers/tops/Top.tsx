@@ -63,10 +63,10 @@ class TopComponent extends React.Component<any, TopState> {
 
                                             /></div>
                                         </div>}
-                                        indicator={topUser.avgLikes}
+                                        indicator={<div className="topLikes">{topUser.avgLikes}</div>}
                                         asideContent={<Icon16Like className="topLike" />}
                                     >
-                                        {topUser.username}
+                                        <div className="topUsername">{topUser.username}</div>
                                     </Cell>
                                 ))
                             }

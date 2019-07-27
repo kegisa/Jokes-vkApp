@@ -279,3 +279,12 @@
     float: left;
     padding-right: 5px;
 }
+.topLikes{
+    text-align: left;
+    min-width: 30px;
+    display: block;
+}
+.topUsername{
+    text-overflow: ellipsis;
+    min-width: 156px;
+}
