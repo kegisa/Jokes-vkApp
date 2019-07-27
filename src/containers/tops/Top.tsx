@@ -51,16 +51,18 @@ class TopComponent extends React.Component<any, TopState> {
                     <Group title="Лучшие юмористы">
                         <List>
                             {
-                                topUsers.map((topUser) => (
+                                topUsers.map((topUser, index) => (
                                     <Cell
                                         href={`https://vk.com/id${topUser.authorId}`}
                                         target="_blank"
                                         key={topUser.authorId}
-                                        before={<Avatar
-                                            size={40}
-                                            src={topUser.ava}
+                                        before={<div><div className="topNumber" >{index + 1}</div>
+                                            <div className="topAva"><Avatar
+                                                size={40}
+                                                src={topUser.ava}
 
-                                        />}
+                                            /></div>
+                                        </div>}
                                         indicator={topUser.avgLikes}
                                         asideContent={<Icon16Like className="topLike" />}
                                     >

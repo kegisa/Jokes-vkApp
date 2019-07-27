@@ -267,3 +267,15 @@
 .topLike{
     color: #ff3347;
 }
+.topNumber{
+    color: #76787a;
+    float: left;
+    padding-top: 8px;
+    padding-right: 5px;
+    min-width: 23px;
+    text-align: center;
+}
+.topAva{
+    float: left;
+    padding-right: 5px;
+}
