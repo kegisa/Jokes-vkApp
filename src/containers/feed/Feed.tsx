@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, PanelHeader, PullToRefresh } from '@vkontakte/vkui';
+import { Panel, PanelHeader, PullToRefresh, Cell, Group, Avatar, Button } from '@vkontakte/vkui';
 import { Anecdote } from '../../components/anecdote/Anecdote';
 import { DispatchThunk, RootState } from '@store';
 import { getFeedScrollPosition, getFetchedUser, Thunks as appThunks } from '@store/app';
@@ -46,6 +46,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         window.scrollTo(0, this.props.scrollPosition);
     }
 
+    
     componentWillUnmount(): void {
         this.props.onSaveScroll && this.props.onSaveScroll(window.scrollY);
     }
@@ -76,6 +77,19 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
                 onRefresh={this.onRefresh}
                 isFetching={isJokesFetching}
             >
+                <Group title="Сообщество Анекдоты">
+                    <Cell
+                        before={<Avatar size={64} src="./logo.png" />}
+                        asideContent={
+                            <a href="https://vk.com/jokes_comm" target="_blank">
+                                <Button size="l" >Перейти</Button>
+                            </a>}
+                        multiline={true}
+                    >
+                        Все анекдоты в группе
+                    </Cell>
+                </Group>
+
                 {
                     jokes.length > 0 ?
                         jokes.map((joke: IAnecdote) =>

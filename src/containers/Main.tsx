@@ -41,7 +41,6 @@ class MainComponent extends React.Component<MainProps, MainState> {
     componentDidMount() {
         this.props.onLoadUserInfo && this.props.onLoadUserInfo();
         this.loadImages();
-        // window.setInterval(this.checkInternet, 250);
     }
 
     loadImages() {
