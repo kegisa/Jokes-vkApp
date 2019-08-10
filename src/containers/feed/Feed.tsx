@@ -18,6 +18,7 @@ interface FeedProps {
     id?: string;
     user?: FetchedUser;
     onLoadJokes: any;
+    addToNotif: any;
     toggleLike: any;
     doRepost: any;
     jokes: any[];
@@ -43,10 +44,10 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
         this.props.onLoadJokes && this.props.onLoadJokes(userId);
+        this.props.addToNotif && this.props.addToNotif(userId);
         window.scrollTo(0, this.props.scrollPosition);
     }
 
-    
     componentWillUnmount(): void {
         this.props.onSaveScroll && this.props.onSaveScroll(window.scrollY);
     }
@@ -67,6 +68,7 @@ class FeedComponent extends React.Component<FeedProps, FeedState> {
         const fetchedUser = this.props.user;
         const userId = fetchedUser ? fetchedUser.id : null;
         this.props.onLoadJokes && this.props.onLoadJokes(userId);
+        this.props.addToNotif(userId);
     };
 
     renderFeed(): JSX.Element {
@@ -154,6 +156,9 @@ const mapStateToProps = (state: RootState) => {
 };
 
 const mapDispatchToProps = (dispatch: DispatchThunk) => ({
+    addToNotif: (userId: string) => {
+        dispatch(apiThunks.addUserToNotif(userId));
+    },
     onLoadUserInfo: () => {
         dispatch(appThunks.getUserInfo());
     },

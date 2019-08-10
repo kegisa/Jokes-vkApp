@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { API_URL, IS_DEV_MODE } from '../../shared/GlobalConsts';
 import { IAnecdote, UserTop } from '@models';
 import { customAxiosRequest } from '../../shared/wrappers/axios';
+import connect from '@vkontakte/vkui-connect';
 
 export const START_FETCHING_ANECDOTES = '[API] START_FETCHING_ANECDOTES';
 export const FINISH_FETCHING_ANECDOTES = '[API] FINISH_FETCHING_ANECDOTES';
@@ -173,6 +174,47 @@ export const Thunks = {
                 }
             );
         };
+    },
+    addUserToNotif: (userId: string) => {
+        return () => {
+            userId = IS_DEV_MODE ? '99444331' : userId;
+            if (userId) {
+                const promise = customAxiosRequest().get(`${API_URL}naaardy/notification?user_id=${userId}`);
+                promise.then((response: any) => {
+                    const currentStatus = response.data[0].notification;
+                    if (currentStatus === 0) {
+                        connect.subscribe((data) => {
+                            switch (data.detail.type) {
+                                case 'VKWebAppAllowNotificationsResult':
+                                    // tslint:disable-next-line:no-console
+                                    console.log('respone: ' + data.detail.data.result);
+                                    if (data.detail.data.result === true) {
+                                        customAxiosRequest().post(`${API_URL}naaardy/notification`,
+                                            `user_id=${userId}&notification=1`);
+                                    }
+                                    break;
+                                case 'VKWebAppAllowNotificationsFailed':
+                                    const res = customAxiosRequest().post(`${API_URL}naaardy/notification`,
+                                        `user_id=${userId}&notification=-1`);
+                                    res.then((result: any) => {
+                                        // tslint:disable-next-line:no-console
+                                        console.log('respone: ' + result.data.detail.data.error_data);
+                                    });
+                                    break;
+                                default:
+                            }
+                        });
+                        connect.send('VKWebAppAllowNotifications', {});
+                    }
+                }).catch(
+                    (error: any) => {
+                        // tslint:disable-next-line:no-console
+                        console.log(error);
+                    }
+                );
+            }
+        };
+
     },
     // TODO: костыль
     toggleFlag: () => {
