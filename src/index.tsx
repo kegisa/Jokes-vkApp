@@ -3,8 +3,10 @@ import * as ReactDOM from 'react-dom';
 import connect from '@vkontakte/vkui-connect';
 import './assets/style.css';
 import '@vkontakte/vkui/dist/vkui.css';
+import mVKMiniAppsScrollHelper from '@vkontakte/mvk-mini-apps-scroll-helper';
 
 const rootElement = document.getElementById('root');
+mVKMiniAppsScrollHelper(rootElement);
 
 connect.subscribe((e) => {
     switch (e.detail.type) {
