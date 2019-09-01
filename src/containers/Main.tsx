@@ -104,7 +104,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
                 >
                     <Icon28Users />
                 </TabbarItem>
-                <TabbarItem
+                {/*<TabbarItem
                     className="tb"
                     onClick={this.onStoryChange}
                     selected={this.state.activeStory === 'about'}
@@ -112,7 +112,7 @@ class MainComponent extends React.Component<MainProps, MainState> {
                     text="Вопросы"
                 >
                     <Icon28MoneyTransfer />
-                </TabbarItem>
+                </TabbarItem>*/}
             </Tabbar>
         );
     }
@@ -151,9 +151,9 @@ class MainComponent extends React.Component<MainProps, MainState> {
                             <View id="top" activePanel="top">
                                 <Top id="top" />
                             </View>
-                            <View id="about" activePanel="about">
+                            {/*<View id="about" activePanel="about">
                                 <About id="about" />
-                            </View>
+                </View>*/}
                         </Epic>
                         {/* <View id="off" activePanel="off">
                             <Panel id="off">
